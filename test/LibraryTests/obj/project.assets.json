@@ -377,6 +377,16 @@
             "related": ".xml"
           }
         }
+      },
+      "Library/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/Library.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Library.dll": {}
+        }
       }
     }
   },
@@ -970,10 +980,16 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "Library/1.0.0": {
+      "type": "project",
+      "path": "../../src/Library/Library.csproj",
+      "msbuildProject": "../../src/Library/Library.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "Library >= 1.0.0",
       "Microsoft.NET.Test.Sdk >= 17.8.0",
       "NUnit >= 3.14.0",
       "NUnit.Analyzers >= 3.9.0",
@@ -982,19 +998,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\facun\\.nuget\\packages\\": {}
+    "C:\\Users\\ignac\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\facun\\OneDrive\\Escritorio\\p2\\PII_Proyecto_2025_Grupo_3\\test\\LibraryTests\\LibraryTests.csproj",
+      "projectUniqueName": "C:\\Users\\ignac\\Desktop\\P2\\entregas\\Proyecto-Final-2025\\PII_Proyecto_2025_Grupo_3\\test\\LibraryTests\\LibraryTests.csproj",
       "projectName": "LibraryTests",
-      "projectPath": "C:\\Users\\facun\\OneDrive\\Escritorio\\p2\\PII_Proyecto_2025_Grupo_3\\test\\LibraryTests\\LibraryTests.csproj",
-      "packagesPath": "C:\\Users\\facun\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\facun\\OneDrive\\Escritorio\\p2\\PII_Proyecto_2025_Grupo_3\\test\\LibraryTests\\obj\\",
+      "projectPath": "C:\\Users\\ignac\\Desktop\\P2\\entregas\\Proyecto-Final-2025\\PII_Proyecto_2025_Grupo_3\\test\\LibraryTests\\LibraryTests.csproj",
+      "packagesPath": "C:\\Users\\ignac\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ignac\\Desktop\\P2\\entregas\\Proyecto-Final-2025\\PII_Proyecto_2025_Grupo_3\\test\\LibraryTests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\facun\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\ignac\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -1005,7 +1021,11 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\ignac\\Desktop\\P2\\entregas\\Proyecto-Final-2025\\PII_Proyecto_2025_Grupo_3\\src\\Library\\Library.csproj": {
+              "projectPath": "C:\\Users\\ignac\\Desktop\\P2\\entregas\\Proyecto-Final-2025\\PII_Proyecto_2025_Grupo_3\\src\\Library\\Library.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -1060,7 +1080,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.407/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
