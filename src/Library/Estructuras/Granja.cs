@@ -1,0 +1,28 @@
+namespace Library;
+
+public class Granja : IEstructuras
+{
+    private int vida = 1500;
+    
+    public Alimento alimento = new Alimento();
+
+    public string Nombre
+    {
+        get
+        {
+            return "Granja";
+        }
+    }
+    
+    public int Vida
+    {
+        get
+        {
+            return this.vida;
+        }
+        private set
+        {
+            this.vida = value < 0 ? 0 : value;
+        }
+    }
+}
