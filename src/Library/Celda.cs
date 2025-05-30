@@ -9,6 +9,7 @@ public class Celda
     public IRecursos Recursos { get; set; }
     public IEstructuras Estructuras { get; set; }
     public IUnidades Unidades { get; set; }
+    public Aldeano Aldeano { get; set; }
 
     public Celda(int x, int y)
     {
@@ -61,6 +62,19 @@ public class Celda
         if (EstaLibre())
         {
             this.Unidades = unidades;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public bool AsignarAldeano(Aldeano aldeano)
+    {
+        if (EstaLibre())
+        {
+            this.Aldeano = aldeano;
             return true;
         }
         else
