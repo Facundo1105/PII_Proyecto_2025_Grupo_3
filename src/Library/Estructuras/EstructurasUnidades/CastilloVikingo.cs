@@ -26,14 +26,14 @@ public class CastilloVikingo : IEstructuras
 
     public void CrearThor(Jugador jugador)
     {
-        if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && jugador.Thor.Count < 1)
+        if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && jugador.UnidadEspecial.Count < 1)
         {
             if (jugador.Recursos["Oro"] >= 450 && jugador.Recursos["Alimento"] >= 350 && jugador.Recursos["Madera"] >= 250)
             {
                 jugador.Recursos["Oro"] -= 450;
                 jugador.Recursos["Alimento"] -= 350;
                 jugador.Recursos["Madera"] -= 250;
-                jugador.Thor.Add(new Thor());
+                jugador.UnidadEspecial.Add(new Thor());
             }
         }
     }

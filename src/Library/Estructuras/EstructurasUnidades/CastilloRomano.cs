@@ -26,13 +26,13 @@ public class CastilloRomano : IEstructuras
 
     public void CrearJulioCesar(Jugador jugador)
     {
-        if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && jugador.JulioCesar.Count < 1)
+        if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && jugador.UnidadEspecial.Count < 1)
         {
             if (jugador.Recursos["Oro"] >= 500 && jugador.Recursos["Alimento"] >= 250)
             {
                 jugador.Recursos["Oro"] -= 500;
                 jugador.Recursos["Alimento"] -= 250;
-                jugador.JulioCesar.Add(new JulioCesar());
+                jugador.UnidadEspecial.Add(new JulioCesar());
             }
         }
     }
