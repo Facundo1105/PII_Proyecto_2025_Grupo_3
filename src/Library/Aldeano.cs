@@ -9,8 +9,6 @@ public class Aldeano
     
     public int CapacidadMaxima = 1000;
     
-    public Jugador JugadorDueño { get; set; }
-    
     public Dictionary<string, int> RecursosAldeano = new()
     {
         { "Oro", 0 },
@@ -45,49 +43,61 @@ public class Aldeano
         
     }
 
-    public void DepositarRecursos()
+    public void DepositarRecursos(Jugador jugadorDepositar)
     {
         if (RecursosAldeano["Oro"] > 0)
         {
-            this.JugadorDueño.Recursos["Oro"] += RecursosAldeano["Oro"];
+            jugadorDepositar.Recursos["Oro"] += RecursosAldeano["Oro"];
         }
         if (RecursosAldeano["Alimento"] > 0)
         {
-            this.JugadorDueño.Recursos["Alimento"] += RecursosAldeano["Alimento"];
+            jugadorDepositar.Recursos["Alimento"] += RecursosAldeano["Alimento"];
         }
         if (RecursosAldeano["Piedra"] > 0)
         {
-            this.JugadorDueño.Recursos["Piedra"] += RecursosAldeano["Piedra"];
+            jugadorDepositar.Recursos["Piedra"] += RecursosAldeano["Piedra"];
         }
         if (RecursosAldeano["Madera"] > 0)
         {
-            this.JugadorDueño.Recursos["Madera"] += RecursosAldeano["Madera"];
+            jugadorDepositar.Recursos["Madera"] += RecursosAldeano["Madera"];
         }
     }
 
-    public void ConstruirEstructuras(IEstructuras estructuraConstruir)
+    public void ConstruirEstructuras(IEstructuras estructuraConstruir, Jugador jugadorConstruir)
     {
-        if (estructuraConstruir.Nombre == "Deposito de Oro" || estructuraConstruir.Nombre == "Deposito de Piedra" || estructuraConstruir.Nombre == "Molino" ||
-            estructuraConstruir.Nombre == "Deposito de Madera" || estructuraConstruir.Nombre == "Granja" || estructuraConstruir.Nombre == "Casa" ||
-            estructuraConstruir.Nombre == "Campo de Tiro" || estructuraConstruir.Nombre == "Cuartel" || estructuraConstruir.Nombre == "Establo")
+        if (jugadorConstruir.Recursos["Oro"] >= 200 && jugadorConstruir.Recursos["Piedra"] >= 500 && jugadorConstruir.Recursos["Madera"] >= 500)
         {
-            estructuraConstruir.Vida = 1500;
+            if (estructuraConstruir.Nombre == "Deposito de Oro" || estructuraConstruir.Nombre == "Deposito de Piedra" || estructuraConstruir.Nombre == "Molino" ||
+                estructuraConstruir.Nombre == "Deposito de Madera" || estructuraConstruir.Nombre == "Granja" || estructuraConstruir.Nombre == "Casa")
+            {
+                jugadorConstruir.Recursos["Oro"] -= 200;
+                jugadorConstruir.Recursos["Piedra"] -= 500;
+                jugadorConstruir.Recursos["Madera"] -= 500;
+                estructuraConstruir.Vida = 1500;
+            }
         }
 
-        if (estructuraConstruir.Nombre == "Castillo Indio" || estructuraConstruir.Nombre == "Castillo Japones" ||
-            estructuraConstruir.Nombre == "Castillo Romano" || estructuraConstruir.Nombre == "Castillo Vikingo")
+        if (jugadorConstruir.Recursos["Oro"] >= 500 && jugadorConstruir.Recursos["Piedra"] >= 800 && jugadorConstruir.Recursos["Madera"] >= 800)
         {
-            estructuraConstruir.Vida = 2000;
+            if (estructuraConstruir.Nombre == "Castillo Indio" || estructuraConstruir.Nombre == "Castillo Japones" ||
+                estructuraConstruir.Nombre == "Castillo Romano" || estructuraConstruir.Nombre == "Castillo Vikingo")
+            {
+                jugadorConstruir.Recursos["Oro"] -= 500;
+                jugadorConstruir.Recursos["Piedra"] -= 800;
+                jugadorConstruir.Recursos["Madera"] -= 800;
+                estructuraConstruir.Vida = 2000;
+            }
         }
 
-        if (estructuraConstruir.Nombre == "Centro Civico")
+        if (jugadorConstruir.Recursos["Oro"] >= 350 && jugadorConstruir.Recursos["Piedra"] >= 500 && jugadorConstruir.Recursos["Madera"] >= 500)
         {
-            estructuraConstruir.Vida = 2500;
+            if (estructuraConstruir.Nombre == "Campo de Tiro" || estructuraConstruir.Nombre == "Cuartel" || estructuraConstruir.Nombre == "Establo")
+            {
+                jugadorConstruir.Recursos["Oro"] -= 350;
+                jugadorConstruir.Recursos["Piedra"] -= 500;
+                jugadorConstruir.Recursos["Madera"] -= 500;
+                estructuraConstruir.Vida = 1500;
+            }
         }
-    }
-
-    public void DestruirEstructuras(IEstructuras estructuraDestruir)
-    {
-        
     }
 }
