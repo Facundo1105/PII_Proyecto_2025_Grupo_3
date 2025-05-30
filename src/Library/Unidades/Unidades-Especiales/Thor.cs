@@ -45,32 +45,41 @@ public class Thor : IUnidades
 
     public void AtacarUnidades(IUnidades unidad)
     {
-        int ValorDaño = this.valorAtaque - unidad.ValorDefensa;
+        int AtaqueBase = this.valorAtaque;
 
-        /*Este if lo que hace es fijarse si el resultado de la resta queda
-        en negativo, establece la vida de la unidad atacada directamente en 0*/
+        if (unidad is Samurai || unidad is Elefante)
+        {
+            AtaqueBase = (int)(AtaqueBase * 1.5);
+        }
+        
+        int ValorDaño = AtaqueBase - unidad.ValorDefensa;
+
+
+        
 
         if (ValorDaño < 0)
         {
             ValorDaño = 0;
         }
 
-        unidad.Vida = ValorDaño;
+        unidad.Vida =unidad.Vida - ValorDaño;
+
+        if (unidad.Vida < 0)
+        {
+            unidad.Vida = 0;
+        }
     }
 
     public void AtacarEstructuras(IEstructuras estructura)
     {
-        int ValorDaño = this.valorAtaque - estructura.Vida;
-        
-        /*Este if lo que hace es fijarse si el resultado de la resta queda
-        en negativo, establece la vida de la estructura atacada directamente en 0*/
-        
-        if (ValorDaño < 0)
-        {
-            ValorDaño = 0;
-        }
+        int ValorDaño = this.valorAtaque;
 
-        estructura.Vida = ValorDaño;
+        estructura.Vida = estructura.Vida - ValorDaño;
+
+        if (estructura.Vida < 0)
+        {
+            estructura.Vida = 0;
+        }
     }
 
 }
