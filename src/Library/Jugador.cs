@@ -18,7 +18,7 @@ public class Jugador
 
     public List<IEstructuras> Estructuras = new List<IEstructuras>();
 
-    public List<Aldeanos> Aldeanos = new List<Aldeanos>();
+    public List<Aldeano> Aldeanos = new List<Aldeano>();
 
     public List<Infanteria> Infanteria = new List<Infanteria>();
 
@@ -43,15 +43,23 @@ public class Jugador
             return UnidadEspecial.Count + Arqueros.Count + Infanteria.Count + Caballeria.Count;
         }
     }
+
+    public int CantidadAldeanos
+    {
+        get
+        {
+            return Aldeanos.Count;
+        }
+    }
     
     public void UbicarEstructura(IEstructuras estructura, int x, int y)
     {
 
     }
 
-    public void AgregarUnidadMapa(List<IUnidades> unidades, int x, int y)
+    public void UbicarUnidad(List<IUnidades> unidades, int x, int y)
     {
-
+        
     }
 
     public void MoverUnidades(List<IUnidades> unidadesMover, int x, int y)
@@ -131,8 +139,28 @@ public class Jugador
         }
     }
 
-    public void UnidadesAtacarEstructura(Jugador jugadorObjetivo)
+    public void UnidadesAtacarEstructura(List<IUnidades> ejercitoAtaque, IEstructuras estructuraDefensa, Jugador jugadorDefensa)
     {
+        int i = 0;
+
+        while (i < ejercitoAtaque.Count && estructuraDefensa.Vida > 0)
+        {
+            IUnidades atacante = ejercitoAtaque[i];
+            
+            atacante.AtacarEstructuras(estructuraDefensa); 
+            atacante.Vida -= 2;
+            
+            if (atacante.Vida <= 0)
+            {
+                ejercitoAtaque.Remove(atacante);
+            }
+            else
+            {
+                i++;
+            }
+        }
+        
+        jugadorDefensa.Estructuras.Remove(estructuraDefensa);
         
     }
 }
