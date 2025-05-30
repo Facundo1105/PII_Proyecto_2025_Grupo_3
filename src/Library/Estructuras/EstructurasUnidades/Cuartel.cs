@@ -2,7 +2,7 @@ namespace Library;
 
 public class Cuartel : IEstructuras
 {
-    private int vida = 1500;
+    private int vida = 0;
 
     public string Nombre
     {
