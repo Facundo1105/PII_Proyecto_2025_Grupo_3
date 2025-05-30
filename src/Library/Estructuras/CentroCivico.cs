@@ -2,7 +2,7 @@ namespace Library;
 
 public class CentroCivico : IEstructuras
 {
-    private int vida = 0;
+    private int vida = 3000;
 
     public string Nombre
     {

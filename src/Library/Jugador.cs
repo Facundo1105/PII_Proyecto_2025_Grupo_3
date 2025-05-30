@@ -11,14 +11,14 @@ public class Jugador
     public Dictionary<string, int> Recursos = new()
     {
         { "Oro", 0 },
-        { "Alimento", 0 },
-        { "Madera", 0 },
+        { "Alimento", 100 },
+        { "Madera", 100 },
         { "Piedra", 0 }
     };
 
-    public List<IEstructuras> Estructuras = new List<IEstructuras>();
+    public List<IEstructuras> Estructuras = new List<IEstructuras>(){new CentroCivico()};
 
-    public List<Aldeano> Aldeanos = new List<Aldeano>();
+    public List<Aldeano> Aldeanos = new List<Aldeano>() { new Aldeano(), new Aldeano(), new Aldeano() };
 
     public List<Infanteria> Infanteria = new List<Infanteria>();
 
@@ -74,36 +74,42 @@ public class Jugador
     
     public void JuntarUnidades(List<IUnidades> unidades1, List<IUnidades> unidades2)
     {
-        foreach (IUnidades unidad in unidades1)
+        foreach (IUnidades unidad in unidades1.ToList())
         {
             Ejercito.Add(unidad);
+            unidades1.Remove(unidad);
         }
-        foreach (IUnidades unidad in unidades2)
+        foreach (IUnidades unidad in unidades2.ToList())
         {
             Ejercito.Add(unidad);
+            unidades2.Remove(unidad);
         }
     }
 
     public void SepararUnidades(List<IUnidades> unidadesUnidas)
     {
-        foreach (IUnidades unidad in unidadesUnidas)
+        foreach (IUnidades unidad in unidadesUnidas.ToList())
         {
             if (unidad.Nombre == "Infanteria")
             {
                 Infanteria.Add((Infanteria)unidad);
+                unidadesUnidas.Remove(unidad);
             }
             if (unidad.Nombre == "Caballeria")
             {
                 Caballeria.Add((Caballeria)unidad);
+                unidadesUnidas.Remove(unidad);
             }
             if (unidad.Nombre == "Arquero")
             {
                 Arqueros.Add((Arquero)unidad);
+                unidadesUnidas.Remove(unidad);
             }
 
             if (unidad.Nombre == "Thor" || unidad.Nombre == "Julio Cesar" || unidad.Nombre == "Samurai" || unidad.Nombre == "Elefante")
             {
                 UnidadEspecial.Add(unidad);
+                unidadesUnidas.Remove(unidad);
             }
         }
     }
