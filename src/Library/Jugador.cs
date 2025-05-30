@@ -52,9 +52,14 @@ public class Jugador
 
     }
 
-    public void MoverUnidades(List<IUnidades> unidadesamover, int x, int y)
+    public void MoverUnidades(List<IUnidades> unidadesMover, int x, int y)
     {
 
+    }
+
+    public void MoverAldeano(Aldeano aldeanoMover, int x, int y)
+    {
+        
     }
 
     public void UnidadesAtacarUnidades(Jugador jugadorObjetivo)

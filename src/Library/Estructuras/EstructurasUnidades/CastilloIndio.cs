@@ -2,7 +2,7 @@ namespace Library;
 
 public class CastilloIndio : IEstructuras
 {
-    private int vida = 2000;
+    private int vida = 0;
 
     public string Nombre
     {
