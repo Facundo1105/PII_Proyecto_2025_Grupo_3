@@ -4,13 +4,14 @@ public class Piedra : IRecursos
 {
 
     private int vida = 75;
-    private double probabilidad = 0.5 ;
+
     
-    public string Nombre { get; set; }
-    
-    public Piedra(string nombre)
+    public string Nombre
     {
-        this.Nombre = nombre;
+        get
+        {
+            return "Piedra";
+        }
     }
 
     public int Vida
