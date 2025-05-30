@@ -23,7 +23,7 @@ public class Establo : IEstructuras
             this.vida = value < 0 ? 0 : value;
         }
     }
-
+    public bool EsDeposito => false;
     public void CrearCaballeria(Jugador jugador)
     {
         if (jugador.Poblacion < 50 && jugador.CantidadUnidades < 30)

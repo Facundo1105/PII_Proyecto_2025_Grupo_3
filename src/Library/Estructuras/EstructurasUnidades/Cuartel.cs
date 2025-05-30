@@ -23,7 +23,7 @@ public class Cuartel : IEstructuras
             this.vida = value < 0 ? 0 : value;
         }
     }
-
+    public bool EsDeposito => false;
     public void CrearInfanteria(Jugador jugador)
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30)

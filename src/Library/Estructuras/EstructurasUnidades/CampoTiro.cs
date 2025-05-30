@@ -23,6 +23,7 @@ public class CampoTiro : IEstructuras
             this.vida = value < 0 ? 0 : value;
         }
     }
+    public bool EsDeposito => false;
 
     public void CrearArquero(Jugador jugador)
     {
