@@ -34,6 +34,14 @@ public class Jugador
         this.Civilizacion = civilización;
     }
 
+    public int CantidadUnidades
+    {
+        get
+        {
+            return UnidadEspecial.Count + Arqueros.Count + Infanteria.Count + Caballeria.Count;
+        }
+    }
+    
     public void UbicarEstructura(IEstructuras estructura, int x, int y)
     {
 

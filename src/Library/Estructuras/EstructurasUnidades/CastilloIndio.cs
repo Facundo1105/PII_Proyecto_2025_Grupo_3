@@ -26,14 +26,14 @@ public class CastilloIndio : IEstructuras
 
     public void CrearElefante(Jugador jugador)
     {
-        if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && jugador.Elefante.Count < 1)
+        if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && jugador.UnidadEspecial.Count < 1)
         {
             if (jugador.Recursos["Oro"] >= 400 && jugador.Recursos["Alimento"] >= 500 && jugador.Recursos["Madera"] >= 300)
             {
                 jugador.Recursos["Oro"] -= 400;
                 jugador.Recursos["Alimento"] -= 500;
                 jugador.Recursos["Madera"] -= 300;
-                jugador.Elefante.Add(new Elefante());
+                jugador.UnidadEspecial.Add(new Elefante());
             }
         }
     }

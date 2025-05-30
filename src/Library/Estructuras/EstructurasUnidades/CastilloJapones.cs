@@ -26,13 +26,13 @@ public class CastilloJapones : IEstructuras
 
     public void CrearSamurai(Jugador jugador)
     {
-        if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && jugador.Samurai.Count < 1)
+        if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && jugador.UnidadEspecial.Count < 1)
         {
             if (jugador.Recursos["Oro"] >= 400 && jugador.Recursos["Alimento"] >= 350)
             {
                 jugador.Recursos["Oro"] -= 400;
                 jugador.Recursos["Alimento"] -= 350;
-                jugador.Samurai.Add(new Samurai());
+                jugador.UnidadEspecial.Add(new Samurai());
             }
         }
     }
