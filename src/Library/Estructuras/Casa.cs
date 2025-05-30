@@ -23,7 +23,9 @@ public class Casa : IEstructuras
             this.vida = value < 0 ? 0 : value;
         }
     }
-
+    
+    public bool EsDeposito => false;
+    
     public void AumentarLimitePoblacion(Jugador jugador)
     {
         if (jugador.LimitePoblacion < 50)

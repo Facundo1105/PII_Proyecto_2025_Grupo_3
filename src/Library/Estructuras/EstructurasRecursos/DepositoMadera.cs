@@ -7,6 +7,7 @@ public class DepositoMadera : IEstructuras
     public int CapacidadMaxima = 4000;
 
     public int EspacioOcupado = 0;
+    public bool EsDeposito => true;
 
     public string Nombre
     {
