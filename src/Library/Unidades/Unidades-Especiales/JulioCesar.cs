@@ -8,12 +8,13 @@ public class JulioCesar : IUnidades
     private int valorDefensa = 50;
     private int valorVelocidad = 25;
 
-    public JulioCesar(string nombre)
+    public string Nombre
     {
-        this.Nombre = nombre;
+        get
+        {
+            return "Julio Cesar";
+        }
     }
-
-    public string Nombre { get; set; }
 
     public int Vida
     {

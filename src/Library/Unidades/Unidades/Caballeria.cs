@@ -8,12 +8,13 @@ public class Caballeria : IUnidades
     private int valorDefensa = 25;
     private int valorVelocidad = 15;
 
-    public Caballeria(string nombre)
+    public string Nombre
     {
-        this.Nombre = nombre;
+        get
+        {
+            return "Caballeria";
+        }
     }
-
-    public string Nombre { get; set; }
 
     public int Vida
     {

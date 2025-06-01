@@ -8,12 +8,13 @@ public class Elefante : IUnidades
     private int valorDefensa = 40;
     private int valorVelocidad = 10;
 
-    public Elefante(string nombre)
+    public string Nombre
     {
-        this.Nombre = nombre;
+        get
+        {
+            return "Elefante";
+        }
     }
-
-    public string Nombre { get; set; }
 
     public int Vida
     {

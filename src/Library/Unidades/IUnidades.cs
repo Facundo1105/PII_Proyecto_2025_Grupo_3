@@ -2,7 +2,7 @@
 
 public interface IUnidades
 {
-    public string Nombre {get; set;}
+    public string Nombre {get;}
     
     public int Vida {get; set;}
     
