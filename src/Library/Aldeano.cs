@@ -9,10 +9,6 @@ public class Aldeano
     
     public int CapacidadMaxima = 1000;
     public Celda CeldaActual { get; set; }
-    public int oro = 0;
-    public int madera = 0;
-    public int piedra = 0;
-    public int alimento = 0;
     
     public Dictionary<string, int> RecursosAldeano = new()
     {
@@ -49,21 +45,9 @@ public class Aldeano
         {
             string nombre = celda.Recursos.Nombre;
 
-            if (nombre == "Oro")
+            if (RecursosAldeano.ContainsKey(nombre))
             {
-                oro += 20;
-            }
-            else if (nombre == "Madera")
-            {
-                madera += 20;
-            }
-            else if (nombre == "Piedra")
-            {
-                piedra += 20;
-            }
-            else if (nombre == "Alimento")
-            {
-                alimento += 20;
+                RecursosAldeano[nombre] += 20;
             }
 
             celda.Recursos = null;
@@ -71,6 +55,7 @@ public class Aldeano
             aldeano.CeldaActual = celda;
         }
     }
+
 
 
     public void DepositarRecursos(Jugador jugadorDepositar)
