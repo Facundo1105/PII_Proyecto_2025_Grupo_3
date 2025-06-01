@@ -40,6 +40,21 @@ public class Aldeano
             this.vida = value < 0 ? 0 : value;
         }
     }
+    
+    public string ObtenerRecursoQueLleva()
+    {
+        if (RecursosAldeano["Oro"] > 0)
+            return "Oro";
+        if (RecursosAldeano["Alimento"] > 0)
+            return "Alimento";
+        if (RecursosAldeano["Piedra"] > 0)
+            return "Piedra";
+        if (RecursosAldeano["Madera"] > 0)
+            return "Madera";
+
+        return null;
+    }
+
 
     public void ObtenerRecursoDeCelda(Celda celda, Aldeano aldeano)
     {
@@ -298,17 +313,18 @@ public class Aldeano
         }
     }
 
-    public void ConstruirEstructuras(IEstructuras estructuraConstruir, Jugador jugadorConstruir)
+    public void ConstruirEstructuras(IEstructuras estructuraConstruir, Jugador jugadorConstruir, Celda celdaEstructura)
     {
-        if (jugadorConstruir.Recursos["Oro"] >= 200 && jugadorConstruir.Recursos["Piedra"] >= 500 && jugadorConstruir.Recursos["Madera"] >= 500)
+        if (jugadorConstruir.Recursos["Madera"] >= 20)
         {
             if (estructuraConstruir.Nombre == "Deposito de Oro" || estructuraConstruir.Nombre == "Deposito de Piedra" || estructuraConstruir.Nombre == "Molino" ||
                 estructuraConstruir.Nombre == "Deposito de Madera" || estructuraConstruir.Nombre == "Granja" || estructuraConstruir.Nombre == "Casa")
             {
-                jugadorConstruir.Recursos["Oro"] -= 200;
-                jugadorConstruir.Recursos["Piedra"] -= 500;
-                jugadorConstruir.Recursos["Madera"] -= 500;
+                // jugadorConstruir.Recursos["Oro"] -= 200;
+                // jugadorConstruir.Recursos["Piedra"] -= 500;
+                jugadorConstruir.Recursos["Madera"] -= 20;
                 estructuraConstruir.Vida = 1500;
+                celdaEstructura.AsignarEstructura(estructuraConstruir);
             }
         }
 
@@ -321,6 +337,7 @@ public class Aldeano
                 jugadorConstruir.Recursos["Piedra"] -= 800;
                 jugadorConstruir.Recursos["Madera"] -= 800;
                 estructuraConstruir.Vida = 2000;
+                celdaEstructura.AsignarEstructura(estructuraConstruir);
             }
         }
 
@@ -332,6 +349,7 @@ public class Aldeano
                 jugadorConstruir.Recursos["Piedra"] -= 500;
                 jugadorConstruir.Recursos["Madera"] -= 500;
                 estructuraConstruir.Vida = 1500;
+                celdaEstructura.AsignarEstructura(estructuraConstruir);
             }
         }
     }

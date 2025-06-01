@@ -14,6 +14,8 @@ class Program
 
         Fachada fachada = new Fachada(jugador, mapa);
         fachada.IniciarPartida();
+        fachada.ConstruirEstructuras();
         fachada.RecolectarRecursos();
+        
     }
 }
