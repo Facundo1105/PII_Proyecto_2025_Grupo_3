@@ -6,8 +6,8 @@ public class Aldeano
 {
     
     private int vida = 10;
-    
-    public int CapacidadMaxima = 1000;
+
+    public int CapacidadOcupada = 0;
     public Celda CeldaActual { get; set; }
     
     public Dictionary<string, int> RecursosAldeano = new()
@@ -45,12 +45,13 @@ public class Aldeano
         {
             string nombre = celda.Recursos.Nombre;
 
-            while (celda.Recursos.Vida > 0)
+            while (celda.Recursos.Vida > 0 && CapacidadOcupada < 1000)
             {
                 if (RecursosAldeano.ContainsKey(nombre))
                 {
                     Thread.Sleep(500);
                     RecursosAldeano[nombre] += celda.Recursos.TasaRecoleccion;
+                    CapacidadOcupada += celda.Recursos.TasaRecoleccion;
                     Thread.Sleep(500);
                     celda.Recursos.Vida -= 2;
                 }
@@ -64,23 +65,99 @@ public class Aldeano
 
 
 
-    public void DepositarRecursos(Jugador jugadorDepositar)
+    public void DepositarRecursos(Jugador jugadorDepositar, IEstructuras depositoCercano)
     {
-        if (RecursosAldeano["Oro"] > 0)
+        if (depositoCercano.EsDeposito)
         {
-            jugadorDepositar.Recursos["Oro"] += RecursosAldeano["Oro"];
-        }
-        if (RecursosAldeano["Alimento"] > 0)
-        {
-            jugadorDepositar.Recursos["Alimento"] += RecursosAldeano["Alimento"];
-        }
-        if (RecursosAldeano["Piedra"] > 0)
-        {
-            jugadorDepositar.Recursos["Piedra"] += RecursosAldeano["Piedra"];
-        }
-        if (RecursosAldeano["Madera"] > 0)
-        {
-            jugadorDepositar.Recursos["Madera"] += RecursosAldeano["Madera"];
+            if (depositoCercano is DepositoOro depositoOro)
+            {
+                int oroAldeano = RecursosAldeano["Oro"];
+                int espacioDisponible = depositoOro.CapacidadMaxima - depositoOro.EspacioOcupado;
+
+                if (oroAldeano <= espacioDisponible)
+                {
+                    depositoOro.EspacioOcupado += oroAldeano;
+                    jugadorDepositar.Recursos["Oro"] += oroAldeano;
+                    CapacidadOcupada -= oroAldeano;
+                    RecursosAldeano["Oro"] = 0;
+                }
+                else
+                {
+                    depositoOro.EspacioOcupado += espacioDisponible;
+                    jugadorDepositar.Recursos["Oro"] += espacioDisponible;
+                    CapacidadOcupada -= espacioDisponible;
+                    RecursosAldeano["Oro"] -= espacioDisponible;
+                }
+            }
+            
+            if (depositoCercano is Molino molino)
+            {
+                int alimentoAldeano = RecursosAldeano["Alimento"];
+                int espacioDisponible = molino.CapacidadMaxima - molino.EspacioOcupado;
+
+                if (alimentoAldeano <= espacioDisponible)
+                {
+                    molino.EspacioOcupado += alimentoAldeano;
+                    jugadorDepositar.Recursos["Alimento"] += alimentoAldeano;
+                    CapacidadOcupada -= alimentoAldeano;
+                    RecursosAldeano["Alimento"] = 0;
+                }
+                else
+                {
+                    molino.EspacioOcupado += espacioDisponible;
+                    jugadorDepositar.Recursos["Alimento"] += espacioDisponible;
+                    CapacidadOcupada -= espacioDisponible;
+                    RecursosAldeano["Alimento"] -= espacioDisponible;
+                }
+            }
+            
+            if (depositoCercano is DepositoPiedra depositoPiedra)
+            {
+                int piedraAldeano = RecursosAldeano["Piedra"];
+                int espacioDisponible = depositoPiedra.CapacidadMaxima - depositoPiedra.EspacioOcupado;
+
+                if (piedraAldeano > 0)
+                {
+                    if (piedraAldeano <= espacioDisponible)
+                    {
+                        depositoPiedra.EspacioOcupado += piedraAldeano;
+                        jugadorDepositar.Recursos["Piedra"] += piedraAldeano;
+                        CapacidadOcupada -= piedraAldeano;
+                        RecursosAldeano["Piedra"] = 0;
+                    }
+                    else
+                    {
+                        depositoPiedra.EspacioOcupado += espacioDisponible;
+                        jugadorDepositar.Recursos["Piedra"] += espacioDisponible;
+                        CapacidadOcupada -= espacioDisponible;
+                        RecursosAldeano["Piedra"] -= espacioDisponible;
+                    }
+                }
+            }
+            
+            if (depositoCercano is DepositoMadera depositoMadera)
+            {
+                int maderaAldeano = RecursosAldeano["Madera"];
+                int espacioDisponible = depositoMadera.CapacidadMaxima - depositoMadera.EspacioOcupado;
+
+                if (maderaAldeano > 0)
+                {
+                    if (maderaAldeano <= espacioDisponible)
+                    {
+                        depositoMadera.EspacioOcupado += maderaAldeano;
+                        jugadorDepositar.Recursos["Madera"] += maderaAldeano;
+                        CapacidadOcupada -= maderaAldeano;
+                        RecursosAldeano["Madera"] = 0;
+                    }
+                    else
+                    {
+                        depositoMadera.EspacioOcupado += espacioDisponible;
+                        jugadorDepositar.Recursos["Madera"] += espacioDisponible;
+                        CapacidadOcupada -= espacioDisponible;
+                        RecursosAldeano["Madera"] -= espacioDisponible;
+                    }
+                }
+            }
         }
     }
 

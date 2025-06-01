@@ -6,10 +6,10 @@ public class Celda
 {
     public int x { get; }
     public int y { get; }
-    public IRecursos Recursos { get; set; }
-    public IEstructuras Estructuras { get; set; }
-    public IUnidades Unidades { get; set; }
-    public Aldeano Aldeano { get; set; }
+    public IRecursos? Recursos { get; set; }
+    public IEstructuras? Estructuras { get; set; }
+    public List<IUnidades>? Unidades { get; set; }
+    public Aldeano? Aldeano { get; set; }
 
     public Celda(int x, int y)
     {
@@ -57,7 +57,7 @@ public class Celda
         }
     }
     
-    public bool AsignarUnidades(IUnidades unidades)
+    public bool AsignarUnidades(List<IUnidades> unidades)
     {
         if (EstaLibre())
         {
