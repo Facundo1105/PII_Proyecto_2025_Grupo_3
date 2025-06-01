@@ -45,9 +45,15 @@ public class Aldeano
         {
             string nombre = celda.Recursos.Nombre;
 
-            if (RecursosAldeano.ContainsKey(nombre))
+            while (celda.Recursos.Vida > 0)
             {
-                RecursosAldeano[nombre] += 20;
+                if (RecursosAldeano.ContainsKey(nombre))
+                {
+                    Thread.Sleep(500);
+                    RecursosAldeano[nombre] += celda.Recursos.TasaRecoleccion;
+                    Thread.Sleep(500);
+                    celda.Recursos.Vida -= 2;
+                }
             }
 
             celda.Recursos = null;
