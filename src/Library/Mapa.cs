@@ -49,7 +49,7 @@ public class Mapa
         }
     }
 
-    public IEstructuras DepositoMasCercano(int aldeanoX, int aldeanoY)
+    public IEstructuras DepositoMasCercano(int aldeanoX, int aldeanoY, string tipoRecurso)
     {
         IEstructuras masCercano = null;
         int menorDistancia = int.MaxValue;
@@ -59,8 +59,29 @@ public class Mapa
             for (int y = 0; y < celdas.GetLength(1); y++)
             {
                 var celda = celdas[x, y];
-                if (celda.Estructuras != null && celda.Estructuras.EsDeposito) 
+                if (celda.Estructuras != null && celda.Estructuras.EsDeposito)
                 {
+                    bool esDepositoCorrecto = false;
+
+                    switch (tipoRecurso)
+                    {
+                        case "Oro":
+                            esDepositoCorrecto = celda.Estructuras is DepositoOro;
+                            break;
+                        case "Alimento":
+                            esDepositoCorrecto = celda.Estructuras is Molino;
+                            break;
+                        case "Piedra":
+                            esDepositoCorrecto = celda.Estructuras is DepositoPiedra;
+                            break;
+                        case "Madera":
+                            esDepositoCorrecto = celda.Estructuras is DepositoMadera;
+                            break;
+                    }
+
+                    if (!esDepositoCorrecto) 
+                        continue;
+
                     int distanciaCalculada = Math.Abs(aldeanoX - x) + Math.Abs(aldeanoY - y);
                     if (distanciaCalculada < menorDistancia)
                     {
@@ -72,6 +93,7 @@ public class Mapa
         }
         return masCercano;
     }
+
     
     public Celda BuscarRecursoCercano(int xInicial, int yInicial)
     {

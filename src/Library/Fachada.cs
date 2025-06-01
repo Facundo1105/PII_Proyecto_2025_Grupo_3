@@ -7,6 +7,7 @@ public class Fachada
     private Jugador jugador;
     private Mapa mapa;
     private Aldeano aldeano1;
+    private IEstructuras estructura;
     
     
     public Fachada(Jugador jugador, Mapa mapa)
@@ -28,7 +29,39 @@ public class Fachada
         mapa.ObtenerCelda(21, 22).AsignarAldeano(jugador.Aldeanos[2]);
         mapa.ObtenerCelda(20,20).AsignarEstructura(new CentroCivico());
     }
+    
+    public void ConstruirEstructuras()
+    {
+        mapa.ObtenerCelda(19, 19).VaciarCelda();
+        mapa.ObtenerCelda(19, 18).VaciarCelda();
+        mapa.ObtenerCelda(19, 17).VaciarCelda();
+        mapa.ObtenerCelda(19, 16).VaciarCelda();
+        mapa.ObtenerCelda(19, 15).VaciarCelda();
+        
+        if (mapa.ObtenerCelda(19, 19).EstaLibre())
+        {
+            jugador.Aldeanos[0].ConstruirEstructuras(new DepositoMadera(), jugador, mapa.ObtenerCelda(19, 19));
+        }
+        if (mapa.ObtenerCelda(19, 18).EstaLibre())
+        {
+            jugador.Aldeanos[0].ConstruirEstructuras(new DepositoOro(), jugador, mapa.ObtenerCelda(19, 18));
+        }
+        if (mapa.ObtenerCelda(19, 17).EstaLibre())
+        {
+            jugador.Aldeanos[0].ConstruirEstructuras(new DepositoPiedra(), jugador, mapa.ObtenerCelda(19, 17));
+        }
+        if (mapa.ObtenerCelda(19, 16).EstaLibre())
+        {
+            jugador.Aldeanos[0].ConstruirEstructuras(new Granja(), jugador, mapa.ObtenerCelda(19, 16));
+        }
+        if (mapa.ObtenerCelda(19, 15).EstaLibre())
+        {
+            jugador.Aldeanos[0].ConstruirEstructuras(new Molino(), jugador, mapa.ObtenerCelda(19, 15));
+        }
 
+        
+    }
+    
     public void RecolectarRecursos()
     {
         var aldeano = jugador.Aldeanos[1];
@@ -41,15 +74,16 @@ public class Fachada
 
         aldeano.ObtenerRecursoDeCelda(celdaConRecurso, aldeano);
 
-        var deposito = mapa.DepositoMasCercano(aldeano.CeldaActual.x, aldeano.CeldaActual.y);
-        aldeano.DepositarRecursos(jugador, deposito);
+        string recurso = aldeano.ObtenerRecursoQueLleva();
+        if (recurso != null)
+        {
+            IEstructuras depositoCercano = mapa.DepositoMasCercano(aldeanoX, aldeanoY, recurso);
+            aldeano.DepositarRecursos(jugador, depositoCercano);
+        }
     }
 
     
-    public void ConstruirEstructuras()
-    {
-        
-    }
+    
 
     public void CrearUnidades()
     {
