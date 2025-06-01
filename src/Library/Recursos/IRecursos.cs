@@ -7,5 +7,5 @@ public interface IRecursos
     
     public int Vida { get; set; }
     
-    public double Probabilidad { get; set; }
+    public int TasaRecoleccion { get; }
 }

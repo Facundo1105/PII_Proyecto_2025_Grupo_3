@@ -21,11 +21,12 @@ public class Oro : IRecursos
         set{this.Vida = value <0 ? 0 : value; }
     }
 
-    public double Probabilidad
+    public int TasaRecoleccion
     {
-        get { return this.Probabilidad; }
-        
-        set{this.Probabilidad = value <0 ? 0 : value; ;}
+        get
+        {
+            return 30;
+        }
     }
     
     
