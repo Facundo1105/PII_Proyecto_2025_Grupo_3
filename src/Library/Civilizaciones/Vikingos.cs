@@ -8,7 +8,7 @@ public class Vikingos
     //bonificacion2: los  aldeanos recolectan madera 20% mas rapido
     private double bonificacion2 = 1.20;
 
-    public double Bonificaion1
+    public double Bonificacion1
     {
         get
         {
@@ -16,7 +16,7 @@ public class Vikingos
         }
     }
 
-    public double Bonificaion2
+    public double Bonificacion2
     {
         get
         {
