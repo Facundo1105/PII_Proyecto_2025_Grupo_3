@@ -4,6 +4,17 @@ public class CentroCivico : IEstructuras
 {
     private int vida = 3000;
 
+    public int CapacidadMaxima = 10000;
+
+    public int EspacioOcupado = 0;
+    
+    public Dictionary<string, int> RecursosDeposito = new()
+    {
+        { "Oro", 0 },
+        { "Alimento", 100 },
+        { "Madera", 100 },
+        { "Piedra", 0 }
+    };
     public string Nombre
     {
         get
@@ -23,7 +34,7 @@ public class CentroCivico : IEstructuras
             this.vida = value < 0 ? 0 : value;
         }
     }
-    public bool EsDeposito => false;
+    public bool EsDeposito => true;
 
     public void CrearAldeano(Jugador jugador)
     {
