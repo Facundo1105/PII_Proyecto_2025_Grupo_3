@@ -37,12 +37,12 @@ public class Mapa
                 y = random.Next(0, 100);
             }
 
-            IRecursos recurso = random.Next(3) switch
+            IRecursos recurso = random.Next(4) switch
             {
                 0 => new Madera(),
                 1 => new Piedra(),
                 2 => new Alimento(),
-                _ => new Madera()
+                3 => new Oro()
             };
             
             celdas[x, y].AsignarRecurso(recurso);

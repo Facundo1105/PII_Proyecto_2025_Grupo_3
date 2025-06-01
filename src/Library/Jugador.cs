@@ -54,27 +54,42 @@ public class Jugador
         }
     }
     
-    public void UbicarEstructura(IEstructuras estructura, int x, int y)
+    public void UbicarEstructura(IEstructuras estructuraUbicar, Celda celdaUbicar, Jugador jugadorEstructura)
+    {
+        if (celdaUbicar.EstaLibre())
+        {
+            if (jugadorEstructura.Recursos["Oro"] >= 50 && jugadorEstructura.Recursos["Piedra"] >= 50 && jugadorEstructura.Recursos["Madera"] >= 50)
+            {
+                celdaUbicar.AsignarEstructura(estructuraUbicar);
+                this.Estructuras.Add(estructuraUbicar);
+            }
+        }
+    }
+
+    public void UbicarUnidad(List<IUnidades> unidades, Celda celdaUbicar, Jugador jugadorUnidades)
+    {
+        if (celdaUbicar.EstaLibre())
+        {
+            if (jugadorUnidades.Recursos["Oro"] >= 50 && jugadorUnidades.Recursos["Alimento"] >= 50)
+            {
+                celdaUbicar.AsignarUnidades(unidades);
+            }
+        }
+    }
+
+    public void MoverUnidades(List<IUnidades> unidadesMover, Celda celdaActual, Celda celdaMover)
     {
 
     }
 
-    public void UbicarUnidad(List<IUnidades> unidades, int x, int y)
+    public void MoverAldeano(Aldeano aldeanoMover, Celda celdaMover)
     {
-        
-    }
-
-    public void MoverUnidades(List<IUnidades> unidadesMover, int x, int y)
-    {
-
-    }
-
-    public void MoverAldeano(Aldeano aldeanoMover, int x, int y)
-    {
-        
+        celdaMover.AsignarAldeano(aldeanoMover);
+        aldeanoMover.CeldaActual.Aldeano = null;
+        aldeanoMover.CeldaActual = celdaMover;
     }
     
-    public void JuntarUnidades(List<IUnidades> unidades1, List<IUnidades> unidades2)
+    public void JuntarUnidades(List<IUnidades> unidades1, List<IUnidades> unidades2, Celda celdaUnidad1, Celda celdaUnidad2)
     {
         foreach (IUnidades unidad in unidades1.ToList())
         {
@@ -86,6 +101,10 @@ public class Jugador
             Ejercito.Add(unidad);
             unidades2.Remove(unidad);
         }
+
+        celdaUnidad2.Unidades = null;
+        celdaUnidad1.Unidades = null;
+        celdaUnidad1.AsignarUnidades(Ejercito);
     }
 
     public void SepararUnidades(List<IUnidades> unidadesUnidas)
@@ -116,59 +135,81 @@ public class Jugador
         }
     }
 
-    public void UnidadesAtacarUnidades(List<IUnidades> ejercitoAtaque, List<IUnidades> ejercitoDefensa)
+    public void UnidadesAtacarUnidades(List<IUnidades> ejercitoAtaque, List<IUnidades> ejercitoDefensa, Celda celdaEjercitoDefensa, Celda celdaEjercitoAtaque)
     {
-        int i = 0;
-        int j = 0;
-
-        while (i < ejercitoAtaque.Count && j < ejercitoDefensa.Count)
+        if (celdaEjercitoDefensa.Unidades != null)
         {
-            IUnidades atacante = ejercitoAtaque[i];
-            IUnidades defensor = ejercitoDefensa[j];
+            int i = 0;
+            int j = 0;
+            
+            while (i < ejercitoAtaque.Count && j < ejercitoDefensa.Count)
+            {
+                IUnidades atacante = ejercitoAtaque[i];
+                IUnidades defensor = ejercitoDefensa[j];
 
-            if (atacante.Vida > 0 && defensor.Vida > 0)
-            {
-                atacante.AtacarUnidades(defensor);
-                atacante.Vida -= defensor.ValorAtaque / 2;
+                if (atacante.Vida > 0 && defensor.Vida > 0)
+                {
+                    atacante.AtacarUnidades(defensor);
+                    atacante.Vida -= defensor.ValorAtaque / 2;
+                }
+                if (atacante.Vida <= 0)
+                {
+                    ejercitoAtaque.Remove(atacante);
+                }
+                else if (defensor.Vida <= 0)
+                {
+                    ejercitoDefensa.Remove(defensor);
+                }
+                else
+                {
+                    i++;
+                    j++;
+                }
             }
-            if (atacante.Vida <= 0)
+
+            if (ejercitoAtaque.Count > ejercitoDefensa.Count)
             {
-                ejercitoAtaque.Remove(atacante);
+                celdaEjercitoDefensa.Unidades = null;
+                celdaEjercitoAtaque.Unidades = null;
+                celdaEjercitoDefensa.AsignarUnidades(ejercitoAtaque);
             }
-            else if (defensor.Vida <= 0)
-            {
-                ejercitoDefensa.Remove(defensor);
-            }
-            else
-            {
-                i++;
-                j++;
-            }
+
+            celdaEjercitoAtaque.Unidades = null;
         }
     }
 
-    public void UnidadesAtacarEstructura(List<IUnidades> ejercitoAtaque, IEstructuras estructuraDefensa, Jugador jugadorDefensa)
+    public void UnidadesAtacarEstructura(List<IUnidades> ejercitoAtaque, IEstructuras estructuraDefensa, Celda celdaEstructuraDefensa, Celda celdaEjercitoAtaque, Jugador jugadorDefensa)
     {
-        int i = 0;
-
-        while (i < ejercitoAtaque.Count && estructuraDefensa.Vida > 0)
+        if (celdaEstructuraDefensa.Estructuras != null)
         {
-            IUnidades atacante = ejercitoAtaque[i];
-            
-            atacante.AtacarEstructuras(estructuraDefensa); 
-            atacante.Vida -= 2;
-            
-            if (atacante.Vida <= 0)
+            int i = 0;
+
+            while (i < ejercitoAtaque.Count && estructuraDefensa.Vida > 0)
             {
-                ejercitoAtaque.Remove(atacante);
+                IUnidades atacante = ejercitoAtaque[i];
+            
+                atacante.AtacarEstructuras(estructuraDefensa); 
+                atacante.Vida -= 2;
+            
+                if (atacante.Vida <= 0)
+                {
+                    ejercitoAtaque.Remove(atacante);
+                }
+                else
+                {
+                    i++;
+                }
             }
-            else
+
+            if (estructuraDefensa.Vida <= 0)
             {
-                i++;
+                jugadorDefensa.Estructuras.Remove(estructuraDefensa);
+                celdaEstructuraDefensa.Estructuras = null;
+                celdaEjercitoAtaque.Unidades = null;
+                celdaEstructuraDefensa.AsignarUnidades(ejercitoAtaque);
             }
+
+            celdaEjercitoAtaque.Unidades = null;
         }
-        
-        jugadorDefensa.Estructuras.Remove(estructuraDefensa);
-        
     }
 }
