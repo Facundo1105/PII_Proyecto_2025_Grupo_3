@@ -7,6 +7,7 @@ public class Caballeria : IUnidades
     private int valorAtaque = 30;
     private int valorDefensa = 25;
     private int valorVelocidad = 15;
+    public Celda CeldaActual { get; set; }
 
     public string Nombre
     {

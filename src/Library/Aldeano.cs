@@ -44,19 +44,26 @@ public class Aldeano
         if (celda.Recursos != null)
         {
             string nombre = celda.Recursos.Nombre;
+            Console.WriteLine("Recolectando Recurso..." );
+            int cantidadARecolectar = 20;
+            int recolectado = 0;
 
-            while (celda.Recursos.Vida > 0 && CapacidadOcupada < 1000)
+            while (celda.Recursos.Vida > 0 && recolectado < cantidadARecolectar && CapacidadOcupada < 1000)
             {
+                int cantidad = Math.Min(celda.Recursos.TasaRecoleccion, cantidadARecolectar - recolectado);
+
                 if (RecursosAldeano.ContainsKey(nombre))
                 {
-                    Thread.Sleep(500);
-                    RecursosAldeano[nombre] += celda.Recursos.TasaRecoleccion;
-                    CapacidadOcupada += celda.Recursos.TasaRecoleccion;
-                    Thread.Sleep(500);
-                    celda.Recursos.Vida -= 2;
+                    RecursosAldeano[nombre] += cantidad;
+                    CapacidadOcupada += cantidad;
+                    celda.Recursos.Vida -= 1;
+                    recolectado += cantidad;
                 }
+
+                Thread.Sleep(500);
             }
 
+            Console.WriteLine("Recurso recolectado" );
             celda.Recursos = null;
             celda.AsignarAldeano(aldeano);
             aldeano.CeldaActual = celda;
@@ -67,6 +74,11 @@ public class Aldeano
 
     public void DepositarRecursos(Jugador jugadorDepositar, IEstructuras depositoCercano)
     {
+        if(depositoCercano == null)
+        {
+            Console.WriteLine("No hay deposito para depositar los recursos");
+            return;
+        }
         if (depositoCercano.EsDeposito)
         {
             if (depositoCercano is DepositoOro depositoOro)
@@ -159,6 +171,7 @@ public class Aldeano
                 }
             }
         }
+        
     }
 
     public void ConstruirEstructuras(IEstructuras estructuraConstruir, Jugador jugadorConstruir)

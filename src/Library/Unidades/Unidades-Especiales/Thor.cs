@@ -7,6 +7,7 @@ public class Thor : IUnidades
     private int valorAtaque = 60;
     private int valorDefensa = 30;
     private int valorVelocidad = 15;
+    public Celda CeldaActual { get; set; }
 
     public string Nombre
     {

@@ -7,6 +7,7 @@ public class Infanteria : IUnidades
     private int valorAtaque = 20;
     private int valorDefensa = 30;
     private int valorVelocidad = 15;
+    public Celda CeldaActual { get; set; }
 
     public string Nombre
     {

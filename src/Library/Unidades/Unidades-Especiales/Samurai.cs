@@ -7,6 +7,7 @@ public class Samurai : IUnidades
     private int valorAtaque = 50;
     private int valorDefensa = 25;
     private int valorVelocidad = 40;
+    public Celda CeldaActual { get; set; }
 
     public string Nombre
     {

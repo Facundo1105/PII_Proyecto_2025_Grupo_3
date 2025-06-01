@@ -1,6 +1,6 @@
 namespace Library.Civilizaciones;
 
-public class Japoneses
+public class Japoneses : ICivilizaciones
 {
     //bonificacion1: los aldeanos recolectan 20% mas rapido la comida
     private double bonificacion1 = 1.20;

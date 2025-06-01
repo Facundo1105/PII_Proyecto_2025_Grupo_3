@@ -61,10 +61,10 @@ namespace LibraryTests
             int aldeanoX = aldeano.CeldaActual.x;
             int aldeanoY = aldeano.CeldaActual.y;
             
+            // vaciamos las celdas por si llega a existir algun recurso
             mapa.ObtenerCelda(5, 5).VaciarCelda();
             mapa.ObtenerCelda(20, 20).VaciarCelda();
             
-            // vaciamos las celdas por si llega a existir algun recurso
             mapa.ObtenerCelda(5, 5).AsignarEstructura(new DepositoMadera());
             mapa.ObtenerCelda(20, 20).AsignarEstructura(new DepositoMadera());
 

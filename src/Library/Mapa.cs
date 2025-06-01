@@ -72,6 +72,31 @@ public class Mapa
         }
         return masCercano;
     }
+    
+    public Celda BuscarRecursoCercano(int xInicial, int yInicial)
+    {
+        Celda recursoMasCercano = null;
+        int menorDistancia = int.MaxValue;
+
+        for (int x = 0; x < 100; x++)
+        {
+            for (int y = 0; y < 100; y++)
+            {
+                if (celdas[x, y].Recursos != null)
+                {
+                    int distancia = Math.Abs(x - xInicial) + Math.Abs(y - yInicial);
+                    if (distancia < menorDistancia)
+                    {
+                        menorDistancia = distancia;
+                        recursoMasCercano = celdas[x, y];
+                    }
+                }
+            }
+        }
+
+        return recursoMasCercano;
+    }
+
 
     public Celda ObtenerCelda(int x, int y)
     {

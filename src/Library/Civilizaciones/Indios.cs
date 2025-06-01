@@ -1,6 +1,6 @@
 namespace Library.Civilizaciones;
 
-public class Indios
+public class Indios : ICivilizaciones
 {
     //bonificacion1 las granjas dan 20% mas de comida 
     private double bonificacion1 = 1.20;
