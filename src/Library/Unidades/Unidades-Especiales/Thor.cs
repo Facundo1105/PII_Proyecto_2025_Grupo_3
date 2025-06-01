@@ -8,12 +8,13 @@ public class Thor : IUnidades
     private int valorDefensa = 30;
     private int valorVelocidad = 15;
 
-    public Thor(string nombre)
+    public string Nombre
     {
-        this.Nombre = nombre;
+        get
+        {
+            return "Thor";
+        }
     }
-
-    public string Nombre { get; set; }
 
     public int Vida
     {

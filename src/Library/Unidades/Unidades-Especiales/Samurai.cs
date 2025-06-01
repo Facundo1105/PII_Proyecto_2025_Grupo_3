@@ -8,12 +8,13 @@ public class Samurai : IUnidades
     private int valorDefensa = 25;
     private int valorVelocidad = 40;
 
-    public Samurai(string nombre)
+    public string Nombre
     {
-        this.Nombre = nombre;
+        get
+        {
+            return "Samurai";
+        }
     }
-
-    public string Nombre { get; set; }
 
     public int Vida
     {

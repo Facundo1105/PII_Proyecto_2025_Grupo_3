@@ -8,12 +8,13 @@ public class Arquero : IUnidades
     private int valorDefensa = 10;
     private int valorVelocidad = 35;
 
-    public Arquero(string nombre)
+    public string Nombre
     {
-        this.Nombre = nombre;
+        get
+        {
+            return "Arquero";
+        }
     }
-
-    public string Nombre { get; set; }
 
     public int Vida
     {

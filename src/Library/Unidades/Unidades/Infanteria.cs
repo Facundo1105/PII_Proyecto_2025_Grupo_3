@@ -8,12 +8,13 @@ public class Infanteria : IUnidades
     private int valorDefensa = 30;
     private int valorVelocidad = 15;
 
-    public Infanteria(string nombre)
+    public string Nombre
     {
-        this.Nombre = nombre;
+        get
+        {
+            return "Infanteria";
+        }
     }
-
-    public string Nombre { get; set; }
 
     public int Vida
     {

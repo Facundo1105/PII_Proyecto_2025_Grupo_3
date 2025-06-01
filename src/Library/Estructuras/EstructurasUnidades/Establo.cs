@@ -26,7 +26,7 @@ public class Establo : IEstructuras
     public bool EsDeposito => false;
     public void CrearCaballeria(Jugador jugador)
     {
-        if (jugador.Poblacion < 50 && jugador.CantidadUnidades < 30)
+        if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30)
         {
             if (jugador.Recursos["Oro"] >= 200 && jugador.Recursos["Alimento"] >= 300 && jugador.Recursos["Madera"] >= 100)
             {
