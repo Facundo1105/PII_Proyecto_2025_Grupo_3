@@ -16,9 +16,9 @@ public class Piedra : IRecursos
 
     public int Vida
     {
-        get { return this.Vida; }
+        get { return this.vida; }
         
-        set{this.Vida = value <0 ? 0 : value; }
+        set{this.vida = value <0 ? 0 : value; }
     }
 
     public int TasaRecoleccion

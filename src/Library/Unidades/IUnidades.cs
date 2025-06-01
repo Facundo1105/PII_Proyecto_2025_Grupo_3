@@ -11,6 +11,7 @@ public interface IUnidades
     public int ValorDefensa {get; set;}
     
     public int ValorVelocidad {get; set;}
+    public Celda CeldaActual { get; set; }
     
     
     //Metodos

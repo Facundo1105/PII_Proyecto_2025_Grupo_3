@@ -1,6 +1,6 @@
 namespace Library.Civilizaciones;
 
-public class Vikingos
+public class Vikingos : ICivilizaciones
 {
     //bonificacion1: los arqueros tienen 20% mas de vida
     private double bonificacion1 = 1.20;

@@ -1,6 +1,6 @@
 namespace Library.Civilizaciones;
 
-public class Romanos
+public class Romanos : ICivilizaciones
 {
     //bonificacion1: los edificios se construyen 20% mas rapido 
     private double bonificacion1 = 1.20;

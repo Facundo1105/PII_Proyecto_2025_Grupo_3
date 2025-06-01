@@ -7,6 +7,7 @@ public class JulioCesar : IUnidades
     private int valorAtaque = 35;
     private int valorDefensa = 50;
     private int valorVelocidad = 25;
+    public Celda CeldaActual { get; set; }
 
     public string Nombre
     {

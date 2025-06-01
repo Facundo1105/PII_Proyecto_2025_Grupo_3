@@ -7,6 +7,7 @@ public class Elefante : IUnidades
     private int valorAtaque = 35;
     private int valorDefensa = 40;
     private int valorVelocidad = 10;
+    public Celda CeldaActual { get; set; }
 
     public string Nombre
     {

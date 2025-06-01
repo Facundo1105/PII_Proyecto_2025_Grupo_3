@@ -62,6 +62,10 @@ public class Celda
         if (EstaLibre())
         {
             this.Unidades = unidades;
+            foreach (var unidad in unidades)
+            {
+                unidad.CeldaActual = this;
+            }
             return true;
         }
         else
@@ -69,12 +73,14 @@ public class Celda
             return false;
         }
     }
+
     
     public bool AsignarAldeano(Aldeano aldeano)
     {
         if (EstaLibre())
         {
             this.Aldeano = aldeano;
+            aldeano.CeldaActual = this;
             return true;
         }
         else
@@ -82,6 +88,7 @@ public class Celda
             return false;
         }
     }
+
 
     public bool VaciarCelda()
     {

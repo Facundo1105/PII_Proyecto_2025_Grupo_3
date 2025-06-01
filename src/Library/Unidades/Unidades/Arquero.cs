@@ -7,6 +7,7 @@ public class Arquero : IUnidades
     private int valorAtaque = 35;
     private int valorDefensa = 10;
     private int valorVelocidad = 35;
+    public Celda CeldaActual { get; set; }
 
     public string Nombre
     {
