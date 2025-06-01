@@ -8,7 +8,6 @@ public class Mapa
     private const int alto = 100;
 
     private Celda[,] celdas;
-    private IRecursos recursos;
 
     public void InicializarMapa()
     {
@@ -18,7 +17,6 @@ public class Mapa
             for (int y = 0; y < alto; y++)
             {
                 celdas[x, y] = new Celda(x, y);
-                Console.WriteLine(celdas[x, y]);
             }
         }
     }
@@ -33,18 +31,24 @@ public class Mapa
             int x = random.Next(0, 100);
             int y = random.Next(0, 100);
 
-            while (celdas[x, y].EstaLibre() == false)
+            while (!celdas[x, y].EstaLibre())
             {
                 x = random.Next(0, 100);
                 y = random.Next(0, 100);
             }
 
-            if (celdas[x, y].EstaLibre())
+            IRecursos recurso = random.Next(3) switch
             {
-                celdas[x, y].AsignarRecurso(recursos);
-            }
+                0 => new Madera(),
+                1 => new Piedra(),
+                2 => new Alimento(),
+                _ => new Madera()
+            };
+            
+            celdas[x, y].AsignarRecurso(recurso);
         }
     }
+
     public IEstructuras DepositoMasCercano(int aldeanoX, int aldeanoY)
     {
         IEstructuras masCercano = null;
@@ -67,5 +71,10 @@ public class Mapa
             }
         }
         return masCercano;
+    }
+
+    public Celda ObtenerCelda(int x, int y)
+    {
+        return celdas[x, y];
     }
 }

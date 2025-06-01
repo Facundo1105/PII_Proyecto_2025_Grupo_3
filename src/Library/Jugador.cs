@@ -1,10 +1,12 @@
+using Library.Civilizaciones;
+
 namespace Library;
 
 public class Jugador
 {
     public string Nombre { get; set; }
 
-    public ICivilizacion Civilización { get; set; }
+    public ICivilizaciones Civilizacion { get; set; }
 
     public int LimitePoblacion = 10;
 
@@ -33,7 +35,7 @@ public class Jugador
     public Jugador(string nombre, ICivilizaciones civilizacion)
     {
         this.Nombre = nombre;
-        this.Civilizacion = civilización;
+        this.Civilizacion = civilizacion;
     }
 
     public int CantidadUnidades

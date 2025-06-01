@@ -8,6 +8,7 @@ public class Aldeano
     private int vida = 10;
     
     public int CapacidadMaxima = 1000;
+    public Celda CeldaActual { get; set; }
     
     public Dictionary<string, int> RecursosAldeano = new()
     {
@@ -38,10 +39,24 @@ public class Aldeano
         }
     }
 
-    public void ObtenerRecursos(IRecursos recurso)
+    public void ObtenerRecursoDeCelda(Celda celda, Aldeano aldeano)
     {
-        
+        if (celda.Recursos != null)
+        {
+            string nombre = celda.Recursos.Nombre;
+
+            if (RecursosAldeano.ContainsKey(nombre))
+            {
+                RecursosAldeano[nombre] += 20;
+            }
+
+            celda.Recursos = null;
+            celda.AsignarAldeano(aldeano);
+            aldeano.CeldaActual = celda;
+        }
     }
+
+
 
     public void DepositarRecursos(Jugador jugadorDepositar)
     {
