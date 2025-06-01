@@ -70,8 +70,9 @@ namespace LibraryTests
 
             // estructuras asignadas para comparar luego
             var estructura20_20 = mapa.ObtenerCelda(20, 20).Estructuras;
+            string recurso = aldeano.ObtenerRecursoQueLleva();
             
-            var resultado = mapa.DepositoMasCercano(aldeanoX, aldeanoY);
+            var resultado = mapa.DepositoMasCercano(aldeanoX, aldeanoY, recurso);
             
             var estructuraEsperada = estructura20_20; //estructura mas cerca de 18,18
 
