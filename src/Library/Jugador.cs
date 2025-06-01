@@ -107,7 +107,7 @@ public class Jugador
         celdaUnidad1.AsignarUnidades(Ejercito);
     }
 
-    public void SepararUnidades(List<IUnidades> unidadesUnidas)
+    public void SepararUnidades(List<IUnidades> unidadesUnidas, Celda celdaUnidades)
     {
         foreach (IUnidades unidad in unidadesUnidas.ToList())
         {
@@ -133,6 +133,8 @@ public class Jugador
                 unidadesUnidas.Remove(unidad);
             }
         }
+        
+        celdaUnidades.Unidades = null;
     }
 
     public void UnidadesAtacarUnidades(List<IUnidades> ejercitoAtaque, List<IUnidades> ejercitoDefensa, Celda celdaEjercitoDefensa, Celda celdaEjercitoAtaque)
