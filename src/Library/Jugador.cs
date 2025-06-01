@@ -70,7 +70,7 @@ public class Jugador
     {
         if (celdaUbicar.EstaLibre())
         {
-            if (jugadorUnidades.Recursos["Oro"] >= 50 && jugadorUnidades.Recursos["Alimento"] >= 50)
+            if (jugadorUnidades.Recursos["Oro"] >= 10 && jugadorUnidades.Recursos["Alimento"] >= 10)
             {
                 celdaUbicar.AsignarUnidades(unidades);
             }

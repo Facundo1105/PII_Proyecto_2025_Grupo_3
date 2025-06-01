@@ -5,7 +5,7 @@ namespace Library;
 public class Granja : IEstructuras
 {
     private int vida = 0;
-    public bool EsDeposito => true;
+    public bool EsDeposito => false;
 
     public Alimento alimento = new Alimento();
     
