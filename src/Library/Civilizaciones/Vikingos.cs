@@ -2,8 +2,8 @@ namespace Library.Civilizaciones;
 
 public class Vikingos : ICivilizaciones
 {
-    //bonificacion1: los arqueros tienen 20% mas de vida
-    private double bonificacion1 = 1.20;
+    //bonificacion1: los aldeanos recolectan 10% mas rapido el oro 
+    private double bonificacion1 = 1.10;
 
     //bonificacion2: los  aldeanos recolectan madera 20% mas rapido
     private double bonificacion2 = 1.20;
