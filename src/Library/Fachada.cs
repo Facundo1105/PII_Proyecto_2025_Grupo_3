@@ -16,7 +16,7 @@ public class Fachada
         this.mapa = mapa;
     }
 
-    public void IniciarPartida()
+    public void IniciarPartida() //Historia de usuario 1
     {
         mapa.InicializarMapa();
         mapa.RecursosAleatorios();
@@ -28,6 +28,8 @@ public class Fachada
         mapa.ObtenerCelda(21, 21).AsignarAldeano(jugador.Aldeanos[1]);
         mapa.ObtenerCelda(21, 22).AsignarAldeano(jugador.Aldeanos[2]);
         mapa.ObtenerCelda(20,20).AsignarEstructura(new CentroCivico());
+        
+        
     }
     
     public void ConstruirEstructuras()
@@ -73,6 +75,11 @@ public class Fachada
             return;
 
         aldeano.ObtenerRecursoDeCelda(celdaConRecurso, aldeano);
+        
+        foreach (var recursos in jugador.Aldeanos[1].RecursosAldeano)
+        {
+                Console.WriteLine($"{recursos.Key} , {recursos.Value}");
+        }
 
         string recurso = aldeano.ObtenerRecursoQueLleva();
         if (recurso != null)
@@ -80,6 +87,8 @@ public class Fachada
             IEstructuras depositoCercano = mapa.DepositoMasCercano(aldeanoX, aldeanoY, recurso);
             aldeano.DepositarRecursos(jugador, depositoCercano);
         }
+        
+
     }
 
     
