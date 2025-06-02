@@ -1,3 +1,4 @@
+using Library.Civilizaciones;
 using Library.Recursos;
 
 namespace Library;
@@ -70,10 +71,29 @@ public class Aldeano
                 
                 int tasaRecoleccion = celda.Recursos.TasaRecoleccion;
 
+                //bonificacion japoneses
                 if (jugador.Civilizacion is Japoneses && celda.Recursos.Nombre == "Alimneto")
                 {
                     tasaRecoleccion *=  (int)Math.Round(1.20);   
-                } 
+                }
+                
+                //bonificacion romanos
+                if (jugador.Civilizacion is Romanos && celda.Recursos.Nombre == "Madera")
+                {
+                    tasaRecoleccion *=  (int)Math.Round(1.20); 
+                }
+                
+                //bonificacion indios
+                if (jugador.Civilizacion is Indios && celda.Recursos.Nombre == "Piedra")
+                {
+                    tasaRecoleccion *=  (int)Math.Round(1.15); 
+                }
+                
+                //bonificacion vikingos
+                if (jugador.Civilizacion is Vikingos && celda.Recursos.Nombre == "Oro")
+                {
+                    tasaRecoleccion *=  (int)Math.Round(1.10);
+                }
                 
                 
                 

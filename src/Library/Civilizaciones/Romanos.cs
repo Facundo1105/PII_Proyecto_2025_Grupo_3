@@ -2,7 +2,7 @@ namespace Library.Civilizaciones;
 
 public class Romanos : ICivilizaciones
 {
-    //bonificacion1: los edificios se construyen 20% mas rapido 
+    //bonificacion1: los aldeanos recolectan 20% mas rapido la madera
     private double bonificacion1 = 1.20;
 
     //bonificacion2: la infanteria 20% mas barata 
