@@ -56,7 +56,7 @@ public class Aldeano
     }
 
 
-    public void ObtenerRecursoDeCelda(Celda celda, Aldeano aldeano)
+    public void ObtenerRecursoDeCelda(Celda celda, Aldeano aldeano, Jugador jugador)
     {
         if (celda.Recursos != null)
         {
@@ -68,6 +68,15 @@ public class Aldeano
                 int cantidadARecolectar = 500;
                 int recolectado = 0;
                 
+                int tasaRecoleccion = celda.Recursos.TasaRecoleccion;
+
+                if (jugador.Civilizacion is Japoneses && celda.Recursos.Nombre == "Alimneto")
+                {
+                    tasaRecoleccion *=  (int)Math.Round(1.20);   
+                } 
+                
+                
+                
                 while (celda.Recursos.Vida > 0 && recolectado < cantidadARecolectar && CapacidadOcupada < CapacidadMaxima)
                 {
                     int espacioRestante = CapacidadMaxima - CapacidadOcupada;
@@ -77,10 +86,10 @@ public class Aldeano
                     {
                         break;
                     }
-                    
+
                     RecursosAldeano[nombre] += cantidad;
-                    CapacidadOcupada += cantidad; 
-                    celda.Recursos.Vida -= 1; 
+                    CapacidadOcupada += cantidad;
+                    celda.Recursos.Vida -= 1;
                     recolectado += cantidad;
 
                     Thread.Sleep(1000);
