@@ -77,6 +77,8 @@ namespace LibraryTests
             var estructuraEsperada = estructura20_20; //estructura mas cerca de 18,18
 
             Assert.That(resultado, Is.SameAs(estructuraEsperada));
+
+            
         }
     }
 }
