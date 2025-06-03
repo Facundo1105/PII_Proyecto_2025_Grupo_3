@@ -24,16 +24,20 @@ public class Establo : IEstructuras
         }
     }
     public bool EsDeposito => false;
-    public void CrearCaballeria(Jugador jugador)
+    public static void CrearCaballeria(Jugador jugador, Celda celda)
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30)
-        {
-            if (jugador.Recursos["Oro"] >= 200 && jugador.Recursos["Alimento"] >= 300 && jugador.Recursos["Madera"] >= 100)
+        { 
+            if(jugador.Recursos["Oro"] >= 100 && jugador.Recursos["Alimento"] >= 150)
             {
-                jugador.Recursos["Oro"] -= 200;
-                jugador.Recursos["Alimento"] -= 300;
-                jugador.Recursos["Madera"] -= 100;
-                jugador.Caballeria.Add(new Caballeria());
+                jugador.Recursos["Oro"] -= 100;
+                jugador.Recursos["Alimento"] -= 150;
+                Console.WriteLine("Creando Caballería...");
+                Thread.Sleep(1200);
+                Caballeria nuevo = new Caballeria();
+                jugador.Caballeria.Add(nuevo);
+                Console.WriteLine("Caballeria creada");
+                celda.AsignarUnidades(new List<IUnidades> { nuevo });
             }
         }
     }

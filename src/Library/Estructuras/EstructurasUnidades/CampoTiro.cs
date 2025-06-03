@@ -25,7 +25,7 @@ public class CampoTiro : IEstructuras
     }
     public bool EsDeposito => false;
 
-    public void CrearArquero(Jugador jugador)
+    public static void CrearArquero(Jugador jugador, Celda celda)
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30)
         { 
@@ -33,9 +33,14 @@ public class CampoTiro : IEstructuras
             {
                 jugador.Recursos["Oro"] -= 100;
                 jugador.Recursos["Alimento"] -= 150;
-                jugador.Arqueros.Add(new Arquero());
+                Console.WriteLine("Creando Arquero...");
+                Thread.Sleep(1200);
+                Arquero nuevo = new Arquero();
+                jugador.Arqueros.Add(nuevo);
+                Console.WriteLine("Arquero creado");
+                celda.AsignarUnidades(jugador.Arqueros.Add(nuevo));
             }
-
         }
     }
+
 }
