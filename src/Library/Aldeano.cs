@@ -159,14 +159,14 @@ public class Aldeano
                 if (oroAldeano <= espacioDisponible)
                 {
                     depositoOro.EspacioOcupado += oroAldeano;
-                    jugadorDepositar.Recursos["Oro"] += oroAldeano;
+                    //jugadorDepositar.Recursos["Oro"] += oroAldeano;
                     CapacidadOcupada -= oroAldeano;
                     RecursosAldeano["Oro"] = 0;
                 }
                 else
                 {
                     depositoOro.EspacioOcupado += espacioDisponible;
-                    jugadorDepositar.Recursos["Oro"] += espacioDisponible;
+                    //jugadorDepositar.Recursos["Oro"] += espacioDisponible;
                     CapacidadOcupada -= espacioDisponible;
                     RecursosAldeano["Oro"] -= espacioDisponible;
                 }
@@ -180,14 +180,14 @@ public class Aldeano
                 if (alimentoAldeano <= espacioDisponible)
                 {
                     molino.EspacioOcupado += alimentoAldeano;
-                    jugadorDepositar.Recursos["Alimento"] += alimentoAldeano;
+                    //jugadorDepositar.Recursos["Alimento"] += alimentoAldeano;
                     CapacidadOcupada -= alimentoAldeano;
                     RecursosAldeano["Alimento"] = 0;
                 }
                 else
                 {
                     molino.EspacioOcupado += espacioDisponible;
-                    jugadorDepositar.Recursos["Alimento"] += espacioDisponible;
+                    //jugadorDepositar.Recursos["Alimento"] += espacioDisponible;
                     CapacidadOcupada -= espacioDisponible;
                     RecursosAldeano["Alimento"] -= espacioDisponible;
                 }
@@ -203,14 +203,14 @@ public class Aldeano
                     if (piedraAldeano <= espacioDisponible)
                     {
                         depositoPiedra.EspacioOcupado += piedraAldeano;
-                        jugadorDepositar.Recursos["Piedra"] += piedraAldeano;
+                        //jugadorDepositar.Recursos["Piedra"] += piedraAldeano;
                         CapacidadOcupada -= piedraAldeano;
                         RecursosAldeano["Piedra"] = 0;
                     }
                     else
                     {
                         depositoPiedra.EspacioOcupado += espacioDisponible;
-                        jugadorDepositar.Recursos["Piedra"] += espacioDisponible;
+                        //jugadorDepositar.Recursos["Piedra"] += espacioDisponible;
                         CapacidadOcupada -= espacioDisponible;
                         RecursosAldeano["Piedra"] -= espacioDisponible;
                     }
@@ -227,14 +227,14 @@ public class Aldeano
                     if (maderaAldeano <= espacioDisponible)
                     {
                         depositoMadera.EspacioOcupado += maderaAldeano;
-                        jugadorDepositar.Recursos["Madera"] += maderaAldeano;
+                        //jugadorDepositar.Recursos["Madera"] += maderaAldeano;
                         CapacidadOcupada -= maderaAldeano;
                         RecursosAldeano["Madera"] = 0;
                     }
                     else
                     {
                         depositoMadera.EspacioOcupado += espacioDisponible;
-                        jugadorDepositar.Recursos["Madera"] += espacioDisponible;
+                        //jugadorDepositar.Recursos["Madera"] += espacioDisponible;
                         CapacidadOcupada -= espacioDisponible;
                         RecursosAldeano["Madera"] -= espacioDisponible;
                     }
@@ -253,14 +253,14 @@ public class Aldeano
                 if (oroAldeano <= espacioDisponible)
                 {
                     centroCivicoDeposito.EspacioOcupado += oroAldeano;
-                    jugadorDepositar.Recursos["Oro"] += oroAldeano;
+                    //jugadorDepositar.Recursos["Oro"] += oroAldeano;
                     CapacidadOcupada -= oroAldeano;
                     RecursosAldeano["Oro"] = 0;
                 }
                 else
                 {
                     centroCivicoDeposito.EspacioOcupado += espacioDisponible;
-                    jugadorDepositar.Recursos["Oro"] += espacioDisponible;
+                    //jugadorDepositar.Recursos["Oro"] += espacioDisponible;
                     CapacidadOcupada -= espacioDisponible;
                     RecursosAldeano["Oro"] -= espacioDisponible;
                 }
@@ -269,14 +269,14 @@ public class Aldeano
                 if (alimentoAldeano <= espacioDisponible)
                 {
                     centroCivicoDeposito.EspacioOcupado += alimentoAldeano;
-                    jugadorDepositar.Recursos["Alimento"] += alimentoAldeano;
+                    //jugadorDepositar.Recursos["Alimento"] += alimentoAldeano;
                     CapacidadOcupada -= alimentoAldeano;
                     RecursosAldeano["Alimento"] = 0;
                 }
                 else
                 {
                     centroCivicoDeposito.EspacioOcupado += espacioDisponible;
-                    jugadorDepositar.Recursos["Alimento"] += espacioDisponible;
+                    //jugadorDepositar.Recursos["Alimento"] += espacioDisponible;
                     CapacidadOcupada -= espacioDisponible;
                     RecursosAldeano["Alimento"] -= espacioDisponible;
                 }
@@ -287,14 +287,14 @@ public class Aldeano
                     if (maderaAldeano <= espacioDisponible)
                     {
                         centroCivicoDeposito.EspacioOcupado += maderaAldeano;
-                        jugadorDepositar.Recursos["Madera"] += maderaAldeano;
+                        //jugadorDepositar.Recursos["Madera"] += maderaAldeano;
                         CapacidadOcupada -= maderaAldeano;
                         RecursosAldeano["Madera"] = 0;
                     }
                     else
                     {
                         centroCivicoDeposito.EspacioOcupado += espacioDisponible;
-                        jugadorDepositar.Recursos["Madera"] += espacioDisponible;
+                        //jugadorDepositar.Recursos["Madera"] += espacioDisponible;
                         CapacidadOcupada -= espacioDisponible;
                         RecursosAldeano["Madera"] -= espacioDisponible;
                     }
@@ -306,14 +306,14 @@ public class Aldeano
                     if (piedraAldeano <= espacioDisponible)
                     {
                         centroCivicoDeposito.EspacioOcupado += piedraAldeano;
-                        jugadorDepositar.Recursos["Piedra"] += piedraAldeano;
+                        //jugadorDepositar.Recursos["Piedra"] += piedraAldeano;
                         CapacidadOcupada -= piedraAldeano;
                         RecursosAldeano["Piedra"] = 0;
                     }
                     else
                     {
                         centroCivicoDeposito.EspacioOcupado += espacioDisponible;
-                        jugadorDepositar.Recursos["Piedra"] += espacioDisponible;
+                        //jugadorDepositar.Recursos["Piedra"] += espacioDisponible;
                         CapacidadOcupada -= espacioDisponible;
                         RecursosAldeano["Piedra"] -= espacioDisponible;
                     }
