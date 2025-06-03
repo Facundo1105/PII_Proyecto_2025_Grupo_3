@@ -71,7 +71,7 @@ public class Fachada
         if (celdaConRecurso == null)
             return;
 
-        aldeano.ObtenerRecursoDeCelda(celdaConRecurso, aldeano, jugador1);
+
         
         foreach (var recursos in jugador1.Aldeanos[1].RecursosAldeano)
         {
