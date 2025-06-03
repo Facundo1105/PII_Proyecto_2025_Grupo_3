@@ -28,11 +28,97 @@ public class Establo : IEstructuras
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30)
         {
-            if (jugador.Recursos["Oro"] >= 200 && jugador.Recursos["Alimento"] >= 300 && jugador.Recursos["Madera"] >= 100)
+            const int CostoOro = 200;
+            const int CostoAlimento = 300;
+            const int CostoMadera = 100;
+
+            // Sumar recursos disponibles
+            int oroTotal = 0;
+            int alimentoTotal = 0;
+            int maderaTotal = 0;
+
+            List<DepositoOro> depositosOro = new List<DepositoOro>();
+            List<Molino> molinos = new List<Molino>();
+            List<DepositoMadera> depositosMadera = new List<DepositoMadera>();
+            CentroCivico centroCivico = (CentroCivico)jugador.Estructuras[0];
+
+            foreach (IEstructuras estructura in jugador.Estructuras)
             {
-                jugador.Recursos["Oro"] -= 200;
-                jugador.Recursos["Alimento"] -= 300;
-                jugador.Recursos["Madera"] -= 100;
+                if (estructura is DepositoOro dOro)
+                {
+                    depositosOro.Add(dOro);
+                    oroTotal += dOro.EspacioOcupado;
+                }
+                else if (estructura is Molino molino)
+                {
+                    molinos.Add(molino);
+                    alimentoTotal += molino.EspacioOcupado;
+                }
+                else if (estructura is DepositoMadera dMadera)
+                {
+                    depositosMadera.Add(dMadera);
+                    maderaTotal += dMadera.EspacioOcupado;
+                }
+                else if (estructura is CentroCivico)
+                {
+                    oroTotal += centroCivico.RecursosDeposito["Oro"];
+                    alimentoTotal += centroCivico.RecursosDeposito["Alimento"];
+                }
+            }
+            
+            // Verificar si tiene recursos suficientes
+            if (oroTotal >= CostoOro && alimentoTotal >= CostoAlimento)
+            {
+                int oroRestante = CostoOro;
+                int alimentoRestante = CostoAlimento;
+                int maderaRestante = CostoMadera;
+                
+                // Descontar oro de depósito primero, luego centro cívico
+                foreach (DepositoOro dOro in depositosOro)
+                {
+                    if (oroRestante == 0) break;
+                    int aDescontar = Math.Min(oroRestante, dOro.EspacioOcupado);
+                    dOro.EspacioOcupado -= aDescontar;
+                    oroRestante -= aDescontar;
+                }
+
+                if (oroRestante > 0)
+                {
+                    int aDescontar = Math.Min(oroRestante, centroCivico.RecursosDeposito["Oro"]);
+                    centroCivico.RecursosDeposito["Oro"] -= aDescontar;
+                    centroCivico.EspacioOcupado -= aDescontar;
+                }
+                // Descontar alimento de depósitos primero, luego centro cívico
+                foreach (Molino molino in molinos)
+                {
+                    if (alimentoRestante == 0) break;
+                    int aDescontar = Math.Min(alimentoRestante, molino.EspacioOcupado);
+                    molino.EspacioOcupado -= aDescontar;
+                    alimentoRestante -= aDescontar;
+                }
+                if (alimentoRestante > 0)
+                {
+                    int aDescontar = Math.Min(alimentoRestante, centroCivico.RecursosDeposito["Alimento"]);
+                    centroCivico.RecursosDeposito["Alimento"] -= aDescontar;
+                    centroCivico.EspacioOcupado -= aDescontar;
+                }
+                
+                // Descontar madera de depósitos primero, luego centro cívico
+                foreach (DepositoMadera dMadera in depositosMadera)
+                {
+                    if (maderaRestante == 0) break;
+                    int aDescontar = Math.Min(maderaRestante, dMadera.EspacioOcupado);
+                    dMadera.EspacioOcupado -= aDescontar;
+                    maderaRestante -= aDescontar;
+                }
+
+                if (maderaRestante > 0)
+                {
+                    int aDescontar = Math.Min(maderaRestante, centroCivico.RecursosDeposito["Madera"]);
+                    centroCivico.RecursosDeposito["Madera"] -= aDescontar;
+                    centroCivico.EspacioOcupado -= aDescontar;
+                }
+                
                 jugador.Caballeria.Add(new Caballeria());
             }
         }
