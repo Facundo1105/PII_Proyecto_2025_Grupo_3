@@ -1,3 +1,5 @@
+using Library.Civilizaciones;
+
 namespace Library;
 
 public class Establo : IEstructuras
@@ -28,9 +30,14 @@ public class Establo : IEstructuras
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30)
         {
-            const int CostoOro = 200;
-            const int CostoAlimento = 300;
-            const int CostoMadera = 100;
+            int CostoOro = 200;
+            int CostoAlimento = 300;
+            int CostoMadera = 100;
+
+            if (jugador.Civilizacion is Romanos)
+            {
+                CostoOro *= (int)Math.Round(0.80);
+            }
 
             // Sumar recursos disponibles
             int oroTotal = 0;

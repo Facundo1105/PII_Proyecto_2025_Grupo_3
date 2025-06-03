@@ -31,8 +31,20 @@ public class CampoTiro : IEstructuras
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30)
         { 
-            const int CostoOro = 100;
-            const int CostoAlimento = 150;
+            int CostoOro = 100;
+            int CostoAlimento = 150;
+
+            if (jugador.Civilizacion is Japoneses)
+            {
+                CostoAlimento *= (int)Math.Round(0.80);
+            }
+            
+            if (jugador.Civilizacion is Vikingos)
+            {
+                CostoOro *= (int)Math.Round(0.85);
+            }
+            
+            
 
             // Sumar recursos disponibles
             int oroTotal = 0;
