@@ -167,176 +167,89 @@ public class Aldeano
             return;
         }
 
-        if (depositoCercano.EsDeposito)
+        if (!depositoCercano.EsDeposito)
+            return;
+
+        // Depositar Oro
+        if (depositoCercano is DepositoOro depositoOro)
         {
-            if (depositoCercano is DepositoOro depositoOro)
-            {
-                int oroAldeano = RecursosAldeano["Oro"];
-                int espacioDisponible = depositoOro.CapacidadMaxima - depositoOro.EspacioOcupado;
+            int oroAldeano = RecursosAldeano["Oro"];
+            int espacioDisponible = depositoOro.CapacidadMaxima - depositoOro.EspacioOcupado;
+            int aDepositar = Math.Min(oroAldeano, espacioDisponible);
 
-                if (oroAldeano <= espacioDisponible)
-                {
-                    depositoOro.EspacioOcupado += oroAldeano;
-                    //jugadorDepositar.Recursos["Oro"] += oroAldeano;
-                    CapacidadOcupada -= oroAldeano;
-                    RecursosAldeano["Oro"] = 0;
-                }
-                else
-                {
-                    depositoOro.EspacioOcupado += espacioDisponible;
-                    //jugadorDepositar.Recursos["Oro"] += espacioDisponible;
-                    CapacidadOcupada -= espacioDisponible;
-                    RecursosAldeano["Oro"] -= espacioDisponible;
-                }
-            }
+            depositoOro.EspacioOcupado += aDepositar;
+            RecursosAldeano["Oro"] -= aDepositar;
+            CapacidadOcupada -= aDepositar;
+        }
+        // Depositar Alimento
+        else if (depositoCercano is Molino molino)
+        {
+            int alimentoAldeano = RecursosAldeano["Alimento"];
+            int espacioDisponible = molino.CapacidadMaxima - molino.EspacioOcupado;
+            int aDepositar = Math.Min(alimentoAldeano, espacioDisponible);
 
-            if (depositoCercano is Molino molino)
-            {
-                int alimentoAldeano = RecursosAldeano["Alimento"];
-                int espacioDisponible = molino.CapacidadMaxima - molino.EspacioOcupado;
+            molino.EspacioOcupado += aDepositar;
+            RecursosAldeano["Alimento"] -= aDepositar;
+            CapacidadOcupada -= aDepositar;
+        }
+        // Depositar Piedra
+        else if (depositoCercano is DepositoPiedra depositoPiedra)
+        {
+            int piedraAldeano = RecursosAldeano["Piedra"];
+            int espacioDisponible = depositoPiedra.CapacidadMaxima - depositoPiedra.EspacioOcupado;
+            int aDepositar = Math.Min(piedraAldeano, espacioDisponible);
 
-                if (alimentoAldeano <= espacioDisponible)
-                {
-                    molino.EspacioOcupado += alimentoAldeano;
-                    //jugadorDepositar.Recursos["Alimento"] += alimentoAldeano;
-                    CapacidadOcupada -= alimentoAldeano;
-                    RecursosAldeano["Alimento"] = 0;
-                }
-                else
-                {
-                    molino.EspacioOcupado += espacioDisponible;
-                    //jugadorDepositar.Recursos["Alimento"] += espacioDisponible;
-                    CapacidadOcupada -= espacioDisponible;
-                    RecursosAldeano["Alimento"] -= espacioDisponible;
-                }
-            }
+            depositoPiedra.EspacioOcupado += aDepositar;
+            RecursosAldeano["Piedra"] -= aDepositar;
+            CapacidadOcupada -= aDepositar;
+        }
+        // Depositar Madera
+        else if (depositoCercano is DepositoMadera depositoMadera)
+        {
+            int maderaAldeano = RecursosAldeano["Madera"];
+            int espacioDisponible = depositoMadera.CapacidadMaxima - depositoMadera.EspacioOcupado;
+            int aDepositar = Math.Min(maderaAldeano, espacioDisponible);
 
-            if (depositoCercano is DepositoPiedra depositoPiedra)
-            {
-                int piedraAldeano = RecursosAldeano["Piedra"];
-                int espacioDisponible = depositoPiedra.CapacidadMaxima - depositoPiedra.EspacioOcupado;
+            depositoMadera.EspacioOcupado += aDepositar;
+            RecursosAldeano["Madera"] -= aDepositar;
+            CapacidadOcupada -= aDepositar;
+        }
+        // Depositar Centro Cívico
+        else if (depositoCercano is CentroCivico centroCivico)
+        {
+            int espacioDisponible = centroCivico.CapacidadMaxima - centroCivico.EspacioOcupado;
 
-                if (piedraAldeano > 0)
-                {
-                    if (piedraAldeano <= espacioDisponible)
-                    {
-                        depositoPiedra.EspacioOcupado += piedraAldeano;
-                        //jugadorDepositar.Recursos["Piedra"] += piedraAldeano;
-                        CapacidadOcupada -= piedraAldeano;
-                        RecursosAldeano["Piedra"] = 0;
-                    }
-                    else
-                    {
-                        depositoPiedra.EspacioOcupado += espacioDisponible;
-                        //jugadorDepositar.Recursos["Piedra"] += espacioDisponible;
-                        CapacidadOcupada -= espacioDisponible;
-                        RecursosAldeano["Piedra"] -= espacioDisponible;
-                    }
-                }
-            }
+            // Depositar Oro
+            int oroAldeano = RecursosAldeano["Oro"];
+            int oroADepositar = Math.Min(oroAldeano, espacioDisponible);
+            centroCivico.RecursosDeposito["Oro"] += oroADepositar;
+            centroCivico.EspacioOcupado += oroADepositar;
+            RecursosAldeano["Oro"] -= oroADepositar;
+            CapacidadOcupada -= oroADepositar;
 
-            if (depositoCercano is DepositoMadera depositoMadera)
-            {
-                int maderaAldeano = RecursosAldeano["Madera"];
-                int espacioDisponible = depositoMadera.CapacidadMaxima - depositoMadera.EspacioOcupado;
+            // Depositar Alimento
+            int alimentoAldeano = RecursosAldeano["Alimento"];
+            int alimentoADepositar = Math.Min(alimentoAldeano, espacioDisponible - centroCivico.EspacioOcupado);
+            centroCivico.RecursosDeposito["Alimento"] += alimentoADepositar;
+            centroCivico.EspacioOcupado += alimentoADepositar;
+            RecursosAldeano["Alimento"] -= alimentoADepositar;
+            CapacidadOcupada -= alimentoADepositar;
 
-                if (maderaAldeano > 0)
-                {
-                    if (maderaAldeano <= espacioDisponible)
-                    {
-                        depositoMadera.EspacioOcupado += maderaAldeano;
-                        //jugadorDepositar.Recursos["Madera"] += maderaAldeano;
-                        CapacidadOcupada -= maderaAldeano;
-                        RecursosAldeano["Madera"] = 0;
-                    }
-                    else
-                    {
-                        depositoMadera.EspacioOcupado += espacioDisponible;
-                        //jugadorDepositar.Recursos["Madera"] += espacioDisponible;
-                        CapacidadOcupada -= espacioDisponible;
-                        RecursosAldeano["Madera"] -= espacioDisponible;
-                    }
-                }
-            }
+            // Depositar Madera
+            int maderaAldeano = RecursosAldeano["Madera"];
+            int maderaADepositar = Math.Min(maderaAldeano, espacioDisponible - centroCivico.EspacioOcupado);
+            centroCivico.RecursosDeposito["Madera"] += maderaADepositar;
+            centroCivico.EspacioOcupado += maderaADepositar;
+            RecursosAldeano["Madera"] -= maderaADepositar;
+            CapacidadOcupada -= maderaADepositar;
 
-            if (depositoCercano is CentroCivico centroCivicoDeposito)
-            {
-                int oroAldeano = RecursosAldeano["Oro"];
-                int alimentoAldeano = RecursosAldeano["Alimento"];
-                int maderaAldeano = RecursosAldeano["Madera"];
-                int piedraAldeano = RecursosAldeano["Piedra"];
-
-                int espacioDisponible = centroCivicoDeposito.CapacidadMaxima - centroCivicoDeposito.EspacioOcupado;
-                // Depositar Oro
-                if (oroAldeano <= espacioDisponible)
-                {
-                    centroCivicoDeposito.EspacioOcupado += oroAldeano;
-                    //jugadorDepositar.Recursos["Oro"] += oroAldeano;
-                    CapacidadOcupada -= oroAldeano;
-                    RecursosAldeano["Oro"] = 0;
-                }
-                else
-                {
-                    centroCivicoDeposito.EspacioOcupado += espacioDisponible;
-                    //jugadorDepositar.Recursos["Oro"] += espacioDisponible;
-                    CapacidadOcupada -= espacioDisponible;
-                    RecursosAldeano["Oro"] -= espacioDisponible;
-                }
-
-                // Depositar Alimento
-                if (alimentoAldeano <= espacioDisponible)
-                {
-                    centroCivicoDeposito.EspacioOcupado += alimentoAldeano;
-                    //jugadorDepositar.Recursos["Alimento"] += alimentoAldeano;
-                    CapacidadOcupada -= alimentoAldeano;
-                    RecursosAldeano["Alimento"] = 0;
-                }
-                else
-                {
-                    centroCivicoDeposito.EspacioOcupado += espacioDisponible;
-                    //jugadorDepositar.Recursos["Alimento"] += espacioDisponible;
-                    CapacidadOcupada -= espacioDisponible;
-                    RecursosAldeano["Alimento"] -= espacioDisponible;
-                }
-
-                // Depositar Madera
-                if (maderaAldeano > 0)
-                {
-                    if (maderaAldeano <= espacioDisponible)
-                    {
-                        centroCivicoDeposito.EspacioOcupado += maderaAldeano;
-                        //jugadorDepositar.Recursos["Madera"] += maderaAldeano;
-                        CapacidadOcupada -= maderaAldeano;
-                        RecursosAldeano["Madera"] = 0;
-                    }
-                    else
-                    {
-                        centroCivicoDeposito.EspacioOcupado += espacioDisponible;
-                        //jugadorDepositar.Recursos["Madera"] += espacioDisponible;
-                        CapacidadOcupada -= espacioDisponible;
-                        RecursosAldeano["Madera"] -= espacioDisponible;
-                    }
-                }
-
-                // Depositar Piedra
-                if (piedraAldeano > 0)
-                {
-                    if (piedraAldeano <= espacioDisponible)
-                    {
-                        centroCivicoDeposito.EspacioOcupado += piedraAldeano;
-                        //jugadorDepositar.Recursos["Piedra"] += piedraAldeano;
-                        CapacidadOcupada -= piedraAldeano;
-                        RecursosAldeano["Piedra"] = 0;
-                    }
-                    else
-                    {
-                        centroCivicoDeposito.EspacioOcupado += espacioDisponible;
-                        //jugadorDepositar.Recursos["Piedra"] += espacioDisponible;
-                        CapacidadOcupada -= espacioDisponible;
-                        RecursosAldeano["Piedra"] -= espacioDisponible;
-                    }
-                }
-            }
+            // Depositar Piedra
+            int piedraAldeano = RecursosAldeano["Piedra"];
+            int piedraADepositar = Math.Min(piedraAldeano, espacioDisponible - centroCivico.EspacioOcupado);
+            centroCivico.RecursosDeposito["Piedra"] += piedraADepositar;
+            centroCivico.EspacioOcupado += piedraADepositar;
+            RecursosAldeano["Piedra"] -= piedraADepositar;
+            CapacidadOcupada -= piedraADepositar;
         }
     }
 
@@ -349,6 +262,7 @@ public class Aldeano
             const int CostoPiedra = 200;
 
             // Sumar recursos disponibles
+            
             int oroTotal = 0;
             int maderaTotal = 0;
             int piedraTotal = 0;

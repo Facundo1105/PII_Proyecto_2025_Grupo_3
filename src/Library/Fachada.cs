@@ -70,9 +70,9 @@ public class Fachada
         var celdaConRecurso = mapa.BuscarRecursoCercano(aldeanoX, aldeanoY);
         if (celdaConRecurso == null)
             return;
-
+      
         aldeano.ObtenerRecursoDeCelda(celdaConRecurso, aldeano, jugador1);
-
+      
         foreach (var recursos in jugador1.Aldeanos[1].RecursosAldeano)
         {
             Console.WriteLine($"{recursos.Key} , {recursos.Value}");
