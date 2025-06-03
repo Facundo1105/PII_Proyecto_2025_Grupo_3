@@ -88,8 +88,7 @@ public class Celda
             return false;
         }
     }
-
-
+    
     public bool VaciarCelda()
     {
         Recursos = null;
@@ -97,4 +96,17 @@ public class Celda
         Unidades = null;
         return true;
     }
+    
+    public void EliminarUnidad(IUnidades unidad)
+    {
+        if (Unidades != null)
+        {
+            Unidades.Remove(unidad);
+            if (Unidades.Count == 0)
+            {
+                Unidades = null;
+            }
+        }
+    }
+
 }

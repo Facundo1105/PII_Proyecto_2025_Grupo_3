@@ -10,6 +10,7 @@ namespace LibraryTests
         private Mapa mapa;
         private Celda celda;
         private Aldeano aldeano;
+        private Jugador jugador;
 
         [SetUp]
         public void Setup()
@@ -56,7 +57,7 @@ namespace LibraryTests
             var celdaConMadera = new Celda(18, 18);
             celdaConMadera.AsignarRecurso(new Madera());
             
-            aldeano.ObtenerRecursoDeCelda(celdaConMadera, aldeano);
+            aldeano.ObtenerRecursoDeCelda(celdaConMadera, aldeano, jugador);
 
             int aldeanoX = aldeano.CeldaActual.x;
             int aldeanoY = aldeano.CeldaActual.y;
