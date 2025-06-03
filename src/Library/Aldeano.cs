@@ -1,17 +1,18 @@
+using Library.Civilizaciones;
 using Library.Recursos;
 
 namespace Library;
 
 public class Aldeano
 {
-    
+
     private int vida = 10;
 
     public int CapacidadOcupada = 0;
 
     public int CapacidadMaxima = 2500;
     public Celda CeldaActual { get; set; }
-    
+
     public Dictionary<string, int> RecursosAldeano = new()
     {
         { "Oro", 0 },
@@ -22,25 +23,16 @@ public class Aldeano
 
     public string Nombre
     {
-        get
-        {
-            return "Aldeano";
-        }
+        get { return "Aldeano"; }
     }
 
     public int Vida
     {
-        get
-        {
-            return this.vida;
-        }
+        get { return this.vida; }
 
-        set
-        {
-            this.vida = value < 0 ? 0 : value;
-        }
+        set { this.vida = value < 0 ? 0 : value; }
     }
-    
+
     public string ObtenerRecursoQueLleva()
     {
         if (RecursosAldeano["Oro"] > 0)
@@ -61,26 +53,28 @@ public class Aldeano
         if (celda.Recursos != null)
         {
             string nombre = celda.Recursos.Nombre;
-            Console.WriteLine("Recolectando Recurso..." );
+            Console.WriteLine("Recolectando Recurso...");
 
             if (RecursosAldeano.ContainsKey(nombre))
             {
                 int cantidadARecolectar = 500;
                 int recolectado = 0;
-                
+
                 int tasaRecoleccion = celda.Recursos.TasaRecoleccion;
 
                 if (jugador.Civilizacion is Japoneses && celda.Recursos.Nombre == "Alimneto")
                 {
-                    tasaRecoleccion *=  (int)Math.Round(1.20);   
-                } 
-                
-                
-                
-                while (celda.Recursos.Vida > 0 && recolectado < cantidadARecolectar && CapacidadOcupada < CapacidadMaxima)
+                    tasaRecoleccion *= (int)Math.Round(1.20);
+                }
+
+
+
+                while (celda.Recursos.Vida > 0 && recolectado < cantidadARecolectar &&
+                       CapacidadOcupada < CapacidadMaxima)
                 {
                     int espacioRestante = CapacidadMaxima - CapacidadOcupada;
-                    int cantidad = Math.Min(celda.Recursos.TasaRecoleccion, Math.Min(cantidadARecolectar - recolectado, espacioRestante));
+                    int cantidad = Math.Min(celda.Recursos.TasaRecoleccion,
+                        Math.Min(cantidadARecolectar - recolectado, espacioRestante));
 
                     if (cantidad <= 0)
                     {
@@ -94,8 +88,8 @@ public class Aldeano
 
                     Thread.Sleep(1000);
                 }
-                
-                Console.WriteLine("Recurso recolectado" );
+
+                Console.WriteLine("Recurso recolectado");
 
                 if (celda.Recursos.Vida <= 0)
                 {
@@ -105,7 +99,7 @@ public class Aldeano
                 }
             }
         }
-        
+
         if (celda.Estructuras != null && celda.Estructuras is Granja granja)
         {
             string nombre = granja.alimento.Nombre;
@@ -114,22 +108,24 @@ public class Aldeano
             {
                 int cantidadRecolectar = 500;
                 int recolectado = 0;
-                
-                while (granja.alimento.Vida > 0 && recolectado < cantidadRecolectar && CapacidadOcupada < CapacidadMaxima)
+
+                while (granja.alimento.Vida > 0 && recolectado < cantidadRecolectar &&
+                       CapacidadOcupada < CapacidadMaxima)
                 {
                     int espacioRestante = CapacidadMaxima - CapacidadOcupada;
-                    int cantidad = Math.Min(granja.alimento.TasaRecoleccion, Math.Min(cantidadRecolectar - recolectado, espacioRestante));
+                    int cantidad = Math.Min(granja.alimento.TasaRecoleccion,
+                        Math.Min(cantidadRecolectar - recolectado, espacioRestante));
 
                     if (cantidad <= 0)
                     {
                         break;
                     }
-                    
+
                     RecursosAldeano[nombre] += cantidad;
                     CapacidadOcupada += cantidad;
                     granja.alimento.Vida -= 1;
                     recolectado += cantidad;
-                    
+
                     Thread.Sleep(1000);
                 }
 
@@ -147,11 +143,12 @@ public class Aldeano
 
     public void DepositarRecursos(Jugador jugadorDepositar, IEstructuras depositoCercano)
     {
-        if(depositoCercano == null)
+        if (depositoCercano == null)
         {
             Console.WriteLine("No hay deposito para depositar los recursos");
             return;
         }
+
         if (depositoCercano.EsDeposito)
         {
             if (depositoCercano is DepositoOro depositoOro)
@@ -174,7 +171,7 @@ public class Aldeano
                     RecursosAldeano["Oro"] -= espacioDisponible;
                 }
             }
-            
+
             if (depositoCercano is Molino molino)
             {
                 int alimentoAldeano = RecursosAldeano["Alimento"];
@@ -195,7 +192,7 @@ public class Aldeano
                     RecursosAldeano["Alimento"] -= espacioDisponible;
                 }
             }
-            
+
             if (depositoCercano is DepositoPiedra depositoPiedra)
             {
                 int piedraAldeano = RecursosAldeano["Piedra"];
@@ -219,7 +216,7 @@ public class Aldeano
                     }
                 }
             }
-            
+
             if (depositoCercano is DepositoMadera depositoMadera)
             {
                 int maderaAldeano = RecursosAldeano["Madera"];
@@ -267,6 +264,7 @@ public class Aldeano
                     CapacidadOcupada -= espacioDisponible;
                     RecursosAldeano["Oro"] -= espacioDisponible;
                 }
+
                 // Depositar Alimento
                 if (alimentoAldeano <= espacioDisponible)
                 {
@@ -282,6 +280,7 @@ public class Aldeano
                     CapacidadOcupada -= espacioDisponible;
                     RecursosAldeano["Alimento"] -= espacioDisponible;
                 }
+
                 // Depositar Madera
                 if (maderaAldeano > 0)
                 {
@@ -300,6 +299,7 @@ public class Aldeano
                         RecursosAldeano["Madera"] -= espacioDisponible;
                     }
                 }
+
                 // Depositar Piedra
                 if (piedraAldeano > 0)
                 {
@@ -324,41 +324,104 @@ public class Aldeano
 
     public void ConstruirEstructuras(IEstructuras estructuraConstruir, Jugador jugadorConstruir, Celda celdaEstructura)
     {
-        if (jugadorConstruir.Recursos["Madera"] >= 20)
+        if (celdaEstructura.EstaLibre())
         {
-            if (estructuraConstruir.Nombre == "Deposito de Oro" || estructuraConstruir.Nombre == "Deposito de Piedra" || estructuraConstruir.Nombre == "Molino" ||
-                estructuraConstruir.Nombre == "Deposito de Madera" || estructuraConstruir.Nombre == "Granja" || estructuraConstruir.Nombre == "Casa")
-            {
-                // jugadorConstruir.Recursos["Oro"] -= 200;
-                // jugadorConstruir.Recursos["Piedra"] -= 500;
-                jugadorConstruir.Recursos["Madera"] -= 20;
-                estructuraConstruir.Vida = 1500;
-                celdaEstructura.AsignarEstructura(estructuraConstruir);
-            }
-        }
+            const int CostoOro = 200;
+            const int CostoMadera = 200;
+            const int CostoPiedra = 200;
 
-        if (jugadorConstruir.Recursos["Oro"] >= 500 && jugadorConstruir.Recursos["Piedra"] >= 800 && jugadorConstruir.Recursos["Madera"] >= 800)
-        {
-            if (estructuraConstruir.Nombre == "Castillo Indio" || estructuraConstruir.Nombre == "Castillo Japones" ||
-                estructuraConstruir.Nombre == "Castillo Romano" || estructuraConstruir.Nombre == "Castillo Vikingo")
-            {
-                jugadorConstruir.Recursos["Oro"] -= 500;
-                jugadorConstruir.Recursos["Piedra"] -= 800;
-                jugadorConstruir.Recursos["Madera"] -= 800;
-                estructuraConstruir.Vida = 2000;
-                celdaEstructura.AsignarEstructura(estructuraConstruir);
-            }
-        }
+            // Sumar recursos disponibles
+            int oroTotal = 0;
+            int maderaTotal = 0;
+            int piedraTotal = 0;
 
-        if (jugadorConstruir.Recursos["Oro"] >= 350 && jugadorConstruir.Recursos["Piedra"] >= 500 && jugadorConstruir.Recursos["Madera"] >= 500)
-        {
-            if (estructuraConstruir.Nombre == "Campo de Tiro" || estructuraConstruir.Nombre == "Cuartel" || estructuraConstruir.Nombre == "Establo")
+            List<DepositoOro> depositosOro = new List<DepositoOro>();
+            List<DepositoMadera> depositosMadera = new List<DepositoMadera>();
+            List<DepositoPiedra> depositosPiedra = new List<DepositoPiedra>();
+            CentroCivico centroCivico = (CentroCivico)jugadorConstruir.Estructuras[0];
+
+            foreach (IEstructuras estructura in jugadorConstruir.Estructuras)
             {
-                jugadorConstruir.Recursos["Oro"] -= 350;
-                jugadorConstruir.Recursos["Piedra"] -= 500;
-                jugadorConstruir.Recursos["Madera"] -= 500;
-                estructuraConstruir.Vida = 1500;
-                celdaEstructura.AsignarEstructura(estructuraConstruir);
+                if (estructura is DepositoOro dOro)
+                {
+                    depositosOro.Add(dOro);
+                    oroTotal += dOro.EspacioOcupado;
+                }
+                else if (estructura is DepositoMadera dMadera)
+                {
+                    depositosMadera.Add(dMadera);
+                    maderaTotal += dMadera.EspacioOcupado;
+                }
+                else if (estructura is DepositoPiedra dPiedra)
+                {
+                    depositosPiedra.Add(dPiedra);
+                    piedraTotal += dPiedra.EspacioOcupado;
+                }
+                else if (estructura is CentroCivico)
+                {
+                    oroTotal += centroCivico.RecursosDeposito["Oro"];
+                    maderaTotal += centroCivico.RecursosDeposito["Madera"];
+                    piedraTotal += centroCivico.RecursosDeposito["Piedra"];
+                }
+            }
+
+            // Verificar si tiene recursos suficientes
+            if (oroTotal >= CostoOro && maderaTotal >= CostoMadera && piedraTotal >= CostoPiedra)
+            {
+                int oroRestante = CostoOro;
+                int maderaRestante = CostoMadera;
+                int piedraRestante = CostoPiedra;
+
+                // Descontar oro de depósitos primero, luego centro cívico
+                foreach (DepositoOro dOro in depositosOro)
+                {
+                    if (oroRestante == 0) break;
+                    int aDescontar = Math.Min(oroRestante, dOro.EspacioOcupado);
+                    dOro.EspacioOcupado -= aDescontar;
+                    oroRestante -= aDescontar;
+                }
+
+                if (oroRestante > 0)
+                {
+                    int aDescontar = Math.Min(oroRestante, centroCivico.RecursosDeposito["Oro"]);
+                    centroCivico.RecursosDeposito["Oro"] -= aDescontar;
+                    centroCivico.EspacioOcupado -= aDescontar;
+                }
+
+                // Descontar madera de depósitos primero, luego centro cívico
+                foreach (DepositoMadera dMadera in depositosMadera)
+                {
+                    if (maderaRestante == 0) break;
+                    int aDescontar = Math.Min(maderaRestante, dMadera.EspacioOcupado);
+                    dMadera.EspacioOcupado -= aDescontar;
+                    maderaRestante -= aDescontar;
+                }
+
+                if (maderaRestante > 0)
+                {
+                    int aDescontar = Math.Min(maderaRestante, centroCivico.RecursosDeposito["Madera"]);
+                    centroCivico.RecursosDeposito["Madera"] -= aDescontar;
+                    centroCivico.EspacioOcupado -= aDescontar;
+                }
+
+                // Descontar piedra de depósitos primero, luego centro cívico
+                foreach (var dPiedra in depositosPiedra)
+                {
+                    if (piedraRestante == 0) break;
+                    int aDescontar = Math.Min(piedraRestante, dPiedra.EspacioOcupado);
+                    dPiedra.EspacioOcupado -= aDescontar;
+                    piedraRestante -= aDescontar;
+                }
+
+                if (piedraRestante > 0)
+                {
+                    int aDescontar = Math.Min(piedraRestante, centroCivico.RecursosDeposito["Piedra"]);
+                    centroCivico.RecursosDeposito["Piedra"] -= aDescontar;
+                    centroCivico.EspacioOcupado -= aDescontar;
+                }
+
+                celdaEstructura.Estructuras = estructuraConstruir;
+                jugadorConstruir.Estructuras.Add(estructuraConstruir);
             }
         }
     }
