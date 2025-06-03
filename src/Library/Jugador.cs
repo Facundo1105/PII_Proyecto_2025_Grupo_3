@@ -182,6 +182,14 @@ public class Jugador
                 {
                     i++;
                 }
+
+                if (estructuraDefensa is CentroCivico)
+                {
+                    if (estructuraDefensa.Vida <= 150)
+                    {
+                        Console.WriteLine($"Jugador {jugadorDefensa.Nombre} esta por perder");
+                    }
+                }
             }
 
             if (estructuraDefensa.Vida <= 0)
