@@ -86,8 +86,6 @@ public class Aldeano
                     tasaRecoleccion *=  (int)Math.Round(1.10);
                 }
                 
-                
-                
                 while (celda.Recursos.Vida > 0 && recolectado < cantidadARecolectar && CapacidadOcupada < CapacidadMaxima)
                 {
                     int espacioRestante = CapacidadMaxima - CapacidadOcupada;
