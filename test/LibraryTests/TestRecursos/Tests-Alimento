@@ -1,0 +1,37 @@
+using Library.Recursos;
+using NUnit.Framework;
+
+namespace LibraryTests
+{
+    public class TestAlimento
+    {
+    
+    public class PropiedadesAlimentosCorrectamente
+    //verifica que se creen correctamente
+    {
+        [Test]
+        public void Alimento_PropiedadesFuncionanCorrectamente()
+        {
+            var alimento = new Alimento();
+
+            // Verifica nombre
+            Assert.That(alimento.Nombre, Is.EqualTo("Alimento"));
+
+            // Verifica vida inicial
+            Assert.That(alimento.Vida, Is.EqualTo(50));
+
+            // Verifica que la vida puede modificarse correctamente
+            alimento.Vida = 30;
+            Assert.That(alimento.Vida, Is.EqualTo(30));
+
+            // Verifica que la vida no baja de cero
+            alimento.Vida = -10;
+            Assert.That(alimento.Vida, Is.EqualTo(0));
+
+            // Verifica la tasa de recolección
+            Assert.That(alimento.TasaRecoleccion, Is.EqualTo(50));
+        }
+    }
+
+    }
+}
