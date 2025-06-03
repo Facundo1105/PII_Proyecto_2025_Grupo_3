@@ -1,3 +1,5 @@
+using Library.Civilizaciones;
+
 namespace Library;
 
 public class Cuartel : IEstructuras
@@ -28,8 +30,13 @@ public class Cuartel : IEstructuras
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30)
         { 
-            const int CostoOro = 150;
-            const int CostoAlimento = 150;
+             int CostoOro = 150;
+             int CostoAlimento = 150;
+
+             if (jugador.Civilizacion is Indios)
+             {
+                 CostoOro *= (int)Math.Round(0.80);
+             }
 
             // Sumar recursos disponibles
             int oroTotal = 0;
