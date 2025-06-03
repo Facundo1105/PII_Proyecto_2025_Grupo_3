@@ -1,4 +1,5 @@
 using Library.Civilizaciones;
+using Library.Recursos;
 
 namespace Library;
 
@@ -9,15 +10,7 @@ public class Jugador
     public ICivilizaciones Civilizacion { get; set; }
 
     public int LimitePoblacion = 10;
-
-    public Dictionary<string, int> Recursos = new()
-    {
-        { "Oro", 0 },
-        { "Alimento", 100 },
-        { "Madera", 100 },
-        { "Piedra", 0 }
-    };
-
+    
     public List<IEstructuras> Estructuras = new List<IEstructuras>(){new CentroCivico()};
 
     public List<Aldeano> Aldeanos = new List<Aldeano>() { new Aldeano(), new Aldeano(), new Aldeano() };
@@ -53,27 +46,11 @@ public class Jugador
             return Aldeanos.Count;
         }
     }
-    
-    public void UbicarEstructura(IEstructuras estructuraUbicar, Celda celdaUbicar, Jugador jugadorEstructura)
-    {
-        if (celdaUbicar.EstaLibre())
-        {
-            if (jugadorEstructura.Recursos["Oro"] >= 50 && jugadorEstructura.Recursos["Piedra"] >= 50 && jugadorEstructura.Recursos["Madera"] >= 50)
-            {
-                celdaUbicar.AsignarEstructura(estructuraUbicar);
-                this.Estructuras.Add(estructuraUbicar);
-            }
-        }
-    }
-
     public void UbicarUnidad(List<IUnidades> unidades, Celda celdaUbicar, Jugador jugadorUnidades)
     {
         if (celdaUbicar.EstaLibre())
-        {
-            if (jugadorUnidades.Recursos["Oro"] >= 10 && jugadorUnidades.Recursos["Alimento"] >= 10)
-            {
-                celdaUbicar.AsignarUnidades(unidades);
-            }
+        { 
+            celdaUbicar.AsignarUnidades(unidades);
         }
     }
 

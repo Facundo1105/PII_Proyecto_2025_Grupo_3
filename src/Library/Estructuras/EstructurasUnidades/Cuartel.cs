@@ -24,22 +24,78 @@ public class Cuartel : IEstructuras
         }
     }
     public bool EsDeposito => false;
-    public static void CrearInfanteria(Jugador jugador, Celda celda)
+    public static void CrearInfanteria(Jugador jugador)
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30)
         { 
-            if(jugador.Recursos["Oro"] >= 100 && jugador.Recursos["Alimento"] >= 150)
+            const int CostoOro = 150;
+            const int CostoAlimento = 150;
+
+            // Sumar recursos disponibles
+            int oroTotal = 0;
+            int alimentoTotal = 0;
+
+            List<DepositoOro> depositosOro = new List<DepositoOro>();
+            List<Molino> molinos = new List<Molino>();
+            CentroCivico centroCivico = (CentroCivico)jugador.Estructuras[0];
+
+            foreach (IEstructuras estructura in jugador.Estructuras)
             {
-                jugador.Recursos["Oro"] -= 100;
-                jugador.Recursos["Alimento"] -= 150;
-                Console.WriteLine("Creando Infanteria...");
-                Thread.Sleep(1200);
-                Infanteria nuevo = new Infanteria();
-                jugador.Infanteria.Add(nuevo);
-                Console.WriteLine("Infanteria creada");
-                celda.AsignarUnidades(new List<IUnidades> { nuevo });
+                if (estructura is DepositoOro dOro)
+                {
+                    depositosOro.Add(dOro);
+                    oroTotal += dOro.EspacioOcupado;
+                }
+                else if (estructura is Molino molino)
+                {
+                    molinos.Add(molino);
+                    alimentoTotal += molino.EspacioOcupado;
+                }
+                else if (estructura is CentroCivico)
+                {
+                    oroTotal += centroCivico.RecursosDeposito["Oro"];
+                    alimentoTotal += centroCivico.RecursosDeposito["Alimento"];
+                }
+            }
+            
+            // Verificar si tiene recursos suficientes
+            if (oroTotal >= CostoOro && alimentoTotal >= CostoAlimento)
+            {
+                int oroRestante = CostoOro;
+                int alimentoRestante = CostoAlimento;
+                
+                // Descontar oro de depósito primero, luego centro cívico
+                foreach (DepositoOro dOro in depositosOro)
+                {
+                    if (oroRestante == 0) break;
+                    int aDescontar = Math.Min(oroRestante, dOro.EspacioOcupado);
+                    dOro.EspacioOcupado -= aDescontar;
+                    oroRestante -= aDescontar;
+                }
+
+                if (oroRestante > 0)
+                {
+                    int aDescontar = Math.Min(oroRestante, centroCivico.RecursosDeposito["Oro"]);
+                    centroCivico.RecursosDeposito["Oro"] -= aDescontar;
+                    centroCivico.EspacioOcupado -= aDescontar;
+                }
+                // Descontar alimento de depósitos primero, luego centro cívico
+                foreach (Molino molino in molinos)
+                {
+                    if (alimentoRestante == 0) break;
+                    int aDescontar = Math.Min(alimentoRestante, molino.EspacioOcupado);
+                    molino.EspacioOcupado -= aDescontar;
+                    alimentoRestante -= aDescontar;
+                }
+                if (alimentoRestante > 0)
+                {
+                    int aDescontar = Math.Min(alimentoRestante, centroCivico.RecursosDeposito["Alimento"]);
+                    centroCivico.RecursosDeposito["Alimento"] -= aDescontar;
+                    centroCivico.EspacioOcupado -= aDescontar;
+                }
+                
+                jugador.Infanteria.Add(new Infanteria());
             }
         }
     }
-
 }

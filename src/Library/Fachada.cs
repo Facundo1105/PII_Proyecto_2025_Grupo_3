@@ -71,7 +71,7 @@ public class Fachada
         if (celdaConRecurso == null)
             return;
 
-        aldeano.ObtenerRecursoDeCelda(celdaConRecurso, aldeano);
+        aldeano.ObtenerRecursoDeCelda(celdaConRecurso, aldeano, jugador1);
         
         foreach (var recursos in jugador1.Aldeanos[1].RecursosAldeano)
         {
@@ -96,9 +96,9 @@ public class Fachada
         jugador1.Aldeanos[2].ConstruirEstructuras(new Establo(), jugador1, mapa.ObtenerCelda(23, 18));
         jugador1.Aldeanos[2].ConstruirEstructuras(new CampoTiro(), jugador1, mapa.ObtenerCelda(23, 17));
 
-        CampoTiro.CrearArquero(jugador1, mapa.ObtenerCelda(24, 17));
-        Establo.CrearCaballeria(jugador1, mapa.ObtenerCelda(24, 18));
-        Cuartel.CrearInfanteria(jugador1, mapa.ObtenerCelda(24, 19));
+        CampoTiro.CrearArquero(jugador1);
+        Establo.CrearCaballeria(jugador1);
+        Cuartel.CrearInfanteria(jugador1);
 
         mapa.ObtenerCelda(25, 25).VaciarCelda();
         var destino = mapa.ObtenerCelda(27, 27);
