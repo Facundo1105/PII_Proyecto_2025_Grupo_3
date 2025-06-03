@@ -54,18 +54,22 @@ public class Jugador
         }
     }
 
-    public void MoverUnidades(List<IUnidades> unidadesMover, Celda celdaActual, Celda celdaMover)
+    public void MoverUnidades(List<IUnidades> unidadesMover, Celda origen, Celda destino)
     {
+        if (!destino.EstaLibre()) return;
 
+        foreach (var unidad in unidadesMover)
+        {
+            if (origen.Unidades != null && origen.Unidades.Contains(unidad))
+            {
+                origen.Unidades.Remove(unidad);
+            }
+        }
+
+        destino.AsignarUnidades(unidadesMover);
     }
 
-    public void MoverAldeano(Aldeano aldeanoMover, Celda celdaMover)
-    {
-        celdaMover.AsignarAldeano(aldeanoMover);
-        aldeanoMover.CeldaActual.Aldeano = null;
-        aldeanoMover.CeldaActual = celdaMover;
-    }
-    
+
     public void JuntarUnidades(List<IUnidades> unidades1, List<IUnidades> unidades2, Celda celdaUnidad1, Celda celdaUnidad2)
     {
         foreach (IUnidades unidad in unidades1.ToList())

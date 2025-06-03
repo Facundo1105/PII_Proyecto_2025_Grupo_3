@@ -24,7 +24,7 @@ public class Establo : IEstructuras
         }
     }
     public bool EsDeposito => false;
-    public void CrearCaballeria(Jugador jugador)
+    public static void CrearCaballeria(Jugador jugador)
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30)
         {

@@ -27,7 +27,7 @@ public class CampoTiro : IEstructuras
     }
     public bool EsDeposito => false;
 
-    public void CrearArquero(Jugador jugador)
+    public static void CrearArquero(Jugador jugador)
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30)
         { 
