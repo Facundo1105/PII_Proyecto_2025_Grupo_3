@@ -13,7 +13,7 @@ namespace LibraryTests
             double bonificacion1 = indio.Bonificacion1;
             double bonificacion2 = indio.Bonificacion2;
 
-            Assert.That(bonificacion1, Is.EqualTo(1.20));
+            Assert.That(bonificacion1, Is.EqualTo(1.15));
             Assert.That(bonificacion2, Is.EqualTo(1.30));
         }
     }
