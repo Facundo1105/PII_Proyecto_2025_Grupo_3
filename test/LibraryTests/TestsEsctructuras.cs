@@ -53,34 +53,35 @@ public class TestsEstructuras
     [Test]
     public void CreacionAldeanoCorrecta()
     {
-        jugador.Recursos["Oro"] = 100;
-        jugador.Recursos["Alimento"] = 200;
+        centro.RecursosDeposito["Oro"] = 100;
+        centro.RecursosDeposito["Alimento"] = 200;
         jugador.LimitePoblacion = 40;
 
         int cantidadInicial = jugador.CantidadAldeanos;
-        centro.CrearAldeano(jugador);
+        centro.CrearAldeano(jugador,new Celda(80,20));
         Assert.That(jugador.CantidadAldeanos, Is.EqualTo(cantidadInicial + 1));
     }
 
     [Test]
     public void CreacionAldeanoFallaPorFaltaDeOro()
     {
-        jugador.Recursos["Oro"] = 20;
-        jugador.Recursos["Alimento"] = 200;
+        centro.RecursosDeposito["Oro"] = 20;
+        centro.RecursosDeposito["Alimento"] = 200;
 
         int cantidadInicial = jugador.CantidadAldeanos;
-        centro.CrearAldeano(jugador);
+        centro.CrearAldeano(jugador,new Celda(81,21));
         Assert.That(jugador.CantidadAldeanos, Is.EqualTo(cantidadInicial));
     }
     
     [Test]
     public void CreacionAldeanoFallaPorFaltaDeAlimento()
     {
-        jugador.Recursos["Oro"] = 100;
-        jugador.Recursos["Alimento"] = 50;
-
+        centro.RecursosDeposito["Oro"] = 100;
+        centro.RecursosDeposito["Alimento"] = 50;
+        Celda celda = new Celda(29,29);
+        
         int cantidadInicial = jugador.CantidadAldeanos;
-        centro.CrearAldeano(jugador);
+        centro.CrearAldeano(jugador, celda);
         Assert.That(jugador.CantidadAldeanos, Is.EqualTo(cantidadInicial));
     }
 
