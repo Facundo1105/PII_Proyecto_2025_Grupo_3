@@ -92,7 +92,6 @@ public class CampoTiro : IEstructuras
                 {
                     int aDescontar = Math.Min(oroRestante, centroCivico.RecursosDeposito["Oro"]);
                     centroCivico.RecursosDeposito["Oro"] -= aDescontar;
-                    centroCivico.EspacioOcupado -= aDescontar;
                 }
                 // Descontar alimento de depósitos primero, luego centro cívico
                 foreach (Molino molino in molinos)
@@ -106,7 +105,6 @@ public class CampoTiro : IEstructuras
                 {
                     int aDescontar = Math.Min(alimentoRestante, centroCivico.RecursosDeposito["Alimento"]);
                     centroCivico.RecursosDeposito["Alimento"] -= aDescontar;
-                    centroCivico.EspacioOcupado -= aDescontar;
                 }
                 
                 jugador.Arqueros.Add(new Arquero());

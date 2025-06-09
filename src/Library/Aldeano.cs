@@ -221,7 +221,6 @@ public class Aldeano
             int oroAldeano = RecursosAldeano["Oro"];
             int oroADepositar = Math.Min(oroAldeano, espacioDisponible);
             centroCivico.RecursosDeposito["Oro"] += oroADepositar;
-            centroCivico.EspacioOcupado += oroADepositar;
             RecursosAldeano["Oro"] -= oroADepositar;
             CapacidadOcupada -= oroADepositar;
 
@@ -229,7 +228,6 @@ public class Aldeano
             int alimentoAldeano = RecursosAldeano["Alimento"];
             int alimentoADepositar = Math.Min(alimentoAldeano, espacioDisponible - centroCivico.EspacioOcupado);
             centroCivico.RecursosDeposito["Alimento"] += alimentoADepositar;
-            centroCivico.EspacioOcupado += alimentoADepositar;
             RecursosAldeano["Alimento"] -= alimentoADepositar;
             CapacidadOcupada -= alimentoADepositar;
 
@@ -237,7 +235,6 @@ public class Aldeano
             int maderaAldeano = RecursosAldeano["Madera"];
             int maderaADepositar = Math.Min(maderaAldeano, espacioDisponible - centroCivico.EspacioOcupado);
             centroCivico.RecursosDeposito["Madera"] += maderaADepositar;
-            centroCivico.EspacioOcupado += maderaADepositar;
             RecursosAldeano["Madera"] -= maderaADepositar;
             CapacidadOcupada -= maderaADepositar;
 
@@ -245,7 +242,6 @@ public class Aldeano
             int piedraAldeano = RecursosAldeano["Piedra"];
             int piedraADepositar = Math.Min(piedraAldeano, espacioDisponible - centroCivico.EspacioOcupado);
             centroCivico.RecursosDeposito["Piedra"] += piedraADepositar;
-            centroCivico.EspacioOcupado += piedraADepositar;
             RecursosAldeano["Piedra"] -= piedraADepositar;
             CapacidadOcupada -= piedraADepositar;
         }
@@ -315,7 +311,6 @@ public class Aldeano
                 {
                     int aDescontar = Math.Min(oroRestante, centroCivico.RecursosDeposito["Oro"]);
                     centroCivico.RecursosDeposito["Oro"] -= aDescontar;
-                    centroCivico.EspacioOcupado -= aDescontar;
                 }
 
                 // Descontar madera de depósitos primero, luego centro cívico
@@ -331,7 +326,6 @@ public class Aldeano
                 {
                     int aDescontar = Math.Min(maderaRestante, centroCivico.RecursosDeposito["Madera"]);
                     centroCivico.RecursosDeposito["Madera"] -= aDescontar;
-                    centroCivico.EspacioOcupado -= aDescontar;
                 }
 
                 // Descontar piedra de depósitos primero, luego centro cívico
@@ -347,7 +341,6 @@ public class Aldeano
                 {
                     int aDescontar = Math.Min(piedraRestante, centroCivico.RecursosDeposito["Piedra"]);
                     centroCivico.RecursosDeposito["Piedra"] -= aDescontar;
-                    centroCivico.EspacioOcupado -= aDescontar;
                 }
 
                 celdaEstructura.Estructuras = estructuraConstruir;
