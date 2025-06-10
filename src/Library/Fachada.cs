@@ -8,8 +8,6 @@ public class Fachada
     private Jugador jugador2;
     private Mapa mapa;
 
-    private IEstructuras estructura;
-
 
     public Fachada(Jugador jugador1, Jugador jugador2, Mapa mapa)
     {
@@ -195,56 +193,25 @@ public class Fachada
     }
 }
 
-    public void AtacarCentroCivico(Jugador atacante, Jugador defensor, Celda celdaCentroCivico, Celda celdaEjercitoAtacante) // Historias de Usuario - Victoria y objetivos
+    public void AtacarCentroCivico() // Historias de Usuario - Victoria y objetivos
     {
-        if (celdaCentroCivico.Estructuras == null) return;
+        Celda celdaCentroCivico = mapa.ObtenerCelda(20, 20);
+        Celda celdaEjercitoAtacante = mapa.ObtenerCelda(15, 15);
 
+        if (celdaCentroCivico.Estructuras == null)
+        {
+            return;
+        }
+        
         IEstructuras estructura = celdaCentroCivico.Estructuras;
 
-        if (estructura is CentroCivico centro)
+        if (estructura is CentroCivico)
         {
-            // Simulamos que las unidades del atacante atacan el centro cívico
-            List<IUnidades> ejercitoAtacante = atacante.Ejercito;
+            LogicaJuego.UnidadesAtacarEstructura(jugador1.Ejercito, estructura, celdaCentroCivico, celdaEjercitoAtacante, jugador2);
 
-            int i = 0;
-            while (i < ejercitoAtacante.Count && centro.Vida > 0)
-            {
-                var unidad = ejercitoAtacante[i];
-                unidad.AtacarEstructuras(centro);
-                unidad.Vida -= 2; // daño recibido al atacar
-
-                if (unidad.Vida <= 0)
-                    ejercitoAtacante.RemoveAt(i);
-                else
-                    i++;
-            }
-
-            Console.WriteLine($"Centro Cívico enemigo tiene vida: {centro.Vida}");
-
-            if (centro.Vida <= 0)
+            if (estructura.Vida <= 0)
             {
                 Console.WriteLine($"¡Centro Cívico destruido!");
-
-                // Remover estructura del jugador defensor
-                defensor.Estructuras.Remove(centro);
-                celdaCentroCivico.Estructuras = null;
-
-                if (defensor.Estructuras.All(e => !(e is CentroCivico)))
-                {
-                    Console.WriteLine($"{defensor.Nombre} ha perdido todos sus Centros Cívicos.");
-                    Console.WriteLine($"¡{atacante.Nombre} gana por dominación militar!");
-                    MostrarResumenPartida(atacante, defensor);
-                }
-                else
-                {
-                    // Chequear si queda solo 1 centro civico y avisar
-                    int centrosRestantes = defensor.Estructuras.Count(e => e is CentroCivico);
-                    if (centrosRestantes == 1)
-                    {
-                        Console.WriteLine(
-                            $"¡Alerta! {defensor.Nombre} está cerca de ser derrotado, solo queda 1 Centro Cívico.");
-                    }
-                }
             }
         }
     }

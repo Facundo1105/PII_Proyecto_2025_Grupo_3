@@ -618,12 +618,14 @@ public class LogicaJuego
                 {
                     i++;
                 }
+                
+                Console.WriteLine($"{estructuraDefensa.Nombre} enemigo tiene vida: {estructuraDefensa.Vida}");
 
                 if (estructuraDefensa is CentroCivico)
                 {
-                    if (estructuraDefensa.Vida <= 150)
+                    if (estructuraDefensa.Vida <= 100)
                     {
-                        Console.WriteLine($"Jugador {jugadorDefensa.Nombre} esta por perder");
+                        Console.WriteLine($"El Centro Civico del Jugador {jugadorDefensa.Nombre} tiene una vida menor o igual de 100, esta por perder");
                     }
                 }
             }
