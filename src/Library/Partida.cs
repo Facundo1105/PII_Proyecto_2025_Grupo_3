@@ -8,11 +8,14 @@ public class Partida
     public Jugador jugador2;
     public int turno = 1;
     public Mapa mapa;
+    public LogicaJuego logica;
     
     public Partida(Jugador jugador1, Jugador jugador2)
     {
         this.jugador1 = jugador1;
         this.jugador2 = jugador2;
+        this.mapa = new Mapa();
+        this.logica = new LogicaJuego(mapa);
     }
     
     public Jugador ObtenerJugadorActivo()
@@ -25,7 +28,7 @@ public class Partida
         SeleccionarCivilización(jugador1);
         SeleccionarCivilización(jugador2);
         mapa.InicializarMapa();
-        LogicaJuego.RecursosAleatorios();
+        logica.RecursosAleatorios(mapa);
         mapa.ObtenerCelda(21, 20).VaciarCelda();
         mapa.ObtenerCelda(21, 21).VaciarCelda();
         mapa.ObtenerCelda(21, 22).VaciarCelda();
@@ -50,19 +53,19 @@ public class Partida
         switch (opcion)
         {
             case "1":
-                jugador1.Civilizacion = new Indios();
+                jugador.Civilizacion = new Indios();
                 Console.WriteLine($"{jugador.Nombre} eligió la civilización India");
                 break;
             case "2":
-                jugador1.Civilizacion = new Japoneses();
+                jugador.Civilizacion = new Japoneses();
                 Console.WriteLine($"{jugador.Nombre} eligió la civilización Japonesa");
                 break;
             case "3":
-                jugador1.Civilizacion = new Romanos();
+                jugador.Civilizacion = new Romanos();
                 Console.WriteLine($"{jugador.Nombre} eligió la civilización Romana");
                 break;
             case "4":
-                jugador1.Civilizacion = new Vikingos();
+                jugador.Civilizacion = new Vikingos();
                 Console.WriteLine($"{jugador.Nombre} eligió la civilización Vikingo");
                 break;
             default:
