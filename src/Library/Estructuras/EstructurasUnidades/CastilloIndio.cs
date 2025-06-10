@@ -86,7 +86,6 @@ public class CastilloIndio : IEstructuras
                 {
                     int aDescontar = Math.Min(oroRestante, centroCivico.RecursosDeposito["Oro"]);
                     centroCivico.RecursosDeposito["Oro"] -= aDescontar;
-                    centroCivico.EspacioOcupado -= aDescontar;
                 }
 
                 // Descontar alimento de depósitos primero, luego centro cívico
@@ -102,7 +101,6 @@ public class CastilloIndio : IEstructuras
                 {
                     int aDescontar = Math.Min(alimentoRestante, centroCivico.RecursosDeposito["Alimento"]);
                     centroCivico.RecursosDeposito["Alimento"] -= aDescontar;
-                    centroCivico.EspacioOcupado -= aDescontar;
                 }
 
                 // Descontar madera de depósitos primero, luego centro cívico
@@ -118,7 +116,6 @@ public class CastilloIndio : IEstructuras
                 {
                     int aDescontar = Math.Min(maderaRestante, centroCivico.RecursosDeposito["Madera"]);
                     centroCivico.RecursosDeposito["Madera"] -= aDescontar;
-                    centroCivico.EspacioOcupado -= aDescontar;
                 }
 
                 jugador.UnidadEspecial.Add(new Elefante());

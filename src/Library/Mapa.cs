@@ -50,88 +50,93 @@ public class Mapa
     }
 
     public IEstructuras DepositoMasCercano(int aldeanoX, int aldeanoY, string tipoRecurso)
-{
-    IEstructuras masCercano = null;
-    int menorDistancia = int.MaxValue;
-
-    for (int x = 0; x < celdas.GetLength(0); x++)
     {
-        for (int y = 0; y < celdas.GetLength(1); y++)
+        IEstructuras masCercano = null;
+        int menorDistancia = int.MaxValue;
+
+        for (int x = 0; x < celdas.GetLength(0); x++)
         {
-            var celda = celdas[x, y];
-            if (celda.Estructuras != null && celda.Estructuras.EsDeposito)
+            for (int y = 0; y < celdas.GetLength(1); y++)
             {
-                bool esDepositoCorrecto = false;
-                bool tieneEspacio = false;
-
-                switch (tipoRecurso)
+                var celda = celdas[x, y];
+                if (celda.Estructuras != null && celda.Estructuras.EsDeposito)
                 {
-                    case "Oro":
-                        if (celda.Estructuras is DepositoOro depositoOro)
-                        {
-                            esDepositoCorrecto = true;
-                            tieneEspacio = depositoOro.EspacioOcupado < depositoOro.CapacidadMaxima;
-                        }
-                        else if (celda.Estructuras is CentroCivico centroCivicoOro)
-                        {
-                            esDepositoCorrecto = true;
-                            tieneEspacio = centroCivicoOro.EspacioOcupado < centroCivicoOro.CapacidadMaxima;
-                        }
-                        break;
-                    case "Alimento":
-                        if (celda.Estructuras is Molino molino)
-                        {
-                            esDepositoCorrecto = true;
-                            tieneEspacio = molino.EspacioOcupado < molino.CapacidadMaxima;
-                        }
-                        else if (celda.Estructuras is CentroCivico centroCivicoAlimento)
-                        {
-                            esDepositoCorrecto = true;
-                            tieneEspacio = centroCivicoAlimento.EspacioOcupado < centroCivicoAlimento.CapacidadMaxima;
-                        }
-                        break;
-                    case "Piedra":
-                        if (celda.Estructuras is DepositoPiedra depositoPiedra)
-                        {
-                            esDepositoCorrecto = true;
-                            tieneEspacio = depositoPiedra.EspacioOcupado < depositoPiedra.CapacidadMaxima;
-                        }
-                        else if (celda.Estructuras is CentroCivico centroCivicoPiedra)
-                        {
-                            esDepositoCorrecto = true;
-                            tieneEspacio = centroCivicoPiedra.EspacioOcupado < centroCivicoPiedra.CapacidadMaxima;
-                        }
-                        break;
-                    case "Madera":
-                        if (celda.Estructuras is DepositoMadera depositoMadera)
-                        {
-                            esDepositoCorrecto = true;
-                            tieneEspacio = depositoMadera.EspacioOcupado < depositoMadera.CapacidadMaxima;
-                        }
-                        else if (celda.Estructuras is CentroCivico centroCivicoMadera)
-                        {
-                            esDepositoCorrecto = true;
-                            tieneEspacio = centroCivicoMadera.EspacioOcupado < centroCivicoMadera.CapacidadMaxima;
-                        }
-                        break;
-                }
+                    bool esDepositoCorrecto = false;
+                    bool tieneEspacio = false;
 
-                if (!esDepositoCorrecto || !tieneEspacio)
-                    continue;
+                    switch (tipoRecurso)
+                    {
+                        case "Oro":
+                            if (celda.Estructuras is DepositoOro depositoOro)
+                            {
+                                esDepositoCorrecto = true;
+                                tieneEspacio = depositoOro.EspacioOcupado < depositoOro.CapacidadMaxima;
+                            }
+                            else if (celda.Estructuras is CentroCivico centroCivicoOro)
+                            {
+                                esDepositoCorrecto = true;
+                                tieneEspacio = centroCivicoOro.EspacioOcupado < centroCivicoOro.CapacidadMaxima;
+                            }
 
-                int distanciaCalculada = Math.Abs(aldeanoX - x) + Math.Abs(aldeanoY - y);
-                if (distanciaCalculada < menorDistancia)
-                {
-                    menorDistancia = distanciaCalculada;
-                    masCercano = celda.Estructuras;
+                            break;
+                        case "Alimento":
+                            if (celda.Estructuras is Molino molino)
+                            {
+                                esDepositoCorrecto = true;
+                                tieneEspacio = molino.EspacioOcupado < molino.CapacidadMaxima;
+                            }
+                            else if (celda.Estructuras is CentroCivico centroCivicoAlimento)
+                            {
+                                esDepositoCorrecto = true;
+                                tieneEspacio = centroCivicoAlimento.EspacioOcupado < centroCivicoAlimento.CapacidadMaxima;
+                            }
+
+                            break;
+                        case "Piedra":
+                            if (celda.Estructuras is DepositoPiedra depositoPiedra)
+                            {
+                                esDepositoCorrecto = true;
+                                tieneEspacio = depositoPiedra.EspacioOcupado < depositoPiedra.CapacidadMaxima;
+                            }
+                            else if (celda.Estructuras is CentroCivico centroCivicoPiedra)
+                            {
+                                esDepositoCorrecto = true;
+                                tieneEspacio = centroCivicoPiedra.EspacioOcupado < centroCivicoPiedra.CapacidadMaxima;
+                            }
+
+                            break;
+                        case "Madera":
+                            if (celda.Estructuras is DepositoMadera depositoMadera)
+                            {
+                                esDepositoCorrecto = true;
+                                tieneEspacio = depositoMadera.EspacioOcupado < depositoMadera.CapacidadMaxima;
+                            }
+                            else if (celda.Estructuras is CentroCivico centroCivicoMadera)
+                            {
+                                esDepositoCorrecto = true;
+                                tieneEspacio = centroCivicoMadera.EspacioOcupado < centroCivicoMadera.CapacidadMaxima;
+                            }
+
+                            break;
+                    }
+
+                    if (!esDepositoCorrecto || !tieneEspacio)
+                        continue;
+
+                    int distanciaCalculada = Math.Abs(aldeanoX - x) + Math.Abs(aldeanoY - y);
+                    if (distanciaCalculada < menorDistancia)
+                    {
+                        menorDistancia = distanciaCalculada;
+                        masCercano = celda.Estructuras;
+                    }
                 }
             }
         }
-    }
-    return masCercano;
-}
 
-    
+        return masCercano;
+    }
+
+
     public Celda BuscarRecursoCercano(int xInicial, int yInicial)
     {
         Celda recursoMasCercano = null;

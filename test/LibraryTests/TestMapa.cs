@@ -57,7 +57,7 @@ namespace LibraryTests
             var celdaConMadera = new Celda(18, 18);
             celdaConMadera.AsignarRecurso(new Madera());
             
-            aldeano.ObtenerRecursoDeCelda(celdaConMadera, aldeano, jugador);
+            LogicaJuego.ObtenerRecursoDeCelda(celdaConMadera, aldeano, jugador);
 
             int aldeanoX = aldeano.CeldaActual.x;
             int aldeanoY = aldeano.CeldaActual.y;
@@ -71,15 +71,13 @@ namespace LibraryTests
 
             // estructuras asignadas para comparar luego
             var estructura20_20 = mapa.ObtenerCelda(20, 20).Estructuras;
-            string recurso = aldeano.ObtenerRecursoQueLleva();
+            string recurso = celdaConMadera.Recursos.Nombre;
             
             var resultado = mapa.DepositoMasCercano(aldeanoX, aldeanoY, recurso);
             
             var estructuraEsperada = estructura20_20; //estructura mas cerca de 18,18
 
             Assert.That(resultado, Is.SameAs(estructuraEsperada));
-
-            
         }
     }
 }

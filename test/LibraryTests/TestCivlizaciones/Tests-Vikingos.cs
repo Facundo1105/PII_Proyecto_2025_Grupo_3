@@ -13,8 +13,8 @@ namespace LibraryTests
             double bonificacion1 = vikingo.Bonificacion1;
             double bonificacion2 = vikingo.Bonificacion2;
 
-            Assert.That(bonificacion1, Is.EqualTo(1.20));
-            Assert.That(bonificacion2, Is.EqualTo(1.30));
+            Assert.That(bonificacion1, Is.EqualTo(1.10));
+            Assert.That(bonificacion2, Is.EqualTo(1.20));
         }
     }
 }

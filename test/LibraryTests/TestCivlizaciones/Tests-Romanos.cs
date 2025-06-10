@@ -14,7 +14,7 @@ namespace LibraryTests
             double bonificacion2 = romano.Bonificacion2;
 
             Assert.That(bonificacion1, Is.EqualTo(1.20));
-            Assert.That(bonificacion2, Is.EqualTo(1.30));
+            Assert.That(bonificacion2, Is.EqualTo(0.80));
         }
     }
 }
