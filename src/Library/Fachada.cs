@@ -54,11 +54,11 @@ public class Fachada
         mapa.ObtenerCelda(19, 16).VaciarCelda();
         mapa.ObtenerCelda(19, 15).VaciarCelda();
 
-        jugador1.Aldeanos[0].ConstruirEstructuras(new DepositoMadera(), jugador1, mapa.ObtenerCelda(19, 19));
-        jugador1.Aldeanos[0].ConstruirEstructuras(new DepositoOro(), jugador1, mapa.ObtenerCelda(19, 18));
-        jugador1.Aldeanos[0].ConstruirEstructuras(new DepositoPiedra(), jugador1, mapa.ObtenerCelda(19, 17));
-        jugador1.Aldeanos[0].ConstruirEstructuras(new Granja(), jugador1, mapa.ObtenerCelda(19, 16));
-        jugador1.Aldeanos[0].ConstruirEstructuras(new Molino(), jugador1, mapa.ObtenerCelda(19, 15));
+        LogicaJuego.ConstruirEstructuras(new DepositoMadera(), jugador1, mapa.ObtenerCelda(19, 19), jugador1.Aldeanos[0]);
+        LogicaJuego.ConstruirEstructuras(new DepositoOro(), jugador1, mapa.ObtenerCelda(19, 18), jugador1.Aldeanos[0]);
+        LogicaJuego.ConstruirEstructuras(new DepositoPiedra(), jugador1, mapa.ObtenerCelda(19, 17), jugador1.Aldeanos[0]);
+        LogicaJuego.ConstruirEstructuras(new Granja(), jugador1, mapa.ObtenerCelda(19, 16), jugador1.Aldeanos[0]);
+        LogicaJuego.ConstruirEstructuras(new Molino(), jugador1, mapa.ObtenerCelda(19, 15), jugador1.Aldeanos[0]);
     }
 
     public void RecolectarRecursos() //Historias de usuario - Gestión de Recursos
@@ -71,18 +71,16 @@ public class Fachada
         if (celdaConRecurso == null)
             return;
       
-        aldeano.ObtenerRecursoDeCelda(celdaConRecurso, aldeano, jugador1);
-      
-        foreach (var recursos in jugador1.Aldeanos[1].RecursosAldeano)
-        {
-            Console.WriteLine($"{recursos.Key} , {recursos.Value}");
-        }
+        LogicaJuego.ObtenerRecursoDeCelda(celdaConRecurso, aldeano, jugador1);
+        
+        Console.WriteLine($"{celdaConRecurso.Recursos.Nombre}: 500");
 
-        string recurso = aldeano.ObtenerRecursoQueLleva();
+        string recurso = celdaConRecurso.Recursos.Nombre;
+        
         if (recurso != null)
         {
             IEstructuras depositoCercano = mapa.DepositoMasCercano(aldeanoX, aldeanoY, recurso);
-            aldeano.DepositarRecursos(jugador1, depositoCercano);
+            LogicaJuego.DepositarRecursos(jugador1, depositoCercano, 500, recurso);
         }
     }
 
@@ -92,9 +90,9 @@ public class Fachada
         mapa.ObtenerCelda(23, 18).VaciarCelda();
         mapa.ObtenerCelda(23, 17).VaciarCelda();
 
-        jugador1.Aldeanos[2].ConstruirEstructuras(new Cuartel(), jugador1, mapa.ObtenerCelda(23, 19));
-        jugador1.Aldeanos[2].ConstruirEstructuras(new Establo(), jugador1, mapa.ObtenerCelda(23, 18));
-        jugador1.Aldeanos[2].ConstruirEstructuras(new CampoTiro(), jugador1, mapa.ObtenerCelda(23, 17));
+        LogicaJuego.ConstruirEstructuras(new Cuartel(), jugador1, mapa.ObtenerCelda(23, 19), jugador1.Aldeanos[2]);
+        LogicaJuego.ConstruirEstructuras(new Establo(), jugador1, mapa.ObtenerCelda(23, 18), jugador1.Aldeanos[2]);
+        LogicaJuego.ConstruirEstructuras(new CampoTiro(), jugador1, mapa.ObtenerCelda(23, 17), jugador1.Aldeanos[2]);
 
         CampoTiro.CrearArquero(jugador1);
         Establo.CrearCaballeria(jugador1);
@@ -103,12 +101,9 @@ public class Fachada
         mapa.ObtenerCelda(25, 25).VaciarCelda();
         var destino = mapa.ObtenerCelda(27, 27);
 
-        jugador1.MoverUnidades(new List<IUnidades> { jugador1.Arqueros[0] }, mapa.ObtenerCelda(24, 17),
-            destino); //Mover Arqueros
-        jugador1.MoverUnidades(new List<IUnidades> { jugador1.Caballeria[0] }, mapa.ObtenerCelda(24, 18),
-            destino); //Mover Caballeria
-        jugador1.MoverUnidades(new List<IUnidades> { jugador1.Infanteria[0] }, mapa.ObtenerCelda(24, 19),
-            destino); //Mover Infanteria
+        LogicaJuego.MoverUnidades(new List<IUnidades> { jugador1.Arqueros[0] }, mapa.ObtenerCelda(24, 17), destino); //Mover Arqueros
+        LogicaJuego.MoverUnidades(new List<IUnidades> { jugador1.Caballeria[0] }, mapa.ObtenerCelda(24, 18), destino); //Mover Caballeria
+        LogicaJuego.MoverUnidades(new List<IUnidades> { jugador1.Infanteria[0] }, mapa.ObtenerCelda(24, 19), destino); //Mover Infanteria
 
         var celda1 = mapa.ObtenerCelda(24, 17);
         var celda2 = mapa.ObtenerCelda(24, 18);
@@ -116,9 +111,12 @@ public class Fachada
         var unidades1 = celda1.Unidades;
         var unidades2 = celda2.Unidades;
 
-        jugador1.JuntarUnidades(unidades1, unidades2, celda1, celda2);
+        if (unidades1 != null && unidades2 != null)
+        {
+            LogicaJuego.JuntarUnidades(unidades1, unidades2, celda1, celda2, jugador1);
+        }
 
-        jugador1.MoverUnidades(jugador1.Ejercito, celda1, mapa.ObtenerCelda(15, 15)); //MoverEjercitoEntero
+        LogicaJuego.MoverUnidades(jugador1.Ejercito, celda1, mapa.ObtenerCelda(15, 15)); //MoverEjercitoEntero
 
     }
 
