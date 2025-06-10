@@ -7,6 +7,7 @@ public class Partida
     public Jugador jugador1;
     public Jugador jugador2;
     public int turno = 1;
+    public Mapa mapa;
     
     public Partida(Jugador jugador1, Jugador jugador2)
     {
@@ -23,7 +24,17 @@ public class Partida
     {
         SeleccionarCivilización(jugador1);
         SeleccionarCivilización(jugador2);
-        
+        mapa.InicializarMapa();
+        LogicaJuego.RecursosAleatorios();
+        mapa.ObtenerCelda(21, 20).VaciarCelda();
+        mapa.ObtenerCelda(21, 21).VaciarCelda();
+        mapa.ObtenerCelda(21, 22).VaciarCelda();
+        mapa.ObtenerCelda(20, 20).VaciarCelda();
+
+        mapa.ObtenerCelda(21, 20).AsignarAldeano(jugador1.Aldeanos[0]);
+        mapa.ObtenerCelda(21, 21).AsignarAldeano(jugador1.Aldeanos[1]);
+        mapa.ObtenerCelda(21, 22).AsignarAldeano(jugador1.Aldeanos[2]);
+        MostrarPosiciones(jugador1);
     }
 
     public void SeleccionarCivilización(Jugador jugador)
@@ -57,6 +68,14 @@ public class Partida
             default:
                 Console.WriteLine($"Por favor, selecciona una opción");
                 break;
+        }
+    }
+
+    public void MostrarPosiciones(Jugador jugador)
+    {
+        Console.WriteLine("Tienes las siguientes estructuras en las siguientes posiciones:");
+        foreach (var aldeano in jugador.Aldeanos)
+        {
         }
     }
 }
