@@ -19,7 +19,7 @@ public class TestsEstructuras
     public void TestAumentoLimitePoblacionCorrecto()
     {
         jugador.LimitePoblacion = 40;
-        casa.AumentarLimitePoblacion(jugador);
+        LogicaJuego.AumentarLimitePoblacion(jugador);
         Assert.That(jugador.LimitePoblacion, Is.GreaterThan(40));
     }
 
@@ -27,7 +27,7 @@ public class TestsEstructuras
     public void TestAumentoLimitPoblacionFallado()
     {
         jugador.LimitePoblacion = 50;
-        casa.AumentarLimitePoblacion(jugador);
+        LogicaJuego.AumentarLimitePoblacion(jugador);
         Assert.That(jugador.LimitePoblacion, Is.EqualTo(50));
     }
     

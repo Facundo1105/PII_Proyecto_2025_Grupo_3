@@ -7,7 +7,7 @@ public class Fachada
     private Jugador jugador1;
     private Jugador jugador2;
     private Mapa mapa;
-    private Aldeano aldeano1;
+
     private IEstructuras estructura;
 
 
@@ -21,7 +21,7 @@ public class Fachada
     public void IniciarPartida() //Historia de usuario - Configuración y Creación
     {
         mapa.InicializarMapa();
-        mapa.RecursosAleatorios();
+        LogicaJuego.RecursosAleatorios();
 
         //Jugador 1 iniciando
         mapa.ObtenerCelda(21, 20).VaciarCelda();
@@ -67,7 +67,7 @@ public class Fachada
         int aldeanoX = aldeano.CeldaActual.x;
         int aldeanoY = aldeano.CeldaActual.y;
 
-        var celdaConRecurso = mapa.BuscarRecursoCercano(aldeanoX, aldeanoY);
+        var celdaConRecurso = LogicaJuego.BuscarRecursoCercano(aldeanoX, aldeanoY);
         if (celdaConRecurso == null)
             return;
       
@@ -79,7 +79,7 @@ public class Fachada
         
         if (recurso != null)
         {
-            IEstructuras depositoCercano = mapa.DepositoMasCercano(aldeanoX, aldeanoY, recurso);
+            IEstructuras depositoCercano = LogicaJuego.DepositoMasCercano(aldeanoX, aldeanoY, recurso);
             LogicaJuego.DepositarRecursos(jugador1, depositoCercano, 500, recurso);
         }
     }
@@ -123,8 +123,8 @@ public class Fachada
     public void EntrenarAldeanosYGestionarPoblacion() // Historia de usuario - Economía y Población
 {
     // Supongamos que tenemos dos jugadores para este caso
-    Jugador jugador1 = new Jugador("Jugador1", new Vikingos()); // Ejemplo de civilización
-    Jugador jugador2 = new Jugador("Jugador2", new Japoneses());
+    // Jugador jugador1 = new Jugador("Jugador1", new Vikingos()); // Ejemplo de civilización
+    // Jugador jugador2 = new Jugador("Jugador2", new Japoneses());
 
     // Cada jugador empieza con un centro cívico y algunas unidades
     // Jugador 1 inicia
@@ -153,10 +153,7 @@ public class Fachada
     // Jugador 1 construye 3 casas
     for (int i = 0; i < 3; i++)
     {
-        var casa = new Casa();
-        jugador1.Estructuras.Add(casa);
-        mapa.ObtenerCelda(22 + i, 22).AsignarEstructura(casa);
-        jugador1.LimitePoblacion += 5; // Cada casa aumenta el límite de población en 5 unidades
+        LogicaJuego.ConstruirEstructuras(new Casa(), jugador1, mapa.ObtenerCelda(22 + i, 22), jugador1.Aldeanos[0]);
     }
 
     // Verificamos que la población haya aumentado

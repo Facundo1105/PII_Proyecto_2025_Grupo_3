@@ -26,11 +26,4 @@ public class Casa : IEstructuras
     
     public bool EsDeposito => false;
     
-    public void AumentarLimitePoblacion(Jugador jugador)
-    {
-        if (jugador.LimitePoblacion < 50)
-        { 
-            jugador.LimitePoblacion += 5;
-        }
-    }
 }
