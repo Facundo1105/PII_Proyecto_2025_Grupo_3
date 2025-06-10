@@ -125,8 +125,8 @@ public class Fachada
     public void EntrenarAldeanosYGestionarPoblacion() // Historia de usuario - Economía y Población
 {
     // Supongamos que tenemos dos jugadores para este caso
-    Jugador jugador1 = new Jugador("Jugador1", new Vikingos()); // Ejemplo de civilización
-    Jugador jugador2 = new Jugador("Jugador2", new Japoneses());
+    // Jugador jugador1 = new Jugador("Jugador1", new Vikingos()); // Ejemplo de civilización
+    // Jugador jugador2 = new Jugador("Jugador2", new Japoneses());
 
     // Cada jugador empieza con un centro cívico y algunas unidades
     // Jugador 1 inicia

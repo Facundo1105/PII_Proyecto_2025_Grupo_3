@@ -25,10 +25,9 @@ public class Jugador
 
     public List<IUnidades> Ejercito = new List<IUnidades>();
 
-    public Jugador(string nombre, ICivilizaciones civilizacion)
+    public Jugador(string nombre)
     {
         this.Nombre = nombre;
-        this.Civilizacion = civilizacion;
     }
 
     public int CantidadUnidades
