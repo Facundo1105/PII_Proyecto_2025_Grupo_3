@@ -66,8 +66,11 @@ public class Fachada
         int aldeanoY = aldeano.CeldaActual.y;
 
         var celdaConRecurso = LogicaJuego.BuscarRecursoCercano(aldeanoX, aldeanoY);
-        if (celdaConRecurso == null)
+        
+        if (celdaConRecurso.Recursos == null)
+        {
             return;
+        }
       
         LogicaJuego.ObtenerRecursoDeCelda(celdaConRecurso, aldeano, jugador1);
         
@@ -75,11 +78,9 @@ public class Fachada
 
         string recurso = celdaConRecurso.Recursos.Nombre;
         
-        if (recurso != null)
-        {
-            IEstructuras depositoCercano = LogicaJuego.DepositoMasCercano(aldeanoX, aldeanoY, recurso);
-            LogicaJuego.DepositarRecursos(jugador1, depositoCercano, 500, recurso);
-        }
+        
+        IEstructurasDepositos depositoCercano = LogicaJuego.DepositoMasCercano(aldeanoX, aldeanoY, recurso);
+        LogicaJuego.DepositarRecursos(jugador1, depositoCercano, 500, recurso);
     }
 
     public void CrearUnidades() // Historias de usuario - Unidades y combates

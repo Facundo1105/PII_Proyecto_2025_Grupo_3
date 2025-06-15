@@ -119,17 +119,8 @@ public class LogicaJuego
         }
     }
 
-    public static void DepositarRecursos(Jugador jugadorDepositar, IEstructuras depositoCercano, int cantidadRecurso, string tipoRecurso)
-    {
-        if (depositoCercano == null)
-        {
-            Console.WriteLine("No hay deposito para depositar los recursos");
-            return;
-        }
-
-        if (!depositoCercano.EsDeposito)
-            return;
-
+    public static void DepositarRecursos(Jugador jugadorDepositar, IEstructurasDepositos depositoCercano, int cantidadRecurso, string tipoRecurso)
+    { 
         // Depositar Oro
         if (depositoCercano is DepositoOro depositoOro)
         {
@@ -206,9 +197,9 @@ public class LogicaJuego
     {
         if (celdaEstructura.EstaLibre())
         {
-            const int CostoOro = 200;
-            const int CostoMadera = 300;
-            const int CostoPiedra = 300;
+            const int costoOro = 200;
+            const int costoMadera = 300;
+            const int costoPiedra = 300;
 
             // Sumar recursos disponibles
             
@@ -486,18 +477,14 @@ public class LogicaJuego
                     celda.AsignarAldeano(aldeanoContruir);
                 }
             }
-            else if (estructuraConstruir is Casa)
-            {
-                AumentarLimitePoblacion(jugadorConstruir);
-            }
             else
             {
                 // Verificar si tiene recursos suficientes
-                if (oroTotal >= CostoOro && maderaTotal >= CostoMadera && piedraTotal >= CostoPiedra)
+                if (oroTotal >= costoOro && maderaTotal >= costoMadera && piedraTotal >= costoPiedra)
                 {
-                    int oroRestante = CostoOro;
-                    int maderaRestante = CostoMadera;
-                    int piedraRestante = CostoPiedra;
+                    int oroRestante = costoOro;
+                    int maderaRestante = costoMadera;
+                    int piedraRestante = costoPiedra;
 
                     // Descontar oro de depósitos primero, luego centro cívico
                     foreach (DepositoOro dOro in depositosOro)
@@ -549,6 +536,10 @@ public class LogicaJuego
                     Celda celda = new Celda(celdaEstructura.x - 1, celdaEstructura.y);
                     celda.AsignarAldeano(aldeanoContruir);
 
+                    if (estructuraConstruir is Casa)
+                    {
+                        AumentarLimitePoblacion(jugadorConstruir);
+                    }
                 }
             }
         }
@@ -732,9 +723,9 @@ public class LogicaJuego
         }
     }
 
-    public static IEstructuras DepositoMasCercano(int aldeanoX, int aldeanoY, string tipoRecurso)
+    public static IEstructurasDepositos DepositoMasCercano(int aldeanoX, int aldeanoY, string tipoRecurso)
     {
-        IEstructuras masCercano = null;
+        IEstructurasDepositos masCercano = null;
         int menorDistancia = int.MaxValue;
 
         for (int x = 0; x < celdas.GetLength(0); x++)
@@ -742,7 +733,7 @@ public class LogicaJuego
             for (int y = 0; y < celdas.GetLength(1); y++)
             {
                 var celda = celdas[x, y];
-                if (celda.Estructuras != null && celda.Estructuras.EsDeposito)
+                if (celda.Estructuras != null)
                 {
                     bool esDepositoCorrecto = false;
                     bool tieneEspacio = false;
@@ -810,7 +801,7 @@ public class LogicaJuego
                     if (distanciaCalculada < menorDistancia)
                     {
                         menorDistancia = distanciaCalculada;
-                        masCercano = celda.Estructuras;
+                        masCercano = (IEstructurasDepositos)celda.Estructuras;
                     }
                 }
             }

@@ -4,7 +4,7 @@ namespace Library;
 
 public class Establo : IEstructuras
 {
-    private int vida = 0;
+    private int vida = 2500;
 
     public string Nombre
     {
@@ -25,7 +25,6 @@ public class Establo : IEstructuras
             this.vida = value < 0 ? 0 : value;
         }
     }
-    public bool EsDeposito => false;
     public static void CrearCaballeria(Jugador jugador)
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30)
