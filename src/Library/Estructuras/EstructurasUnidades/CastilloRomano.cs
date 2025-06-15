@@ -2,7 +2,7 @@ namespace Library;
 
 public class CastilloRomano : IEstructuras
 {
-    private int vida = 0;
+    private int vida = 3000;
 
     public string Nombre
     {
@@ -23,7 +23,6 @@ public class CastilloRomano : IEstructuras
             this.vida = value < 0 ? 0 : value;
         }
     }
-    public bool EsDeposito => false;
     public void CrearJulioCesar(Jugador jugador)
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && jugador.UnidadEspecial.Count < 1)
