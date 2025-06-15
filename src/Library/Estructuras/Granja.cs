@@ -6,7 +6,7 @@ public class Granja : IEstructuras
 {
     private int vida = 2000;
 
-    public Alimento alimento = new Alimento();
+    public Alimento Alimento = new Alimento();
     
 
     public string Nombre

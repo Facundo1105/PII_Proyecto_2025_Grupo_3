@@ -21,7 +21,7 @@ public class Celda
 
     public bool EstaLibre()
     {
-        if (Recursos == null && Estructuras == null && Unidades == null)
+        if (Recursos == null && Estructuras == null && Unidades == null && Aldeano == null)
         {
             return true;
         }
@@ -94,6 +94,7 @@ public class Celda
         Recursos = null;
         Estructuras = null;
         Unidades = null;
+        Aldeano = null;
         return true;
     }
     
