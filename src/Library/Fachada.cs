@@ -92,11 +92,15 @@ public class Fachada
         LogicaJuego.ConstruirEstructuras(new Cuartel(), jugador1, mapa.ObtenerCelda(23, 19), jugador1.Aldeanos[2]);
         LogicaJuego.ConstruirEstructuras(new Establo(), jugador1, mapa.ObtenerCelda(23, 18), jugador1.Aldeanos[2]);
         LogicaJuego.ConstruirEstructuras(new CampoTiro(), jugador1, mapa.ObtenerCelda(23, 17), jugador1.Aldeanos[2]);
-
-        CampoTiro.CrearArquero(jugador1);
-        Establo.CrearCaballeria(jugador1);
-        Cuartel.CrearInfanteria(jugador1);
-
+        
+        foreach (IEstructuras estructura in jugador1.Estructuras)
+        {
+            if (estructura is IEstructurasUnidades estructuraUnidades)
+            { 
+                estructuraUnidades.CrearUnidad(jugador1);
+            }
+        }
+        
         mapa.ObtenerCelda(25, 25).VaciarCelda();
         var destino = mapa.ObtenerCelda(27, 27);
 

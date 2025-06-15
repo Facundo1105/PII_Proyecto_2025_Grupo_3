@@ -2,7 +2,7 @@ using Library.Civilizaciones;
 
 namespace Library;
 
-public class Establo : IEstructuras
+public class Establo : IEstructurasUnidades
 {
     private int vida = 2500;
 
@@ -25,7 +25,7 @@ public class Establo : IEstructuras
             this.vida = value < 0 ? 0 : value;
         }
     }
-    public static void CrearCaballeria(Jugador jugador)
+    public void CrearUnidad(Jugador jugador)
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30)
         {

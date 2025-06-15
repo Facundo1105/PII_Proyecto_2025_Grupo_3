@@ -1,6 +1,6 @@
 namespace Library;
 
-public class CastilloIndio : IEstructuras
+public class CastilloIndio : IEstructurasUnidades
 {
     private int vida = 3000;
 
@@ -23,7 +23,7 @@ public class CastilloIndio : IEstructuras
             this.vida = value < 0 ? 0 : value;
         }
     }
-    public void CrearElefante(Jugador jugador)
+    public void CrearUnidad(Jugador jugador)
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && jugador.UnidadEspecial.Count < 1)
         {

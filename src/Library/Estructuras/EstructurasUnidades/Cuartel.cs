@@ -2,7 +2,7 @@ using Library.Civilizaciones;
 
 namespace Library;
 
-public class Cuartel : IEstructuras
+public class Cuartel : IEstructurasUnidades
 {
     private int vida = 2500;
 
@@ -25,7 +25,7 @@ public class Cuartel : IEstructuras
             this.vida = value < 0 ? 0 : value;
         }
     }
-    public static void CrearInfanteria(Jugador jugador)
+    public void CrearUnidad(Jugador jugador)
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30)
         { 
@@ -37,7 +37,7 @@ public class Cuartel : IEstructuras
                  CostoOro *= (int)Math.Round(0.80);
              }
 
-            // Sumar recursos disponibles
+             // Sumar recursos disponibles
             int oroTotal = 0;
             int alimentoTotal = 0;
 
