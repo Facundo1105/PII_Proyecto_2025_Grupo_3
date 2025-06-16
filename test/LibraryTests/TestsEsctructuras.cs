@@ -6,6 +6,7 @@ public class TestsEstructuras
     private Casa casa;
     private Jugador jugador;
     private CentroCivico centro;
+    private Mapa mapa;
     
     [SetUp]
     public void SetUp()
@@ -13,6 +14,8 @@ public class TestsEstructuras
         casa = new Casa();
         this.jugador = jugador;
         centro = new CentroCivico();
+        mapa = new Mapa();
+        mapa.InicializarMapa();
     }
 
     [Test]
@@ -52,7 +55,7 @@ public class TestsEstructuras
         jugador.LimitePoblacion = 40;
 
         int cantidadInicial = jugador.CantidadAldeanos;
-        centro.CrearAldeano(jugador,new Celda(80,20));
+        centro.CrearAldeano(jugador,mapa.ObtenerCelda(21,21));
         Assert.That(jugador.CantidadAldeanos, Is.EqualTo(cantidadInicial + 1));
     }
 
@@ -63,7 +66,7 @@ public class TestsEstructuras
         centro.RecursosDeposito["Alimento"] = 200;
 
         int cantidadInicial = jugador.CantidadAldeanos;
-        centro.CrearAldeano(jugador,new Celda(81,21));
+        centro.CrearAldeano(jugador,mapa.ObtenerCelda(22,22));
         Assert.That(jugador.CantidadAldeanos, Is.EqualTo(cantidadInicial));
     }
     
@@ -72,10 +75,9 @@ public class TestsEstructuras
     {
         centro.RecursosDeposito["Oro"] = 100;
         centro.RecursosDeposito["Alimento"] = 50;
-        Celda celda = new Celda(29,29);
         
         int cantidadInicial = jugador.CantidadAldeanos;
-        centro.CrearAldeano(jugador, celda);
+        centro.CrearAldeano(jugador, mapa.ObtenerCelda(23,23));
         Assert.That(jugador.CantidadAldeanos, Is.EqualTo(cantidadInicial));
     }
 
