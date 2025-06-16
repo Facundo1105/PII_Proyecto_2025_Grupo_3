@@ -7,10 +7,6 @@ public class LogicaJuego
 {
     public static Celda[,] celdas;
     private Mapa mapa;
-    public LogicaJuego(Mapa mapa)
-    {
-        this.mapa = mapa;
-    }
     public static void ObtenerRecursoDeCelda(Celda celdaRecurso, Aldeano aldeano, Jugador jugador)
     {
         if (celdaRecurso.Recursos != null)
@@ -692,7 +688,7 @@ public class LogicaJuego
         destino.AsignarUnidades(unidadesMover);
     }
     
-        public void RecursosAleatorios(Mapa mapa)
+        public static void RecursosAleatorios(Mapa mapa)
     {
         int cantRecursos = 4000;
         Random random = new Random();
