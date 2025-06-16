@@ -81,6 +81,8 @@ public class Celda
         {
             this.Aldeano = aldeano;
             aldeano.CeldaActual = this;
+            aldeano.X = this.x;
+            aldeano.Y = this.y;
             return true;
         }
         else
@@ -88,7 +90,7 @@ public class Celda
             return false;
         }
     }
-    
+
     public bool VaciarCelda()
     {
         Recursos = null;

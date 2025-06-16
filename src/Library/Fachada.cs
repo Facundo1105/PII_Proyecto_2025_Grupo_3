@@ -19,7 +19,7 @@ public class Fachada
     public void IniciarPartida() // Historia de usuario - Configuración y Creación
     {
         mapa.InicializarMapa();
-        LogicaJuego.RecursosAleatorios();
+        // LogicaJuego.RecursosAleatorios();
 
         // Jugador 1 iniciando
         

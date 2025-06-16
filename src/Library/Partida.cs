@@ -13,6 +13,7 @@ public class Partida
     {
         this.jugador1 = jugador1;
         this.jugador2 = jugador2;
+        this.mapa = new Mapa();
     }
     
     public Jugador ObtenerJugadorActivo()
@@ -25,7 +26,7 @@ public class Partida
         SeleccionarCivilización(jugador1);
         SeleccionarCivilización(jugador2);
         mapa.InicializarMapa();
-        LogicaJuego.RecursosAleatorios();
+        LogicaJuego.RecursosAleatorios(mapa);
         mapa.ObtenerCelda(21, 20).VaciarCelda();
         mapa.ObtenerCelda(21, 21).VaciarCelda();
         mapa.ObtenerCelda(21, 22).VaciarCelda();
@@ -34,6 +35,7 @@ public class Partida
         mapa.ObtenerCelda(21, 20).AsignarAldeano(jugador1.Aldeanos[0]);
         mapa.ObtenerCelda(21, 21).AsignarAldeano(jugador1.Aldeanos[1]);
         mapa.ObtenerCelda(21, 22).AsignarAldeano(jugador1.Aldeanos[2]);
+        mapa.ObtenerCelda(20, 20).AsignarEstructura(new CentroCivico());
         MostrarPosiciones(jugador1);
     }
 
@@ -50,19 +52,19 @@ public class Partida
         switch (opcion)
         {
             case "1":
-                jugador1.Civilizacion = new Indios();
+                jugador.Civilizacion = new Indios();
                 Console.WriteLine($"{jugador.Nombre} eligió la civilización India");
                 break;
             case "2":
-                jugador1.Civilizacion = new Japoneses();
+                jugador.Civilizacion = new Japoneses();
                 Console.WriteLine($"{jugador.Nombre} eligió la civilización Japonesa");
                 break;
             case "3":
-                jugador1.Civilizacion = new Romanos();
+                jugador.Civilizacion = new Romanos();
                 Console.WriteLine($"{jugador.Nombre} eligió la civilización Romana");
                 break;
             case "4":
-                jugador1.Civilizacion = new Vikingos();
+                jugador.Civilizacion = new Vikingos();
                 Console.WriteLine($"{jugador.Nombre} eligió la civilización Vikingo");
                 break;
             default:
@@ -73,9 +75,14 @@ public class Partida
 
     public void MostrarPosiciones(Jugador jugador)
     {
-        Console.WriteLine("Tienes las siguientes estructuras en las siguientes posiciones:");
+        Console.WriteLine($"{jugador.Nombre}, tienes las siguientes entidades en las siguientes posiciones:");
+        foreach (var estructura in jugador.Estructuras)
+        {
+            Console.WriteLine($"{estructura.Nombre}");
+        }
         foreach (var aldeano in jugador.Aldeanos)
         {
+            Console.WriteLine($"{aldeano.Nombre} = {aldeano.X}, {aldeano.Y}");
         }
     }
 }
