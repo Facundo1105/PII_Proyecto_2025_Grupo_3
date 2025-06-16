@@ -37,6 +37,7 @@ public class Partida
         mapa.ObtenerCelda(21, 20).AsignarAldeano(jugador1.Aldeanos[0]);
         mapa.ObtenerCelda(21, 21).AsignarAldeano(jugador1.Aldeanos[1]);
         mapa.ObtenerCelda(21, 22).AsignarAldeano(jugador1.Aldeanos[2]);
+        mapa.ObtenerCelda(20, 20).AsignarEstructura(new CentroCivico());
         MostrarPosiciones(jugador1);
     }
 
@@ -76,9 +77,14 @@ public class Partida
 
     public void MostrarPosiciones(Jugador jugador)
     {
-        Console.WriteLine("Tienes las siguientes estructuras en las siguientes posiciones:");
+        Console.WriteLine($"{jugador.Nombre}, tienes las siguientes entidades en las siguientes posiciones:");
+        foreach (var estructura in jugador.Estructuras)
+        {
+            Console.WriteLine($"{estructura.Nombre}");
+        }
         foreach (var aldeano in jugador.Aldeanos)
         {
+            Console.WriteLine($"{aldeano.Nombre} = {aldeano.X}, {aldeano.Y}");
         }
     }
 }
