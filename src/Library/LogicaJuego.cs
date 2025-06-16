@@ -11,7 +11,6 @@ public class LogicaJuego
     {
         this.mapa = mapa;
     }
-    public static void ObtenerRecursoDeCelda(Celda celda, Aldeano aldeano, Jugador jugador)
     public static void ObtenerRecursoDeCelda(Celda celdaRecurso, Aldeano aldeano, Jugador jugador)
     {
         if (celdaRecurso.Recursos != null)
