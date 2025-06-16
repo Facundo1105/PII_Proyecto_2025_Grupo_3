@@ -91,7 +91,7 @@ public class CastilloJapones : IEstructurasUnidades
                     centroCivico.RecursosDeposito["Alimento"] -= aDescontar;
                 }
                 
-                jugador.UnidadEspecial.Add(new Samurai());
+                jugador.UnidadEspecial.Add(new Samurai(100, 40, 5, 2 ));
             }
         }
     }

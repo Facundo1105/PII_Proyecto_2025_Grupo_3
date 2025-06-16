@@ -15,11 +15,11 @@ public class ThorTests
     [SetUp]
     public void Setup()
     {
-        samurai = new Samurai();
-        thor = new Thor();
-        arquero = new Arquero();
-        infanteria = new Infanteria();
-        caballeria = new Caballeria();
+        samurai = new Samurai(40,20,10,2);
+        thor = new Thor(45, 60, 30, 1);
+        arquero = new Arquero(50,20,10,2);
+        infanteria = new Infanteria(50,10,10,1);
+        caballeria = new Caballeria(30,20,25,1);
         casa = new Casa();
     }
     [Test]
@@ -31,7 +31,7 @@ public class ThorTests
         Assert.That(thor.Vida, Is.EqualTo(45));
         Assert.That(thor.ValorAtaque, Is.EqualTo(60));
         Assert.That(thor.ValorDefensa, Is.EqualTo(30));
-        Assert.That(thor.ValorVelocidad, Is.EqualTo(15));
+        Assert.That(thor.ValorVelocidad, Is.EqualTo(1));
 
         // Verifica que la vida de thor sea siempre mayor o igual a 0
         
@@ -54,9 +54,6 @@ public class ThorTests
     public void ThorVsSamuraiCorrectamente()
     {
         // Verifica el buen funcionamiento del ataque entre thor y samurai
-        
-        samurai.Vida = 40;
-        samurai.ValorDefensa = 10;
 
         thor.AtacarUnidades(samurai);
 
@@ -67,9 +64,6 @@ public class ThorTests
     public void ThorVSCaballeriaCorrectamente()
     {
         // Verifica el buen funcionamiento del ataque entre thor y caballeria
-        
-        caballeria.Vida = 30;
-        caballeria.ValorDefensa = 25;
 
         thor.AtacarUnidades(caballeria);
         
@@ -80,9 +74,6 @@ public class ThorTests
     public void ThorVSInfanteriaCorrectamente()
     {
         // Verifica el buen funcionamiento del ataque entre thor e infanteria
-        
-        infanteria.Vida = 50;
-        infanteria.ValorDefensa = 10;
 
         thor.AtacarUnidades(infanteria);
         
@@ -93,9 +84,6 @@ public class ThorTests
     public void ThorVSArqueroCorrectamente()
     {
         // Verifica el buen funcionamiento del ataque entre thor y arquero
-
-        arquero.Vida = 50;
-        arquero.ValorDefensa = 10;
 
         thor.AtacarUnidades(arquero);
 

@@ -15,11 +15,11 @@ public class ElefanteTests
     [SetUp]
     public void Setup()
     {
-        elefante = new Elefante();
-        julioCesar = new JulioCesar();
-        arquero = new Arquero();
-        infanteria = new Infanteria();
-        caballeria = new Caballeria();
+        elefante = new Elefante(65,35,40,4);
+        julioCesar = new JulioCesar(50,20,20,3);
+        arquero = new Arquero(50,20,10,2);
+        infanteria = new Infanteria(50,20,30, 2);
+        caballeria = new Caballeria(50,20,25, 1);
         casa = new Casa();
     }
 
@@ -32,7 +32,7 @@ public class ElefanteTests
         Assert.That(elefante.Vida, Is.EqualTo(65));
         Assert.That(elefante.ValorAtaque, Is.EqualTo(35));
         Assert.That(elefante.ValorDefensa, Is.EqualTo(40));
-        Assert.That(elefante.ValorVelocidad, Is.EqualTo(10));
+        Assert.That(elefante.ValorVelocidad, Is.EqualTo(4));
         
         // Verifica que la vida del elefante sea siempre mayor o igual a 0
         
@@ -56,9 +56,6 @@ public class ElefanteTests
     {
         // Verifica el buen funcionamiento del ataque entre julio cesar y thor
 
-        julioCesar.Vida = 50;
-        julioCesar.ValorDefensa = 20;
-
         elefante.AtacarUnidades(julioCesar);
 
         Assert.That(julioCesar.Vida, Is.EqualTo(35));
@@ -68,9 +65,6 @@ public class ElefanteTests
     public void ElefanteVSInfanteriaCorrectamente()
     {
         // Verifica el buen funcionamiento del ataque entre elefante e infanteria
-        
-        infanteria.Vida = 50;
-        infanteria.ValorDefensa = 30;
 
         elefante.AtacarUnidades(infanteria);
         
@@ -81,9 +75,6 @@ public class ElefanteTests
     public void ElefanteVSCaballeria()
     {
         // Verifica el buen funcionamiento del ataque entre elefante y caballeria
-        
-        caballeria.Vida = 50;
-        caballeria.ValorDefensa = 25;
 
         elefante.AtacarUnidades(caballeria);
 
@@ -94,9 +85,6 @@ public class ElefanteTests
     public void ElefanteVSArqueroCorrectamente()
     {
         // Verifica el buen funcionamiento del ataque entre elefante y arquero
-
-        arquero.Vida = 50;
-        arquero.ValorDefensa = 10;
 
         elefante.AtacarUnidades(arquero);
         
