@@ -6,6 +6,12 @@ namespace Library;
 public class LogicaJuego
 {
     public static Celda[,] celdas;
+    private Mapa mapa;
+    public LogicaJuego(Mapa mapa)
+    {
+        this.mapa = mapa;
+    }
+    public static void ObtenerRecursoDeCelda(Celda celda, Aldeano aldeano, Jugador jugador)
     public static void ObtenerRecursoDeCelda(Celda celdaRecurso, Aldeano aldeano, Jugador jugador)
     {
         if (celdaRecurso.Recursos != null)
@@ -687,7 +693,7 @@ public class LogicaJuego
         destino.AsignarUnidades(unidadesMover);
     }
     
-        public static void RecursosAleatorios()
+        public void RecursosAleatorios(Mapa mapa)
     {
         int cantRecursos = 4000;
         Random random = new Random();
@@ -697,7 +703,7 @@ public class LogicaJuego
             int x = random.Next(0, 100);
             int y = random.Next(0, 100);
 
-            while (!celdas[x, y].EstaLibre())
+            while (!mapa.ObtenerCelda(x,y).EstaLibre())
             {
                 x = random.Next(0, 100);
                 y = random.Next(0, 100);
@@ -711,7 +717,7 @@ public class LogicaJuego
                 3 => new Oro()
             };
             
-            celdas[x, y].AsignarRecurso(recurso);
+            mapa.ObtenerCelda(x,y).AsignarRecurso(recurso);
         }
     }
 
