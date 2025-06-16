@@ -13,9 +13,9 @@ public class InfanteriaTests
     [SetUp]
     public void Setup()
     {
-        arquero = new Arquero();
-        infanteria = new Infanteria();
-        caballeria = new Caballeria();
+        arquero = new Arquero(50,20,10,2);
+        infanteria = new Infanteria(35,20,30,2);
+        caballeria = new Caballeria(50,20,25,1);
         casa = new Casa();
     }
     
@@ -28,7 +28,7 @@ public class InfanteriaTests
         Assert.That(infanteria.Vida, Is.EqualTo(35));
         Assert.That(infanteria.ValorAtaque, Is.EqualTo(20));
         Assert.That(infanteria.ValorDefensa, Is.EqualTo(30));
-        Assert.That(infanteria.ValorVelocidad, Is.EqualTo(15));
+        Assert.That(infanteria.ValorVelocidad, Is.EqualTo(2));
         
         // Verifica que la vida de la infanteria sea siempre mayor o igual a 0
         
@@ -52,9 +52,6 @@ public class InfanteriaTests
     {
         // Verifica el buen funcionamiento del ataque entre infanteria y caballeria
 
-        caballeria.Vida = 50;
-        caballeria.ValorDefensa = 25;
-
         infanteria.AtacarUnidades(caballeria);
 
         Assert.That(caballeria.Vida, Is.EqualTo(45));
@@ -64,9 +61,6 @@ public class InfanteriaTests
     public void InfanteriaVSArqueroCorrectamente()
     {
         // Verifica el buen funcionamiento del ataque entre infanteria y arquero
-
-        arquero.Vida = 50;
-        arquero.ValorDefensa = 10;
 
         infanteria.AtacarUnidades(arquero);
 

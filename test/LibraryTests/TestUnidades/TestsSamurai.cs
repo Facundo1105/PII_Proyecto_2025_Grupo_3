@@ -15,11 +15,11 @@ public class SamuraiTests
     [SetUp]
     public void Setup()
     {
-        samurai = new Samurai();
-        elefante = new Elefante();
-        arquero = new Arquero();
-        infanteria = new Infanteria();
-        caballeria = new Caballeria();
+        samurai = new Samurai(35,50,25, 2);
+        elefante = new Elefante(50,20,20,4);
+        arquero = new Arquero(50,20,10,2);
+        infanteria = new Infanteria(50,20,15, 2);
+        caballeria = new Caballeria(50,20,25,1);
         casa = new Casa();
     }
     
@@ -32,7 +32,7 @@ public class SamuraiTests
         Assert.That(samurai.Vida, Is.EqualTo(35));
         Assert.That(samurai.ValorAtaque, Is.EqualTo(50));
         Assert.That(samurai.ValorDefensa, Is.EqualTo(25));
-        Assert.That(samurai.ValorVelocidad, Is.EqualTo(40));
+        Assert.That(samurai.ValorVelocidad, Is.EqualTo(2));
 
         // Verifica que la vida del samurai sea siempre mayor o igual a 0
         
@@ -55,9 +55,6 @@ public class SamuraiTests
     {
         // Verifica el buen funcionamiento del ataque entre samurai y elefante
 
-        elefante.Vida = 50;
-        elefante.ValorDefensa = 20;
-
         samurai.AtacarUnidades(elefante);
 
         Assert.That(elefante.Vida, Is.EqualTo(20));
@@ -67,9 +64,6 @@ public class SamuraiTests
     public void SamuraiVSInfanteriaCorrectamente()
     {
         // Verifica el buen funcionamiento del ataque entre samurai e infanteria
-
-        infanteria.Vida = 50;
-        infanteria.ValorDefensa = 15;
 
         samurai.AtacarUnidades(infanteria);
 
@@ -82,9 +76,6 @@ public class SamuraiTests
     {
         // Verifica el buen funcionamiento del ataque entre samurai y caballeria
 
-        caballeria.Vida = 50;
-        caballeria.ValorDefensa = 25;
-
         samurai.AtacarUnidades(caballeria);
 
         Assert.That(caballeria.Vida, Is.EqualTo(25));
@@ -94,9 +85,6 @@ public class SamuraiTests
     public void SamuraiVSArqueroCorrectamente()
     {
         // Verifica el buen funcionamiento del ataque entre samurai y arquero
-
-        arquero.Vida = 50;
-        arquero.ValorDefensa = 10;
 
         samurai.AtacarUnidades(arquero);
 
