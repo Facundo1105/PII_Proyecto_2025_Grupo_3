@@ -1,19 +1,19 @@
+using Library.Recursos;
+
 namespace Library;
 
-public class Molino : IEstructuras
+public class Granja : IEstructuras
 {
-    private int vida = 0;
+    private int vida = 2000;
 
-    public int CapacidadMaxima = 4000;
-
-    public int EspacioOcupado = 0;
-    public bool EsDeposito => true;
+    public Alimento Alimento = new Alimento();
+    
 
     public string Nombre
     {
         get
         {
-            return "Molino";
+            return "Granja";
         }
     }
 

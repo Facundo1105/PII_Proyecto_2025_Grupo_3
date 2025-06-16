@@ -2,18 +2,21 @@ using Library.Recursos;
 
 using NUnit.Framework;
 
-namespace LibraryTests
+namespace LibraryTests;
+
+public class TestOro
 {
-    public class TestOro
-    {
+    private Oro oro;
 
-    public class OroTests
+    [SetUp]
+    public void Setup()
     {
+        oro = new Oro();
+    }
+    
     [Test]
-    public void Oro_PropiedadesFuncionanCorrectamente()
+    public void OroPropiedadesFuncionanCorrectamente()
     {
-        var oro = new Oro();
-
         // Verifica nombre
         Assert.That(oro.Nombre, Is.EqualTo("Oro"));
 
@@ -30,10 +33,5 @@ namespace LibraryTests
 
         // Verifica tasa de recolección
         Assert.That(oro.TasaRecoleccion, Is.EqualTo(30));
-    }
-}
-
-    
-
     }
 }

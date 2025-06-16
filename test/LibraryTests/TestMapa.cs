@@ -28,7 +28,7 @@ namespace LibraryTests
         [Test]
         public void CeldaLibreOConRecurso()
         {
-            if (!celda.EstaLibre())
+            if (!celda.EstaLibre() && celda.Recursos != null)
             {
                 Assert.That(celda.Recursos.Nombre, Is.AnyOf("Madera", "Alimento", "Oro", "Piedra"));
             }

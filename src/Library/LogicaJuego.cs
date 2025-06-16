@@ -12,36 +12,37 @@ public class LogicaJuego
         this.mapa = mapa;
     }
     public static void ObtenerRecursoDeCelda(Celda celda, Aldeano aldeano, Jugador jugador)
+    public static void ObtenerRecursoDeCelda(Celda celdaRecurso, Aldeano aldeano, Jugador jugador)
     {
-        if (celda.Recursos != null)
+        if (celdaRecurso.Recursos != null)
         {
             Console.WriteLine("Recolectando Recurso...");
 
             int cantidadARecolectar = 500;
             int recolectado = 0;
 
-            int tasaRecoleccion = celda.Recursos.TasaRecoleccion;
+            int tasaRecoleccion = celdaRecurso.Recursos.TasaRecoleccion;
 
             //bonificacion japoneses
-            if (jugador.Civilizacion is Japoneses && celda.Recursos.Nombre == "Alimneto")
+            if (jugador.Civilizacion is Japoneses && celdaRecurso.Recursos.Nombre == "Alimneto")
             {
                 tasaRecoleccion *= (int)Math.Round(1.20);
             }
 
             //bonificacion romanos
-            if (jugador.Civilizacion is Romanos && celda.Recursos.Nombre == "Madera")
+            if (jugador.Civilizacion is Romanos && celdaRecurso.Recursos.Nombre == "Madera")
             {
                 tasaRecoleccion *= (int)Math.Round(1.20);
             }
 
             //bonificacion indios
-            if (jugador.Civilizacion is Indios && celda.Recursos.Nombre == "Piedra")
+            if (jugador.Civilizacion is Indios && celdaRecurso.Recursos.Nombre == "Piedra")
             {
                 tasaRecoleccion *= (int)Math.Round(1.15);
             }
 
             //bonificacion vikingos
-            if (jugador.Civilizacion is Vikingos && celda.Recursos.Nombre == "Oro")
+            if (jugador.Civilizacion is Vikingos && celdaRecurso.Recursos.Nombre == "Oro")
             {
                 tasaRecoleccion *= (int)Math.Round(1.10);
             }
@@ -55,7 +56,7 @@ public class LogicaJuego
                     break;
                 }
 
-                celda.Recursos.Vida -= 1;
+                celdaRecurso.Recursos.Vida -= 1;
                 recolectado += cantidad;
 
                 Thread.Sleep(1000);
@@ -63,40 +64,22 @@ public class LogicaJuego
 
             Console.WriteLine("Recurso recolectado");
 
-            if (celda.Recursos.Vida <= 0)
+            if (celdaRecurso.Recursos.Vida <= 0)
             {
-                celda.Recursos = null;
+                celdaRecurso.Recursos = null;
             }
         }
-        else if (celda.Estructuras != null && celda.Estructuras is Granja granja)
+        else if (celdaRecurso.Estructuras != null && celdaRecurso.Estructuras is Granja granja)
         {
             int cantidadRecolectar = 500;
             int recolectado = 0;
             
-            int tasaRecoleccion = granja.alimento.TasaRecoleccion;
+            int tasaRecoleccion = granja.Alimento.TasaRecoleccion;
 
             //bonificacion japoneses
-            if (jugador.Civilizacion is Japoneses && celda.Recursos.Nombre == "Alimneto")
+            if (jugador.Civilizacion is Japoneses && granja.Alimento.Nombre == "Alimneto")
             {
                 tasaRecoleccion *= (int)Math.Round(1.20);
-            }
-
-            //bonificacion romanos
-            if (jugador.Civilizacion is Romanos && celda.Recursos.Nombre == "Madera")
-            {
-                tasaRecoleccion *= (int)Math.Round(1.20);
-            }
-
-            //bonificacion indios
-            if (jugador.Civilizacion is Indios && celda.Recursos.Nombre == "Piedra")
-            {
-                tasaRecoleccion *= (int)Math.Round(1.15);
-            }
-
-            //bonificacion vikingos
-            if (jugador.Civilizacion is Vikingos && celda.Recursos.Nombre == "Oro")
-            {
-                tasaRecoleccion *= (int)Math.Round(1.10);
             }
 
             while (recolectado < cantidadRecolectar)
@@ -108,7 +91,7 @@ public class LogicaJuego
                     break;
                 }
 
-                granja.alimento.Vida -= 1;
+                granja.Alimento.Vida -= 1;
                 recolectado += cantidad;
 
                 Thread.Sleep(1000);
@@ -116,25 +99,16 @@ public class LogicaJuego
             
             Console.WriteLine("Recurso recolectado");
 
-            if (granja.alimento.Vida <= 0)
+            if (granja.Alimento.Vida <= 0)
             {
-                celda.Estructuras = null;
+                celdaRecurso.Estructuras = null;
             }
             
         }
     }
 
-    public static void DepositarRecursos(Jugador jugadorDepositar, IEstructuras depositoCercano, int cantidadRecurso, string tipoRecurso)
-    {
-        if (depositoCercano == null)
-        {
-            Console.WriteLine("No hay deposito para depositar los recursos");
-            return;
-        }
-
-        if (!depositoCercano.EsDeposito)
-            return;
-
+    public static void DepositarRecursos(Jugador jugadorDepositar, IEstructurasDepositos depositoCercano, int cantidadRecurso, string tipoRecurso)
+    { 
         // Depositar Oro
         if (depositoCercano is DepositoOro depositoOro)
         {
@@ -207,13 +181,17 @@ public class LogicaJuego
         }
     }
     
-    public static void ConstruirEstructuras(IEstructuras estructuraConstruir, Jugador jugadorConstruir, Celda celdaEstructura, Aldeano aldeanoContruir)
+    public static void ConstruirEstructuras(IEstructuras estructuraConstruir, Jugador jugadorConstruir, Celda celdaEstructura, Celda celdaAldeano, Aldeano aldeanoContruir)
     {
         if (celdaEstructura.EstaLibre())
         {
-            const int CostoOro = 200;
-            const int CostoMadera = 300;
-            const int CostoPiedra = 300;
+            // Aldeano se ubica en donde construira la estructura
+            celdaAldeano.VaciarCelda();
+            celdaEstructura.Aldeano = aldeanoContruir;
+            
+            const int costoOro = 200;
+            const int costoMadera = 300;
+            const int costoPiedra = 300;
 
             // Sumar recursos disponibles
             
@@ -305,10 +283,11 @@ public class LogicaJuego
                         centroCivico.RecursosDeposito["Piedra"] -= aDescontar;
                     }
 
+                    // Incorpora la estructura al mapa y a la lista de estructuras del jugador, Aldeano vuelve a su posicion
+                    celdaEstructura.VaciarCelda();
                     celdaEstructura.AsignarEstructura(estructuraConstruir);
                     jugadorConstruir.Estructuras.Add(estructuraConstruir);
-                    Celda celda = new Celda(celdaEstructura.x - 1, celdaEstructura.y);
-                    celda.AsignarAldeano(aldeanoContruir);
+                    celdaAldeano.AsignarAldeano(aldeanoContruir);
                 }
             }
             else if (estructuraConstruir is CastilloJapones && jugadorConstruir.Civilizacion is Japoneses)
@@ -365,10 +344,11 @@ public class LogicaJuego
                         centroCivico.RecursosDeposito["Piedra"] -= aDescontar;
                     }
 
+                    // Incorpora la estructura al mapa y a la lista de estructuras del jugador. Aldeano vuelve a su posicion
+                    celdaEstructura.VaciarCelda();
                     celdaEstructura.AsignarEstructura(estructuraConstruir);
                     jugadorConstruir.Estructuras.Add(estructuraConstruir);
-                    Celda celda = new Celda(celdaEstructura.x - 1, celdaEstructura.y);
-                    celda.AsignarAldeano(aldeanoContruir);
+                    celdaAldeano.AsignarAldeano(aldeanoContruir);
                 }
             }
             else if (estructuraConstruir is CastilloRomano && jugadorConstruir.Civilizacion is Romanos)
@@ -425,10 +405,11 @@ public class LogicaJuego
                         centroCivico.RecursosDeposito["Piedra"] -= aDescontar;
                     }
 
+                    // Incorpora la estructura al mapa y a la lista de estructuras del jugador. Aldeano vuelve a su posicion
+                    celdaEstructura.VaciarCelda();
                     celdaEstructura.AsignarEstructura(estructuraConstruir);
                     jugadorConstruir.Estructuras.Add(estructuraConstruir);
-                    Celda celda = new Celda(celdaEstructura.x - 1, celdaEstructura.y);
-                    celda.AsignarAldeano(aldeanoContruir);
+                    celdaAldeano.AsignarAldeano(aldeanoContruir);
                 }
             }
             else if (estructuraConstruir is CastilloVikingo && jugadorConstruir.Civilizacion is Vikingos)
@@ -484,25 +465,22 @@ public class LogicaJuego
                         int aDescontar = Math.Min(piedraRestante, centroCivico.RecursosDeposito["Piedra"]);
                         centroCivico.RecursosDeposito["Piedra"] -= aDescontar;
                     }
-
+                    
+                    // Incorpora la estructura al mapa y a la lista de estructuras del jugador. Aldeano vuelve a su posicion
+                    celdaEstructura.VaciarCelda();
                     celdaEstructura.AsignarEstructura(estructuraConstruir);
                     jugadorConstruir.Estructuras.Add(estructuraConstruir);
-                    Celda celda = new Celda(celdaEstructura.x - 1, celdaEstructura.y);
-                    celda.AsignarAldeano(aldeanoContruir);
+                    celdaAldeano.AsignarAldeano(aldeanoContruir);
                 }
-            }
-            else if (estructuraConstruir is Casa)
-            {
-                AumentarLimitePoblacion(jugadorConstruir);
             }
             else
             {
                 // Verificar si tiene recursos suficientes
-                if (oroTotal >= CostoOro && maderaTotal >= CostoMadera && piedraTotal >= CostoPiedra)
+                if (oroTotal >= costoOro && maderaTotal >= costoMadera && piedraTotal >= costoPiedra)
                 {
-                    int oroRestante = CostoOro;
-                    int maderaRestante = CostoMadera;
-                    int piedraRestante = CostoPiedra;
+                    int oroRestante = costoOro;
+                    int maderaRestante = costoMadera;
+                    int piedraRestante = costoPiedra;
 
                     // Descontar oro de depósitos primero, luego centro cívico
                     foreach (DepositoOro dOro in depositosOro)
@@ -548,12 +526,18 @@ public class LogicaJuego
                         int aDescontar = Math.Min(piedraRestante, centroCivico.RecursosDeposito["Piedra"]);
                         centroCivico.RecursosDeposito["Piedra"] -= aDescontar;
                     }
-
+                    
+                    // Incorpora la estructura al mapa y a la lista de estructuras del jugador. Aldeano vuelve a su posicion
+                    celdaEstructura.VaciarCelda();
                     celdaEstructura.AsignarEstructura(estructuraConstruir);
                     jugadorConstruir.Estructuras.Add(estructuraConstruir);
-                    Celda celda = new Celda(celdaEstructura.x - 1, celdaEstructura.y);
-                    celda.AsignarAldeano(aldeanoContruir);
-
+                    celdaAldeano.AsignarAldeano(aldeanoContruir);
+                    
+                    // Aumenta la poblacion al crear una casa si todavia no se llego al limite
+                    if (estructuraConstruir is Casa)
+                    {
+                        AumentarLimitePoblacion(jugadorConstruir);
+                    }
                 }
             }
         }
@@ -623,12 +607,14 @@ public class LogicaJuego
                 {
                     i++;
                 }
+                
+                Console.WriteLine($"{estructuraDefensa.Nombre} enemigo tiene vida: {estructuraDefensa.Vida}");
 
                 if (estructuraDefensa is CentroCivico)
                 {
-                    if (estructuraDefensa.Vida <= 150)
+                    if (estructuraDefensa.Vida <= 100)
                     {
-                        Console.WriteLine($"Jugador {jugadorDefensa.Nombre} esta por perder");
+                        Console.WriteLine($"El Centro Civico del Jugador {jugadorDefensa.Nombre} tiene una vida menor o igual de 100, esta por perder");
                     }
                 }
             }
@@ -735,9 +721,9 @@ public class LogicaJuego
         }
     }
 
-    public static IEstructuras DepositoMasCercano(int aldeanoX, int aldeanoY, string tipoRecurso)
+    public static IEstructurasDepositos DepositoMasCercano(int aldeanoX, int aldeanoY, string tipoRecurso)
     {
-        IEstructuras masCercano = null;
+        IEstructurasDepositos masCercano = null;
         int menorDistancia = int.MaxValue;
 
         for (int x = 0; x < celdas.GetLength(0); x++)
@@ -745,7 +731,7 @@ public class LogicaJuego
             for (int y = 0; y < celdas.GetLength(1); y++)
             {
                 var celda = celdas[x, y];
-                if (celda.Estructuras != null && celda.Estructuras.EsDeposito)
+                if (celda.Estructuras != null)
                 {
                     bool esDepositoCorrecto = false;
                     bool tieneEspacio = false;
@@ -813,7 +799,7 @@ public class LogicaJuego
                     if (distanciaCalculada < menorDistancia)
                     {
                         menorDistancia = distanciaCalculada;
-                        masCercano = celda.Estructuras;
+                        masCercano = (IEstructurasDepositos)celda.Estructuras;
                     }
                 }
             }

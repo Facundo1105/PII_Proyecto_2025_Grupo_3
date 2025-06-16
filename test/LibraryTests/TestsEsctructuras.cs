@@ -36,12 +36,6 @@ public class TestsEstructuras
     {
         Assert.That(centro.Nombre, Is.EqualTo("Centro Civico"));
     }
-    
-    [Test]
-    public void EsDepositoDebeSerTrue()
-    {
-        Assert.That(centro.EsDeposito, Is.True);
-    }
 
     [Test]
     public void VidaNoPuedeSerNegativa()

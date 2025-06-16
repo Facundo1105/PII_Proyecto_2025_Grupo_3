@@ -2,9 +2,9 @@ using Library.Civilizaciones;
 
 namespace Library;
 
-public class CampoTiro : IEstructuras
+public class CampoTiro : IEstructurasUnidades
 {
-    private int vida = 0;
+    private int vida = 2500;
 
     public string Nombre
     {
@@ -25,9 +25,8 @@ public class CampoTiro : IEstructuras
             this.vida = value < 0 ? 0 : value;
         }
     }
-    public bool EsDeposito => false;
 
-    public static void CrearArquero(Jugador jugador)
+    public void CrearUnidad(Jugador jugador)
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30)
         { 

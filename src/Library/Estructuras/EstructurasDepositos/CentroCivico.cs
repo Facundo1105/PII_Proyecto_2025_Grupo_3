@@ -1,16 +1,26 @@
 namespace Library;
 
-public class CentroCivico : IEstructuras
+public class CentroCivico : IEstructurasDepositos
 {
-    private int vida = 3000;
+    private int vida = 3500;
 
-    public int CapacidadMaxima = 10000;
+    public int CapacidadMaxima
+    {
+        get
+        {
+            return 10000;
+        }
+    }
 
     public int EspacioOcupado
     {
         get
         {
             return RecursosDeposito["Oro"] + RecursosDeposito["Alimento"] + RecursosDeposito["Madera"] + RecursosDeposito["Piedra"];
+        }
+        set
+        {
+            throw new InvalidOperationException("Espacio Ocupado no puede ser seteado directamente.");
         }
     }
     
@@ -40,7 +50,6 @@ public class CentroCivico : IEstructuras
             this.vida = value < 0 ? 0 : value;
         }
     }
-    public bool EsDeposito => true;
 
     public void CrearAldeano(Jugador jugador, Celda celdaAldeano)
     {
