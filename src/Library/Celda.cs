@@ -49,6 +49,8 @@ public class Celda
         if (EstaLibre())
         {
             this.Estructuras = estructura;
+            estructura.X = this.x;
+            estructura.Y = this.y;
             return true;
         }
         else
@@ -81,8 +83,6 @@ public class Celda
         {
             this.Aldeano = aldeano;
             aldeano.CeldaActual = this;
-            aldeano.X = this.x;
-            aldeano.Y = this.y;
             return true;
         }
         else
