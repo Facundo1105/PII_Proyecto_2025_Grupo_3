@@ -108,7 +108,7 @@ public class CampoTiro : IEstructurasUnidades
                     centroCivico.RecursosDeposito["Alimento"] -= aDescontar;
                 }
                 
-                jugador.Arqueros.Add(new Arquero());
+                jugador.Arqueros.Add(new Arquero(75, 20, 10, 2));
             }
         }
     }

@@ -9,7 +9,6 @@ public class Partida
     public Jugador jugador2;
     public int turno = 1;
     public Mapa mapa;
-    public LogicaJuego logica;
     
     public Partida(Jugador jugador1, Jugador jugador2)
     {

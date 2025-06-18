@@ -124,7 +124,7 @@ public class Establo : IEstructurasUnidades
                     centroCivico.RecursosDeposito["Madera"] -= aDescontar;
                 }
                 
-                jugador.Caballeria.Add(new Caballeria());
+                jugador.Caballeria.Add(new Caballeria(100, 20, 15, 1));
             }
         }
     }

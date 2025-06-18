@@ -117,7 +117,7 @@ public class CastilloVikingo : IEstructurasUnidades
                     centroCivico.RecursosDeposito["Madera"] -= aDescontar;
                 }
                 
-                jugador.Caballeria.Add(new Caballeria());
+                jugador.UnidadEspecial.Add(new Thor(125, 50, 10, 1));
             }
         }
     }

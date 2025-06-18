@@ -93,7 +93,7 @@ public class CastilloRomano : IEstructurasUnidades
                     centroCivico.RecursosDeposito["Alimento"] -= aDescontar;
                 }
                 
-                jugador.UnidadEspecial.Add(new JulioCesar());
+                jugador.UnidadEspecial.Add(new JulioCesar(75, 15, 15, 3));
             }
         }
     }

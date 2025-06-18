@@ -119,7 +119,7 @@ public class CastilloIndio : IEstructurasUnidades
                     centroCivico.RecursosDeposito["Madera"] -= aDescontar;
                 }
 
-                jugador.UnidadEspecial.Add(new Elefante());
+                jugador.UnidadEspecial.Add(new Elefante(150, 40, 20, 4));
             }
         }
     }

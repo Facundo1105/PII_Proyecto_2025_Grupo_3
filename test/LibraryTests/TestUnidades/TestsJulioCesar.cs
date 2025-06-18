@@ -15,11 +15,11 @@ public class JulioCesarTests
     [SetUp]
     public void Setup()
     {
-        julioCesar = new JulioCesar();
-        thor = new Thor();
-        arquero = new Arquero();
-        infanteria = new Infanteria();
-        caballeria = new Caballeria();
+        julioCesar = new JulioCesar(40,35,50,3);
+        thor = new Thor(50,20,20,1);
+        arquero = new Arquero(40,20,15,2);
+        infanteria = new Infanteria(50, 20, 30, 2);
+        caballeria = new Caballeria(50,20, 25,1);
         casa = new Casa();
     }
     
@@ -32,7 +32,7 @@ public class JulioCesarTests
         Assert.That(julioCesar.Vida, Is.EqualTo(40));
         Assert.That(julioCesar.ValorAtaque, Is.EqualTo(35));
         Assert.That(julioCesar.ValorDefensa, Is.EqualTo(50));
-        Assert.That(julioCesar.ValorVelocidad, Is.EqualTo(25));
+        Assert.That(julioCesar.ValorVelocidad, Is.EqualTo(3));
 
         // Verifica que la vida de julio cesar sea siempre mayor o igual a 0
         
@@ -56,9 +56,6 @@ public class JulioCesarTests
     {
         // Verifica el buen funcionamiento del ataque entre julio cesar y thor
 
-        thor.Vida = 50;
-        thor.ValorDefensa = 20;
-
         julioCesar.AtacarUnidades(thor);
 
         Assert.That(thor.Vida, Is.EqualTo(18));
@@ -69,9 +66,6 @@ public class JulioCesarTests
     {
         // Verifica el buen funcionamiento del ataque entre julio cesar y arquero
 
-        arquero.Vida = 40;
-        arquero.ValorDefensa = 15;
-
         julioCesar.AtacarUnidades(arquero);
 
         Assert.That(arquero.Vida, Is.EqualTo(20));
@@ -81,9 +75,6 @@ public class JulioCesarTests
     public void JulioCesarVSInfanteriaCorrectamente()
     {
         // Verifica el buen funcionamiento del ataque entre julio cesar e infanteria
-        
-        infanteria.Vida = 50;
-        infanteria.ValorDefensa = 30;
 
         julioCesar.AtacarUnidades(infanteria);
         
@@ -94,9 +85,6 @@ public class JulioCesarTests
     public void JulioCesarVSCaballeria()
     {
         // Verifica el buen funcionamiento del ataque entre julio cesar y caballeria
-        
-        caballeria.Vida = 50;
-        caballeria.ValorDefensa = 25;
 
         julioCesar.AtacarUnidades(caballeria);
 

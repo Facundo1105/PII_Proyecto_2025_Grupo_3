@@ -7,7 +7,6 @@ public class LogicaJuego
 {
     public static Celda[,] celdas;
     private Mapa mapa;
-
     public static void ObtenerRecursoDeCelda(Celda celdaRecurso, Aldeano aldeano, Jugador jugador)
     {
         if (celdaRecurso.Recursos != null)
@@ -20,7 +19,7 @@ public class LogicaJuego
             int tasaRecoleccion = celdaRecurso.Recursos.TasaRecoleccion;
 
             //bonificacion japoneses
-            if (jugador.Civilizacion is Japoneses && celdaRecurso.Recursos.Nombre == "Alimento")
+            if (jugador.Civilizacion is Japoneses && celdaRecurso.Recursos.Nombre == "Alimneto")
             {
                 tasaRecoleccion *= (int)Math.Round(1.20);
             }
@@ -73,7 +72,7 @@ public class LogicaJuego
             int tasaRecoleccion = granja.Alimento.TasaRecoleccion;
 
             //bonificacion japoneses
-            if (jugador.Civilizacion is Japoneses && granja.Alimento.Nombre == "Alimento")
+            if (jugador.Civilizacion is Japoneses && granja.Alimento.Nombre == "Alimneto")
             {
                 tasaRecoleccion *= (int)Math.Round(1.20);
             }

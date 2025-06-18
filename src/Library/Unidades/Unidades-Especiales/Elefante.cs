@@ -1,59 +1,27 @@
 ﻿namespace Library;
 
-public class Elefante : IUnidades
+public class Elefante : Unidad
 {
-
-    private int vida = 65;
-    private int valorAtaque = 35;
-    private int valorDefensa = 40;
-    private int valorVelocidad = 10;
-    public Celda CeldaActual { get; set; }
-
-    public string Nombre
+    public override string Nombre
     {
-        get
-        {
-            return "Elefante";
-        }
+        get{return "Elefante";}
+    }
+    
+    public Elefante(int vida, int valorAtaque, int valorDefensa, int valorVelocidad) 
+        : base(vida, valorAtaque, valorDefensa, valorVelocidad)
+    {
+        
     }
 
-    public int Vida
+    public override void AtacarUnidades(IUnidades unidad)
     {
-        get { return this.vida; }
-
-        set { this.vida = value < 0 ? 0 : value; }
-    }
-
-    public int ValorAtaque
-    {
-        get { return this.valorAtaque; }
-        set { this.valorAtaque = value < 0 ? 0 : value; }
-
-    }
-
-    public int ValorDefensa
-    {
-        get { return this.valorDefensa; }
-        set { this.valorDefensa = value < 0 ? 0 : value; }
-
-    }
-
-    public int ValorVelocidad
-    {
-        get { return this.valorVelocidad; }
-        set { this.valorVelocidad = value < 0 ? 0 : value; }
-
-    }
-
-    public void AtacarUnidades(IUnidades unidad)
-    {
-        int AtaqueBase = this.valorAtaque;
+        int AtaqueBase = this.ValorAtaque; 
 
         if (unidad is Infanteria || unidad is Caballeria)
         {
             AtaqueBase = (int)(AtaqueBase * 1.5);
         }
-        
+    
         int ValorDaño = AtaqueBase - unidad.ValorDefensa;
 
 
@@ -67,19 +35,8 @@ public class Elefante : IUnidades
         if (unidad.Vida < 0)
         {
             unidad.Vida = 0;
-        }
+        } 
     }
 
-    public void AtacarEstructuras(IEstructuras estructura)
-    {
-        int ValorDaño = this.valorAtaque;
-
-        estructura.Vida = estructura.Vida - ValorDaño;
-
-        if (estructura.Vida < 0)
-        {
-            estructura.Vida = 0;
-        }
-    }
 
 }
