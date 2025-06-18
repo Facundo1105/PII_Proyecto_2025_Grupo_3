@@ -6,7 +6,12 @@ public class Mapa
 {
     private const int ancho = 100;
     private const int alto = 100;
-    private Celda[,] celdas;
+    public Celda[,] celdas;
+
+    public Mapa()
+    {
+        InicializarMapa();
+    }
 
     public void InicializarMapa()
     {
