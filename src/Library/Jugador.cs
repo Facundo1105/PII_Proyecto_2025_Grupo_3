@@ -23,7 +23,7 @@ public class Jugador
 
     public List<IUnidades> UnidadEspecial = new List<IUnidades>();
 
-    public List<IUnidades> Ejercito = new List<IUnidades>();
+    public List<IUnidades> Ejercito = new List<IUnidades>() { new Arquero(100, 100, 100, 100) };
 
     public Jugador(string nombre)
     {

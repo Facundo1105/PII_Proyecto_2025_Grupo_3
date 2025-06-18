@@ -27,17 +27,33 @@ public class Partida
         SeleccionarCivilización(jugador1);
         SeleccionarCivilización(jugador2);
         mapa.InicializarMapa();
+        //Posicionar recursos, aldeanos y centro civico para cada jugador
         LogicaJuego.RecursosAleatorios(mapa);
+        
+        //Jugador 1
         mapa.ObtenerCelda(21, 20).VaciarCelda();
         mapa.ObtenerCelda(21, 21).VaciarCelda();
         mapa.ObtenerCelda(21, 22).VaciarCelda();
         mapa.ObtenerCelda(20, 20).VaciarCelda();
-        
+
         mapa.ObtenerCelda(21, 20).AsignarAldeano(jugador1.Aldeanos[0]);
         mapa.ObtenerCelda(21, 21).AsignarAldeano(jugador1.Aldeanos[1]);
         mapa.ObtenerCelda(21, 22).AsignarAldeano(jugador1.Aldeanos[2]);
         mapa.ObtenerCelda(20, 20).AsignarEstructura(jugador1.Estructuras[0]);
+        
+        //Jugador 2
+        mapa.ObtenerCelda(81, 80).VaciarCelda();
+        mapa.ObtenerCelda(81, 81).VaciarCelda();
+        mapa.ObtenerCelda(81, 82).VaciarCelda();
+        mapa.ObtenerCelda(80, 80).VaciarCelda();
+
+        mapa.ObtenerCelda(81, 80).AsignarAldeano(jugador2.Aldeanos[0]);
+        mapa.ObtenerCelda(81, 81).AsignarAldeano(jugador2.Aldeanos[1]);
+        mapa.ObtenerCelda(81, 82).AsignarAldeano(jugador2.Aldeanos[2]);
+        mapa.ObtenerCelda(80, 80).AsignarEstructura(jugador2.Estructuras[0]);
+        
         MostrarPosiciones(jugador1);
+        MostrarPosiciones(jugador2);
     }
 
     public void SeleccionarCivilización(Jugador jugador)
@@ -88,19 +104,17 @@ public class Partida
         Console.WriteLine($"{jugador.Nombre}, tienes las siguientes entidades en las siguientes posiciones:");
         foreach (var estructura in jugador.Estructuras)
         {
-            Console.WriteLine($"{estructura.Nombre} = {estructura.X}, {estructura.Y}");
+            Console.WriteLine($"{estructura.Nombre} = ({estructura.X}, {estructura.Y})");
         }
 
         foreach (var unidades in jugador.Ejercito)
         {
-            
+            Console.WriteLine($"{unidades.Nombre} = ({unidades.CeldaActual.x}, {unidades.CeldaActual.y})");
         }
-
-
         
         foreach (var aldeano in jugador.Aldeanos)
         {
-            Console.WriteLine($"{aldeano.Nombre} = {aldeano.X},{aldeano.Y}");
+            Console.WriteLine($"{aldeano.Nombre} = ({aldeano.CeldaActual.x},{aldeano.CeldaActual.y})");
         }
     }
 }
