@@ -7,8 +7,7 @@ public class Thor : Unidad
         get{return "Thor";}
     }
     
-    public Thor(int vida, int valorAtaque, int valorDefensa, int valorVelocidad) 
-        : base(vida, valorAtaque, valorDefensa, valorVelocidad)
+    public Thor(int vida, int valorAtaque, int valorDefensa, int valorVelocidad) : base(vida, valorAtaque, valorDefensa, valorVelocidad)
     {
         
     }
