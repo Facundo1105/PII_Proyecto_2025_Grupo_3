@@ -102,19 +102,29 @@ public class Partida
     public void MostrarPosiciones(Jugador jugador)
     {
         Console.WriteLine($"{jugador.Nombre}, tienes las siguientes entidades en las siguientes posiciones:");
-        foreach (var estructura in jugador.Estructuras)
+        if (jugador.Estructuras != null)
         {
-            Console.WriteLine($"{estructura.Nombre} = ({estructura.X}, {estructura.Y})");
+            foreach (IEstructuras estructura in jugador.Estructuras)
+            {
+                Console.WriteLine($"{estructura.Nombre} = ({estructura.X}, {estructura.Y})");
+            }
         }
 
-        foreach (var unidades in jugador.Ejercito)
+
+        if (jugador.Ejercito != null)
         {
-            Console.WriteLine($"{unidades.Nombre} = ({unidades.CeldaActual.x}, {unidades.CeldaActual.y})");
+            foreach (IUnidades unidades in jugador.Ejercito)
+            {
+                Console.WriteLine($"{unidades.Nombre} = ({unidades.CeldaActual.x}, {unidades.CeldaActual.y})");
+            }
         }
-        
-        foreach (var aldeano in jugador.Aldeanos)
+
+        if (jugador.Aldeanos != null)
         {
-            Console.WriteLine($"{aldeano.Nombre} = ({aldeano.CeldaActual.x},{aldeano.CeldaActual.y})");
+            foreach (Aldeano aldeano in jugador.Aldeanos)
+            {
+                Console.WriteLine($"{aldeano.Nombre} = ({aldeano.CeldaActual.x},{aldeano.CeldaActual.y})");
+            }
         }
     }
 }
