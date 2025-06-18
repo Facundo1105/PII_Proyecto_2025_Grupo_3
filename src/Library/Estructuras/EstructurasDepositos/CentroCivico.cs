@@ -1,8 +1,11 @@
 namespace Library;
 
-public class CentroCivico : IEstructurasDepositos
+public class CentroCivico : IEstructuras
 {
     private int vida = 3500;
+    public Celda CeldaActual { get; set; }
+    public int X { get; set; }
+    public int Y { get; set; }
 
     public int CapacidadMaxima
     {

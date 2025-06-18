@@ -7,10 +7,7 @@ public class LogicaJuego
 {
     public static Celda[,] celdas;
     private Mapa mapa;
-    public LogicaJuego(Mapa mapa)
-    {
-        this.mapa = mapa;
-    }
+
     public static void ObtenerRecursoDeCelda(Celda celdaRecurso, Aldeano aldeano, Jugador jugador)
     {
         if (celdaRecurso.Recursos != null)
@@ -23,7 +20,7 @@ public class LogicaJuego
             int tasaRecoleccion = celdaRecurso.Recursos.TasaRecoleccion;
 
             //bonificacion japoneses
-            if (jugador.Civilizacion is Japoneses && celdaRecurso.Recursos.Nombre == "Alimneto")
+            if (jugador.Civilizacion is Japoneses && celdaRecurso.Recursos.Nombre == "Alimento")
             {
                 tasaRecoleccion *= (int)Math.Round(1.20);
             }
@@ -76,7 +73,7 @@ public class LogicaJuego
             int tasaRecoleccion = granja.Alimento.TasaRecoleccion;
 
             //bonificacion japoneses
-            if (jugador.Civilizacion is Japoneses && granja.Alimento.Nombre == "Alimneto")
+            if (jugador.Civilizacion is Japoneses && granja.Alimento.Nombre == "Alimento")
             {
                 tasaRecoleccion *= (int)Math.Round(1.20);
             }
@@ -692,7 +689,7 @@ public class LogicaJuego
         destino.AsignarUnidades(unidadesMover);
     }
     
-        public void RecursosAleatorios(Mapa mapa)
+        public static void RecursosAleatorios(Mapa mapa)
     {
         int cantRecursos = 4000;
         Random random = new Random();

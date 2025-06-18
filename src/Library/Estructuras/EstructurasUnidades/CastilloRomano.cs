@@ -3,6 +3,8 @@ namespace Library;
 public class CastilloRomano : IEstructurasUnidades
 {
     private int vida = 3000;
+    public int X { get; set; }
+    public int Y { get; set; }
 
     public string Nombre
     {

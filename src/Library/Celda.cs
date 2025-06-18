@@ -49,6 +49,8 @@ public class Celda
         if (EstaLibre())
         {
             this.Estructuras = estructura;
+            estructura.X = this.x;
+            estructura.Y = this.y;
             return true;
         }
         else

@@ -11,13 +11,14 @@ namespace LibraryTests
         private Celda celda;
         private Aldeano aldeano;
         private Jugador jugador;
+        private LogicaJuego logica;
 
         [SetUp]
         public void Setup()
         {
             mapa = new Mapa();
             mapa.InicializarMapa();
-            LogicaJuego.RecursosAleatorios();
+            LogicaJuego.RecursosAleatorios(mapa);
             Random random = new Random();
             aldeano = new Aldeano();
             int x = random.Next(0, 100);

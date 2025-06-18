@@ -25,9 +25,8 @@ public class Mapa
         return celdas[x, y];
     }
     
-    public Celda ObtenerCelda(object entidad) // Using 'object' for now for simplicity, but see interfaces below
+    public Celda ObtenerCelda(object entidad) 
     {
-        // Check if the entity is null first
         if (entidad == null)
         {
             return null;
@@ -37,8 +36,7 @@ public class Mapa
         {
             return ObtenerCelda(aldeano.X, aldeano.Y);
         }
-
-        // If the entity type is not recognized or doesn't have X/Y properties
+        
         return null;
     }
 
