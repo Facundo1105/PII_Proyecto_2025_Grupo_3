@@ -7,8 +7,7 @@ public class Elefante : Unidad
         get{return "Elefante";}
     }
     
-    public Elefante(int vida, int valorAtaque, int valorDefensa, int valorVelocidad) 
-        : base(vida, valorAtaque, valorDefensa, valorVelocidad)
+    public Elefante(int vida, int valorAtaque, int valorDefensa, int valorVelocidad) : base(vida, valorAtaque, valorDefensa, valorVelocidad)
     {
         
     }

@@ -7,8 +7,7 @@ public class JulioCesar : Unidad
         get{return "Julio Cesar";}
     }
     
-    public JulioCesar(int vida, int valorAtaque, int valorDefensa, int valorVelocidad) 
-        : base(vida, valorAtaque, valorDefensa, valorVelocidad)
+    public JulioCesar(int vida, int valorAtaque, int valorDefensa, int valorVelocidad) : base(vida, valorAtaque, valorDefensa, valorVelocidad)
     {
         
     }
