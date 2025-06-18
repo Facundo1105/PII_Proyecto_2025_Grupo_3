@@ -11,6 +11,7 @@ namespace LibraryTests
         private Celda celda;
         private Aldeano aldeano;
         private Jugador jugador;
+        private Celda celdas;
 
         [SetUp]
         public void Setup()
@@ -23,6 +24,8 @@ namespace LibraryTests
             int x = random.Next(0, 100);
             int y = random.Next(0, 100);
             celda = mapa.ObtenerCelda(x, y);
+            jugador = new Jugador("jugador");
+            
         }
 
         [Test]
@@ -55,7 +58,9 @@ namespace LibraryTests
         public void DepositoMasCercano()
         {
             var celdaConMadera = new Celda(18, 18);
+            Celda celdaaldeano = mapa.ObtenerCelda(20, 22);
             celdaConMadera.AsignarRecurso(new Madera());
+            aldeano.CeldaActual = celdaaldeano;
             
             LogicaJuego.ObtenerRecursoDeCelda(celdaConMadera, aldeano, jugador);
 
@@ -73,7 +78,7 @@ namespace LibraryTests
             var estructura20_20 = mapa.ObtenerCelda(20, 20).Estructuras;
             string recurso = celdaConMadera.Recursos.Nombre;
             
-            var resultado = LogicaJuego.DepositoMasCercano(aldeanoX, aldeanoY, recurso);
+            var resultado = LogicaJuego.DepositoMasCercano(aldeanoX, aldeanoY, recurso,mapa);
             
             var estructuraEsperada = estructura20_20; //estructura mas cerca de 18,18
 
