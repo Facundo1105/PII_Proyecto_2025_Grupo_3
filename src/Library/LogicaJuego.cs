@@ -5,8 +5,7 @@ namespace Library;
 
 public class LogicaJuego
 {
-    public static Celda[,] celdas;
-    private Mapa mapa;
+    
     public static void ObtenerRecursoDeCelda(Celda celdaRecurso, Aldeano aldeano, Jugador jugador)
     {
         if (celdaRecurso.Recursos != null)
@@ -716,16 +715,16 @@ public class LogicaJuego
         }
     }
 
-    public static IEstructurasDepositos DepositoMasCercano(int aldeanoX, int aldeanoY, string tipoRecurso)
+    public static IEstructurasDepositos DepositoMasCercano(int aldeanoX, int aldeanoY, string tipoRecurso,Mapa mapa)
     {
         IEstructurasDepositos masCercano = null;
         int menorDistancia = int.MaxValue;
-
-        for (int x = 0; x < celdas.GetLength(0); x++)
+ 
+        for (int x = 0; x < mapa.celdas.GetLength(0); x++)
         {
-            for (int y = 0; y < celdas.GetLength(1); y++)
+            for (int y = 0; y < mapa.celdas.GetLength(1); y++)
             {
-                var celda = celdas[x, y];
+                var celda = mapa.celdas[x, y];
                 if (celda.Estructuras != null)
                 {
                     bool esDepositoCorrecto = false;
@@ -804,7 +803,7 @@ public class LogicaJuego
     }
 
 
-    public static Celda BuscarRecursoCercano(int xInicial, int yInicial)
+    public static Celda BuscarRecursoCercano(int xInicial, int yInicial,Mapa mapa)
     {
         Celda recursoMasCercano = null;
         int menorDistancia = int.MaxValue;
@@ -813,13 +812,13 @@ public class LogicaJuego
         {
             for (int y = 0; y < 100; y++)
             {
-                if (celdas[x, y].Recursos != null)
+                if (mapa.celdas[x, y].Recursos != null)
                 {
                     int distancia = Math.Abs(x - xInicial) + Math.Abs(y - yInicial);
                     if (distancia < menorDistancia)
                     {
                         menorDistancia = distancia;
-                        recursoMasCercano = celdas[x, y];
+                        recursoMasCercano = mapa.celdas[x, y];
                     }
                 }
             }

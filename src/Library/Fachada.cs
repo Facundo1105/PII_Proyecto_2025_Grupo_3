@@ -71,7 +71,7 @@ public class Fachada
         int aldeanoX = aldeano.CeldaActual.x;
         int aldeanoY = aldeano.CeldaActual.y;
 
-        var celdaConRecurso = LogicaJuego.BuscarRecursoCercano(aldeanoX, aldeanoY);
+        var celdaConRecurso = LogicaJuego.BuscarRecursoCercano(aldeanoX, aldeanoY,mapa);
         
         if (celdaConRecurso.Recursos == null)
         {
@@ -86,7 +86,7 @@ public class Fachada
         
         // Aldeano deposita los recusos recolectados
         
-        IEstructurasDepositos depositoCercano = LogicaJuego.DepositoMasCercano(aldeanoX, aldeanoY, recurso);
+        IEstructurasDepositos depositoCercano = LogicaJuego.DepositoMasCercano(aldeanoX, aldeanoY, recurso,mapa);
         LogicaJuego.DepositarRecursos(jugador1, depositoCercano, 500, recurso);
     }
 
