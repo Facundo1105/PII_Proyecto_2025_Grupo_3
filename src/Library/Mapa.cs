@@ -29,20 +29,4 @@ public class Mapa
     {
         return celdas[x, y];
     }
-    
-    public Celda ObtenerCelda(object entidad) 
-    {
-        if (entidad == null)
-        {
-            return null;
-        }
-        
-        if (entidad is Aldeano aldeano)
-        {
-            return ObtenerCelda(aldeano.X, aldeano.Y);
-        }
-        
-        return null;
-    }
-
 }

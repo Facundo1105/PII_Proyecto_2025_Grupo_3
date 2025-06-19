@@ -52,8 +52,7 @@ public class Partida
         mapa.ObtenerCelda(81, 82).AsignarAldeano(jugador2.Aldeanos[2]);
         mapa.ObtenerCelda(80, 80).AsignarEstructura(jugador2.Estructuras[0]);
         
-        MostrarPosiciones(jugador1);
-        MostrarPosiciones(jugador2);
+        MostrarPosiciones(ObtenerJugadorActivo());
     }
 
     public void SeleccionarCivilización(Jugador jugador)
@@ -106,7 +105,7 @@ public class Partida
         {
             foreach (IEstructuras estructura in jugador.Estructuras)
             {
-                Console.WriteLine($"{estructura.Nombre} = ({estructura.X}, {estructura.Y})");
+                Console.WriteLine($"{estructura.Nombre} = ({estructura.CeldaActual.x}, {estructura.CeldaActual.y})");
             }
         }
 
@@ -127,4 +126,15 @@ public class Partida
             }
         }
     }
+
+    public void MostrarRecursos(Jugador jugador)
+    {
+        Console.WriteLine($"{jugador.Nombre}, tienes la siguiente cantidad de recursos:");
+        foreach (var estructura in jugador.Estructuras)
+        {
+            
+        }
+    }
+    
+    
 }
