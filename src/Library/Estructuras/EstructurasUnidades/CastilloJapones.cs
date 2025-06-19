@@ -3,8 +3,7 @@ namespace Library;
 public class CastilloJapones : IEstructurasUnidades
 { 
     private int vida = 3000;
-    public int X { get; set; }
-    public int Y { get; set; }
+    public Celda CeldaActual { get; set; }
 
     public string Nombre
     {

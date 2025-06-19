@@ -5,8 +5,7 @@ namespace Library;
 public class Cuartel : IEstructurasUnidades
 {
     private int vida = 2500;
-    public int X { get; set; }
-    public int Y { get; set; }
+    public Celda CeldaActual { get; set; }
 
     public string Nombre
     {

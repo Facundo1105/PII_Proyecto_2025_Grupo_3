@@ -3,8 +3,7 @@ namespace Library;
 public class Casa : IEstructuras
 {
     private int vida = 2000;
-    public int X { get; set; }
-    public int Y { get; set; }
+    public Celda CeldaActual { get; set; }
 
     public string Nombre
     {

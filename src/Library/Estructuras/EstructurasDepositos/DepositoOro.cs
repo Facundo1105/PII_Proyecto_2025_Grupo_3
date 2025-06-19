@@ -5,8 +5,7 @@ public class DepositoOro : IEstructurasDepositos
     private int vida = 2000;
     
     private int espacioOcupado = 0;
-    public int X { get; set; }
-    public int Y { get; set; }
+    public Celda CeldaActual { get; set; }
 
     public int CapacidadMaxima
     {
