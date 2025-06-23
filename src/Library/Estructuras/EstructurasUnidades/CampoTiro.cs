@@ -5,6 +5,7 @@ namespace Library;
 public class CampoTiro : IEstructurasUnidades
 {
     private int vida = 2500;
+    public Celda CeldaActual { get; set; }
 
     public string Nombre
     {

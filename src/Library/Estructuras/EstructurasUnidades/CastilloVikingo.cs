@@ -3,6 +3,7 @@ namespace Library;
 public class CastilloVikingo : IEstructurasUnidades
 {
     private int vida = 3000;
+    public Celda CeldaActual { get; set; }
 
     public string Nombre
     {

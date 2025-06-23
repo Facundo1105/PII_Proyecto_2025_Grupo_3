@@ -11,7 +11,7 @@ namespace LibraryTests
         private Celda celda;
         private Aldeano aldeano;
         private Jugador jugador;
-        private Celda celdas;
+        private LogicaJuego logica;
 
         [SetUp]
         public void Setup()

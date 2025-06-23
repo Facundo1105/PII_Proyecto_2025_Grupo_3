@@ -3,6 +3,7 @@ namespace Library;
 public class DepositoMadera : IEstructurasDepositos
 {
     private int vida = 2000;
+    public Celda CeldaActual { get; set; }
 
     private int espacioOcupado = 0;
     public int CapacidadMaxima

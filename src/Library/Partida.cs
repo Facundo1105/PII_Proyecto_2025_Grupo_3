@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using Library.Civilizaciones;
+using Library.Recursos;
 
 namespace Library;
 
@@ -6,6 +8,7 @@ public class Partida
 {
     public Jugador jugador1;
     public Jugador jugador2;
+    public CentroCivico centroCivico { get; set; }
     public int turno = 1;
     public Mapa mapa;
     
@@ -26,7 +29,10 @@ public class Partida
         SeleccionarCivilización(jugador1);
         SeleccionarCivilización(jugador2);
         mapa.InicializarMapa();
+        //Posicionar recursos, aldeanos y centro civico para cada jugador
         LogicaJuego.RecursosAleatorios(mapa);
+        
+        //Jugador 1
         mapa.ObtenerCelda(21, 20).VaciarCelda();
         mapa.ObtenerCelda(21, 21).VaciarCelda();
         mapa.ObtenerCelda(21, 22).VaciarCelda();
@@ -35,12 +41,26 @@ public class Partida
         mapa.ObtenerCelda(21, 20).AsignarAldeano(jugador1.Aldeanos[0]);
         mapa.ObtenerCelda(21, 21).AsignarAldeano(jugador1.Aldeanos[1]);
         mapa.ObtenerCelda(21, 22).AsignarAldeano(jugador1.Aldeanos[2]);
-        mapa.ObtenerCelda(20, 20).AsignarEstructura(new CentroCivico());
-        MostrarPosiciones(jugador1);
+        mapa.ObtenerCelda(20, 20).AsignarEstructura(jugador1.Estructuras[0]);
+        
+        //Jugador 2
+        mapa.ObtenerCelda(81, 80).VaciarCelda();
+        mapa.ObtenerCelda(81, 81).VaciarCelda();
+        mapa.ObtenerCelda(81, 82).VaciarCelda();
+        mapa.ObtenerCelda(80, 80).VaciarCelda();
+
+        mapa.ObtenerCelda(81, 80).AsignarAldeano(jugador2.Aldeanos[0]);
+        mapa.ObtenerCelda(81, 81).AsignarAldeano(jugador2.Aldeanos[1]);
+        mapa.ObtenerCelda(81, 82).AsignarAldeano(jugador2.Aldeanos[2]);
+        mapa.ObtenerCelda(80, 80).AsignarEstructura(jugador2.Estructuras[0]);
+        
+        MostrarPosiciones(ObtenerJugadorActivo());
+        MostrarRecursos(ObtenerJugadorActivo());
     }
 
     public void SeleccionarCivilización(Jugador jugador)
     {
+        bool bandera = true;
         Console.WriteLine($"{jugador.Nombre}, elige tu civilización:");
         Console.WriteLine($"1. Indios");
         Console.WriteLine($"2. Japoneses");
@@ -49,40 +69,72 @@ public class Partida
 
         string opcion = Console.ReadLine();
 
-        switch (opcion)
+        while (bandera)
         {
-            case "1":
-                jugador.Civilizacion = new Indios();
-                Console.WriteLine($"{jugador.Nombre} eligió la civilización India");
-                break;
-            case "2":
-                jugador.Civilizacion = new Japoneses();
-                Console.WriteLine($"{jugador.Nombre} eligió la civilización Japonesa");
-                break;
-            case "3":
-                jugador.Civilizacion = new Romanos();
-                Console.WriteLine($"{jugador.Nombre} eligió la civilización Romana");
-                break;
-            case "4":
-                jugador.Civilizacion = new Vikingos();
-                Console.WriteLine($"{jugador.Nombre} eligió la civilización Vikingo");
-                break;
-            default:
-                Console.WriteLine($"Por favor, selecciona una opción");
-                break;
+            switch (opcion)
+            {
+                case "1":
+                    jugador.Civilizacion = new Indios();
+                    Console.WriteLine($"{jugador.Nombre} eligió la civilización India");
+                    bandera = false;
+                    break;
+                case "2":
+                    jugador.Civilizacion = new Japoneses();
+                    Console.WriteLine($"{jugador.Nombre} eligió la civilización Japonesa");
+                    bandera = false;
+                    break;
+                case "3":
+                    jugador.Civilizacion = new Romanos();
+                    Console.WriteLine($"{jugador.Nombre} eligió la civilización Romana");
+                    bandera = false;
+                    break;
+                case "4":
+                    jugador.Civilizacion = new Vikingos();
+                    Console.WriteLine($"{jugador.Nombre} eligió la civilización Vikingo");
+                    bandera = false;
+                    break;
+                default:
+                    Console.WriteLine($"Por favor, selecciona una opción");
+                    opcion = Console.ReadLine();
+                    break;
+            }
         }
     }
 
     public void MostrarPosiciones(Jugador jugador)
     {
         Console.WriteLine($"{jugador.Nombre}, tienes las siguientes entidades en las siguientes posiciones:");
-        foreach (var estructura in jugador.Estructuras)
+        if (jugador.Estructuras != null)
         {
-            Console.WriteLine($"{estructura.Nombre}");
+            foreach (IEstructuras estructura in jugador.Estructuras)
+            {
+                Console.WriteLine($"{estructura.Nombre} = ({estructura.CeldaActual.x}, {estructura.CeldaActual.y})");
+            }
         }
-        foreach (var aldeano in jugador.Aldeanos)
+
+
+        if (jugador.Ejercito != null)
         {
-            Console.WriteLine($"{aldeano.Nombre} = {aldeano.X}, {aldeano.Y}");
+            foreach (IUnidades unidades in jugador.Ejercito)
+            {
+                Console.WriteLine($"{unidades.Nombre} = ({unidades.CeldaActual.x}, {unidades.CeldaActual.y})");
+            }
+        }
+
+        if (jugador.Aldeanos != null)
+        {
+            foreach (Aldeano aldeano in jugador.Aldeanos)
+            {
+                Console.WriteLine($"{aldeano.Nombre} = ({aldeano.CeldaActual.x},{aldeano.CeldaActual.y})");
+            }
         }
     }
+
+    public void MostrarRecursos(Jugador jugador)
+    {
+        Console.WriteLine($"{jugador.Nombre}, tienes la siguiente cantidad de recursos:");
+        Console.WriteLine($"{centroCivico.RecursosDeposito.Keys}, {centroCivico.RecursosDeposito.Values}");
+    }
+    
+    
 }
