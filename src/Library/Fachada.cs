@@ -67,11 +67,11 @@ public class Fachada
     {
         // Jugador 1 recolecta recursos con uno de sus aldeanos
         
-        var aldeano = jugador1.Aldeanos[1];
-        int aldeanoX = aldeano.CeldaActual.x;
-        int aldeanoY = aldeano.CeldaActual.y;
+        Aldeano aldeano = jugador1.Aldeanos[1];
+        int aldeanoX = aldeano.CeldaActual.X;
+        int aldeanoY = aldeano.CeldaActual.Y;
 
-        var celdaConRecurso = LogicaJuego.BuscarRecursoCercano(aldeanoX, aldeanoY,mapa);
+        Celda celdaConRecurso = LogicaJuego.BuscarRecursoCercano(aldeanoX, aldeanoY,mapa);
         
         if (celdaConRecurso.Recursos == null)
         {
@@ -113,17 +113,17 @@ public class Fachada
         }
         
         mapa.ObtenerCelda(25, 25).VaciarCelda();
-        var destino = mapa.ObtenerCelda(27, 27);
+        Celda destino = mapa.ObtenerCelda(27, 27);
 
         LogicaJuego.MoverUnidades(new List<IUnidades> { jugador1.Arqueros[0] }, mapa.ObtenerCelda(24, 17), destino); // Mover Arqueros
         LogicaJuego.MoverUnidades(new List<IUnidades> { jugador1.Caballeria[0] }, mapa.ObtenerCelda(24, 18), destino); // Mover Caballeria
         LogicaJuego.MoverUnidades(new List<IUnidades> { jugador1.Infanteria[0] }, mapa.ObtenerCelda(24, 19), destino); // Mover Infanteria
         
-        var celda1 = mapa.ObtenerCelda(24, 17);
-        var celda2 = mapa.ObtenerCelda(24, 18);
+        Celda celda1 = mapa.ObtenerCelda(24, 17);
+        Celda celda2 = mapa.ObtenerCelda(24, 18);
 
-        var unidades1 = celda1.Unidades;
-        var unidades2 = celda2.Unidades;
+        List<IUnidades>? unidades1 = celda1.Unidades;
+        List<IUnidades>? unidades2 = celda2.Unidades;
 
         if (unidades1 != null && unidades2 != null)
         {

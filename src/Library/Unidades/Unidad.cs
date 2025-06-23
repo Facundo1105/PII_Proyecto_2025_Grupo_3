@@ -65,16 +65,16 @@ public abstract class Unidad : IUnidades
 
     public virtual void AtacarUnidades(IUnidades unidad)
     {
-        int AtaqueBase = this.ValorAtaque;
+        int ataqueBase = this.ValorAtaque;
         
-        int ValorDaño = AtaqueBase - unidad.ValorDefensa;
+        int valorDaño = ataqueBase - unidad.ValorDefensa;
 
-        if (ValorDaño < 0)
+        if (valorDaño < 0)
         {
-            ValorDaño = 0;
+            valorDaño = 0;
         }
         
-        unidad.Vida -= ValorDaño;
+        unidad.Vida -= valorDaño;
 
         if (unidad.Vida < 0)
         {
@@ -84,9 +84,9 @@ public abstract class Unidad : IUnidades
 
     public void AtacarEstructuras(IEstructuras estructura)
     {
-        int ValorDaño = this.ValorAtaque;
+        int valorDaño = this.ValorAtaque;
 
-        estructura.Vida -= ValorDaño;
+        estructura.Vida -= valorDaño;
 
         if (estructura.Vida < 0)
         {

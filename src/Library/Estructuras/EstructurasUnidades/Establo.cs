@@ -30,13 +30,13 @@ public class Establo : IEstructurasUnidades
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30)
         {
-            int CostoOro = 200;
-            int CostoAlimento = 300;
-            int CostoMadera = 100;
+            int costoOro = 200;
+            int costoAlimento = 300;
+            int costoMadera = 100;
 
             if (jugador.Civilizacion is Romanos)
             {
-                CostoOro *= (int)Math.Round(0.80);
+                costoOro *= (int)Math.Round(0.80);
             }
 
             // Sumar recursos disponibles
@@ -74,11 +74,11 @@ public class Establo : IEstructurasUnidades
             }
             
             // Verificar si tiene recursos suficientes
-            if (oroTotal >= CostoOro && alimentoTotal >= CostoAlimento)
+            if (oroTotal >= costoOro && alimentoTotal >= costoAlimento)
             {
-                int oroRestante = CostoOro;
-                int alimentoRestante = CostoAlimento;
-                int maderaRestante = CostoMadera;
+                int oroRestante = costoOro;
+                int alimentoRestante = costoAlimento;
+                int maderaRestante = costoMadera;
                 
                 // Descontar oro de depósito primero, luego centro cívico
                 foreach (DepositoOro dOro in depositosOro)

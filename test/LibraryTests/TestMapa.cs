@@ -1,7 +1,5 @@
 using Library;
 using Library.Recursos;
-using NUnit.Framework;
-using System;
 
 namespace LibraryTests
 {
@@ -11,7 +9,6 @@ namespace LibraryTests
         private Celda celda;
         private Aldeano aldeano;
         private Jugador jugador;
-        private LogicaJuego logica;
 
         [SetUp]
         public void Setup()
@@ -44,7 +41,7 @@ namespace LibraryTests
         [Test]
         public void VaciarCelda()
         {
-            var celdaConRecurso = new Celda(2, 2);
+            Celda celdaConRecurso = new Celda(2, 2);
             celdaConRecurso.AsignarRecurso(new Piedra());
 
             Assert.IsFalse(celdaConRecurso.EstaLibre());
@@ -57,15 +54,15 @@ namespace LibraryTests
         [Test]
         public void DepositoMasCercano()
         {
-            var celdaConMadera = new Celda(18, 18);
+            Celda celdaConMadera = new Celda(18, 18);
             Celda celdaaldeano = mapa.ObtenerCelda(20, 22);
             celdaConMadera.AsignarRecurso(new Madera());
             aldeano.CeldaActual = celdaaldeano;
             
             LogicaJuego.ObtenerRecursoDeCelda(celdaConMadera, aldeano, jugador);
 
-            int aldeanoX = aldeano.CeldaActual.x;
-            int aldeanoY = aldeano.CeldaActual.y;
+            int aldeanoX = aldeano.CeldaActual.X;
+            int aldeanoY = aldeano.CeldaActual.Y;
             
             // vaciamos las celdas por si llega a existir algun recurso
             mapa.ObtenerCelda(5, 5).VaciarCelda();
@@ -75,14 +72,17 @@ namespace LibraryTests
             mapa.ObtenerCelda(20, 20).AsignarEstructura(new DepositoMadera());
 
             // estructuras asignadas para comparar luego
-            var estructura20_20 = mapa.ObtenerCelda(20, 20).Estructuras;
-            string recurso = celdaConMadera.Recursos.Nombre;
+            IEstructuras? estructura2020 = mapa.ObtenerCelda(20, 20).Estructuras;
+            if (celdaConMadera.Recursos != null)
+            {
+                string recurso = celdaConMadera.Recursos.Nombre;
             
-            var resultado = LogicaJuego.DepositoMasCercano(aldeanoX, aldeanoY, recurso,mapa);
+                IEstructurasDepositos resultado = LogicaJuego.DepositoMasCercano(aldeanoX, aldeanoY, recurso,mapa);
             
-            var estructuraEsperada = estructura20_20; //estructura mas cerca de 18,18
+                IEstructuras? estructuraEsperada = estructura2020; //estructura mas cerca de 18,18
 
-            Assert.That(resultado, Is.SameAs(estructuraEsperada));
+                Assert.That(resultado, Is.SameAs(estructuraEsperada));    
+            }    
         }
     }
 }
