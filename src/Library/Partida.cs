@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Library.Civilizaciones;
+using Library.Recursos;
 
 namespace Library;
 
@@ -7,6 +8,7 @@ public class Partida
 {
     public Jugador jugador1;
     public Jugador jugador2;
+    public CentroCivico centroCivico { get; set; }
     public int turno = 1;
     public Mapa mapa;
     
@@ -53,6 +55,7 @@ public class Partida
         mapa.ObtenerCelda(80, 80).AsignarEstructura(jugador2.Estructuras[0]);
         
         MostrarPosiciones(ObtenerJugadorActivo());
+        MostrarRecursos(ObtenerJugadorActivo());
     }
 
     public void SeleccionarCivilización(Jugador jugador)
@@ -130,10 +133,7 @@ public class Partida
     public void MostrarRecursos(Jugador jugador)
     {
         Console.WriteLine($"{jugador.Nombre}, tienes la siguiente cantidad de recursos:");
-        foreach (var estructura in jugador.Estructuras)
-        {
-            
-        }
+        Console.WriteLine($"{centroCivico.RecursosDeposito.Keys}, {centroCivico.RecursosDeposito.Values}");
     }
     
     
