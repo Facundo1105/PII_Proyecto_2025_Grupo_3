@@ -132,7 +132,13 @@ public class Partida
         Console.WriteLine($"{jugador.Nombre}, tienes la siguiente cantidad de recursos:");
         foreach (var estructura in jugador.Estructuras)
         {
-            
+            if (estructura is CentroCivico centrocivico)
+            {
+                foreach (var recurso in centrocivico.RecursosDeposito)
+                {
+                    Console.WriteLine($"{recurso.Key}" + " {recurso.Value}");
+                }
+            }
         }
     }
     
