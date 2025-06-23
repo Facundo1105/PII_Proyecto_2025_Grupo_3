@@ -31,31 +31,10 @@ public class Partida
         mapa.InicializarMapa();
         //Posicionar recursos, aldeanos y centro civico para cada jugador
         LogicaJuego.RecursosAleatorios(mapa);
-        
-        //Jugador 1
-        mapa.ObtenerCelda(21, 20).VaciarCelda();
-        mapa.ObtenerCelda(21, 21).VaciarCelda();
-        mapa.ObtenerCelda(21, 22).VaciarCelda();
-        mapa.ObtenerCelda(20, 20).VaciarCelda();
-
-        mapa.ObtenerCelda(21, 20).AsignarAldeano(jugador1.Aldeanos[0]);
-        mapa.ObtenerCelda(21, 21).AsignarAldeano(jugador1.Aldeanos[1]);
-        mapa.ObtenerCelda(21, 22).AsignarAldeano(jugador1.Aldeanos[2]);
-        mapa.ObtenerCelda(20, 20).AsignarEstructura(jugador1.Estructuras[0]);
-        
-        //Jugador 2
-        mapa.ObtenerCelda(81, 80).VaciarCelda();
-        mapa.ObtenerCelda(81, 81).VaciarCelda();
-        mapa.ObtenerCelda(81, 82).VaciarCelda();
-        mapa.ObtenerCelda(80, 80).VaciarCelda();
-
-        mapa.ObtenerCelda(81, 80).AsignarAldeano(jugador2.Aldeanos[0]);
-        mapa.ObtenerCelda(81, 81).AsignarAldeano(jugador2.Aldeanos[1]);
-        mapa.ObtenerCelda(81, 82).AsignarAldeano(jugador2.Aldeanos[2]);
-        mapa.ObtenerCelda(80, 80).AsignarEstructura(jugador2.Estructuras[0]);
+        PosicionarLasEntidadesIniciales();
         
         MostrarPosiciones(ObtenerJugadorActivo());
-        // MostrarRecursos(ObtenerJugadorActivo());
+        MostrarRecursos(ObtenerJugadorActivo());
 
         while (true)
         {
@@ -174,15 +153,37 @@ public class Partida
             {
                 foreach (var recurso in centrocivico.RecursosDeposito)
                 {
-                    Console.WriteLine($"{recurso.Key}" +" {recurso.Value}");
+                    Console.WriteLine($"{recurso.Key} = {recurso.Value}");
                 }
             }
         }
 
 
     }
-    
 
+    public void PosicionarLasEntidadesIniciales()
+    {
+        mapa.ObtenerCelda(21, 20).VaciarCelda();
+        mapa.ObtenerCelda(21, 21).VaciarCelda();
+        mapa.ObtenerCelda(21, 22).VaciarCelda();
+        mapa.ObtenerCelda(20, 20).VaciarCelda();
+
+        mapa.ObtenerCelda(21, 20).AsignarAldeano(jugador1.Aldeanos[0]);
+        mapa.ObtenerCelda(21, 21).AsignarAldeano(jugador1.Aldeanos[1]);
+        mapa.ObtenerCelda(21, 22).AsignarAldeano(jugador1.Aldeanos[2]);
+        mapa.ObtenerCelda(20, 20).AsignarEstructura(jugador1.Estructuras[0]);
+        
+        //Jugador 2
+        mapa.ObtenerCelda(81, 80).VaciarCelda();
+        mapa.ObtenerCelda(81, 81).VaciarCelda();
+        mapa.ObtenerCelda(81, 82).VaciarCelda();
+        mapa.ObtenerCelda(80, 80).VaciarCelda();
+
+        mapa.ObtenerCelda(81, 80).AsignarAldeano(jugador2.Aldeanos[0]);
+        mapa.ObtenerCelda(81, 81).AsignarAldeano(jugador2.Aldeanos[1]);
+        mapa.ObtenerCelda(81, 82).AsignarAldeano(jugador2.Aldeanos[2]);
+        mapa.ObtenerCelda(80, 80).AsignarEstructura(jugador2.Estructuras[0]);
+    }
     public void SeleccionarAldeanoYRecolectarRecurso(Jugador jugador)
     {
         Console.WriteLine("¿Qué aldeano quieres que recolecte el recurso?");
