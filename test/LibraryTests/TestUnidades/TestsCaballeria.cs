@@ -54,7 +54,7 @@ public class CaballeriaTests
 
         caballeria.AtacarUnidades(arquero);
 
-        Assert.That(arquero.Vida, Is.EqualTo(15));
+        Assert.That(arquero.Vida, Is.EqualTo(30));
     }
 
     [Test]
