@@ -55,7 +55,41 @@ public class Partida
         mapa.ObtenerCelda(80, 80).AsignarEstructura(jugador2.Estructuras[0]);
         
         MostrarPosiciones(ObtenerJugadorActivo());
-        MostrarRecursos(ObtenerJugadorActivo());
+        // MostrarRecursos(ObtenerJugadorActivo());
+
+        while (true)
+        {
+            Jugador jugadorActivo = (turno % 2 != 0) ? jugador1 : jugador2;
+            
+            bool turnoCompletado = false;
+
+            while (!turnoCompletado)
+            {
+                Console.WriteLine($"{jugadorActivo.Nombre}, ¿Qué quieres hacer?");  
+                Console.WriteLine("1. Recolectar recurso");
+                Console.WriteLine("2. Construir estructura");
+                Console.WriteLine("3. Entrenar unidad");
+                Console.WriteLine("4. Atacar unidad");
+                Console.WriteLine("5. Mover unidad");
+                
+                string opcion = Console.ReadLine();
+
+                switch (opcion)
+                {
+                    case "1":
+                    {
+                        SeleccionarAldeanoYRecolectarRecurso(jugadorActivo);
+                        turno++;
+                        break;
+                    }
+                    case "2":
+                    {
+                        break;
+                    }
+                }
+            }
+            
+        }
     }
 
     public void SeleccionarCivilización(Jugador jugador)
@@ -136,5 +170,22 @@ public class Partida
         Console.WriteLine($"{centroCivico.RecursosDeposito.Keys}, {centroCivico.RecursosDeposito.Values}");
     }
     
-    
+
+    public void SeleccionarAldeanoYRecolectarRecurso(Jugador jugador)
+    {
+        Console.WriteLine("¿Qué aldeano quieres que recolecte el recurso?");
+        for (int i = 0; i < jugador.Aldeanos.Count; i++)
+        {
+            Console.WriteLine($"{i + 1}. {jugador.Aldeanos[i].Nombre} {i + 1} - ({jugador.Aldeanos[i].CeldaActual.x}, {jugador.Aldeanos[i].CeldaActual.y})");
+        }
+
+        string aldeanoSeleccionado = Console.ReadLine();
+
+        int indice = Convert.ToInt32(aldeanoSeleccionado) ;
+        Aldeano aldeano = jugador.Aldeanos[indice - 1];
+
+        Celda recursoCercano = LogicaJuego.BuscarRecursoCercano(aldeano.CeldaActual.x, aldeano.CeldaActual.y, mapa);
+
+        LogicaJuego.ObtenerRecursoDeCelda(recursoCercano, aldeano, jugador);
+    }
 }
