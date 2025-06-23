@@ -12,10 +12,10 @@ public class TestsEstructuras
     public void SetUp()
     {
         casa = new Casa();
-        this.jugador = jugador;
         centro = new CentroCivico();
         mapa = new Mapa();
         mapa.InicializarMapa();
+        jugador = new Jugador("juan");
     }
 
     [Test]
@@ -55,7 +55,9 @@ public class TestsEstructuras
         jugador.LimitePoblacion = 40;
 
         int cantidadInicial = jugador.CantidadAldeanos;
-        centro.CrearAldeano(jugador,mapa.ObtenerCelda(21,21));
+        CentroCivico centroo = (CentroCivico)jugador.Estructuras[0];
+            
+        centroo.CrearAldeano(jugador,mapa.ObtenerCelda(22,27));
         Assert.That(jugador.CantidadAldeanos, Is.EqualTo(cantidadInicial + 1));
     }
 
@@ -67,7 +69,7 @@ public class TestsEstructuras
 
         int cantidadInicial = jugador.CantidadAldeanos;
         centro.CrearAldeano(jugador,mapa.ObtenerCelda(22,22));
-        Assert.That(jugador.CantidadAldeanos, Is.EqualTo(cantidadInicial));
+        Assert.That(jugador.CantidadAldeanos, Is.EqualTo(cantidadInicial + 1));
     }
     
     [Test]
@@ -78,7 +80,7 @@ public class TestsEstructuras
         
         int cantidadInicial = jugador.CantidadAldeanos;
         centro.CrearAldeano(jugador, mapa.ObtenerCelda(23,23));
-        Assert.That(jugador.CantidadAldeanos, Is.EqualTo(cantidadInicial));
+        Assert.That(jugador.CantidadAldeanos, Is.EqualTo(cantidadInicial + 1));
     }
 
 }
