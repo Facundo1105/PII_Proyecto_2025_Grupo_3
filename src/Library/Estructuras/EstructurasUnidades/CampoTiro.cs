@@ -31,17 +31,17 @@ public class CampoTiro : IEstructurasUnidades
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30)
         { 
-            int CostoOro = 100;
-            int CostoAlimento = 150;
+            int costoOro = 100;
+            int costoAlimento = 150;
 
             if (jugador.Civilizacion is Japoneses)
             {
-                CostoAlimento *= (int)Math.Round(0.80);
+                costoAlimento *= (int)Math.Round(0.80);
             }
             
             if (jugador.Civilizacion is Vikingos)
             {
-                CostoOro *= (int)Math.Round(0.85);
+                costoOro *= (int)Math.Round(0.85);
             }
             
             
@@ -74,10 +74,10 @@ public class CampoTiro : IEstructurasUnidades
             }
             
             // Verificar si tiene recursos suficientes
-            if (oroTotal >= CostoOro && alimentoTotal >= CostoAlimento)
+            if (oroTotal >= costoOro && alimentoTotal >= costoAlimento)
             {
-                int oroRestante = CostoOro;
-                int alimentoRestante = CostoAlimento;
+                int oroRestante = costoOro;
+                int alimentoRestante = costoAlimento;
                 
                 // Descontar oro de depósito primero, luego centro cívico
                 foreach (DepositoOro dOro in depositosOro)

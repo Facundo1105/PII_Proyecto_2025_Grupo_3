@@ -14,22 +14,22 @@ public class Thor : Unidad
 
     public override void AtacarUnidades(IUnidades unidad)
     {
-        int AtaqueBase = this.ValorAtaque; 
+        int ataqueBase = this.ValorAtaque; 
 
         if (unidad is Samurai || unidad is Elefante)
         {
-            AtaqueBase = (int)(AtaqueBase * 1.5);
+            ataqueBase = (int)(ataqueBase * 1.5);
         }
     
-        int ValorDaño = AtaqueBase - unidad.ValorDefensa;
+        int valorDaño = ataqueBase - unidad.ValorDefensa;
 
 
-        if (ValorDaño < 0)
+        if (valorDaño < 0)
         {
-            ValorDaño = 0;
+            valorDaño = 0;
         }
 
-        unidad.Vida =unidad.Vida - ValorDaño;
+        unidad.Vida =unidad.Vida - valorDaño;
 
         if (unidad.Vida < 0)
         {

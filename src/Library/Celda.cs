@@ -4,8 +4,8 @@ namespace Library;
 
 public class Celda
 {
-    public int x { get; }
-    public int y { get; }
+    public int X { get; }
+    public int Y { get; }
     public IRecursos? Recursos { get; set; }
     public IEstructuras? Estructuras { get; set; }
     public List<IUnidades>? Unidades { get; set; }
@@ -13,8 +13,8 @@ public class Celda
 
     public Celda(int x, int y)
     {
-        this.x = x;
-        this.y = y;
+        this.X = x;
+        this.Y = y;
     }
     
   

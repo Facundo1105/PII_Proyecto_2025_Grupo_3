@@ -28,9 +28,9 @@ public class CastilloIndio : IEstructurasUnidades
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && jugador.UnidadEspecial.Count < 1)
         {
-            const int CostoOro = 300;
-            const int CostoAlimento = 500;
-            const int CostoMadera = 200;
+            const int costoOro = 300;
+            const int costoAlimento = 500;
+            const int costoMadera = 200;
 
             // Sumar recursos disponibles
             int oroTotal = 0;
@@ -67,11 +67,11 @@ public class CastilloIndio : IEstructurasUnidades
             }
             
             // Verificar si tiene recursos suficientes
-            if (oroTotal >= CostoOro && alimentoTotal >= CostoAlimento)
+            if (oroTotal >= costoOro && alimentoTotal >= costoAlimento)
             {
-                int oroRestante = CostoOro;
-                int alimentoRestante = CostoAlimento;
-                int maderaRestante = CostoMadera;
+                int oroRestante = costoOro;
+                int alimentoRestante = costoAlimento;
+                int maderaRestante = costoMadera;
 
                 // Descontar oro de depósito primero, luego centro cívico
                 foreach (DepositoOro dOro in depositosOro)
