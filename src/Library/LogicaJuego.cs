@@ -675,16 +675,20 @@ public class LogicaJuego
     public static void MoverUnidades(List<IUnidades> unidadesMover, Celda origen, Celda destino)
     {
         if (!destino.EstaLibre()) return;
+        int MasLento = 0; 
 
-        foreach (var unidad in unidadesMover)
+        foreach (IUnidades unidad in unidadesMover)
         {
-            if (origen.Unidades != null && origen.Unidades.Contains(unidad))
+            if (unidad.ValorVelocidad >= MasLento)
             {
-                origen.Unidades.Remove(unidad);
+                MasLento = unidad.ValorVelocidad;
             }
         }
+        Thread.Sleep(1000*MasLento);
 
+        origen.VaciarCelda();
         destino.AsignarUnidades(unidadesMover);
+    
     }
     
         public static void RecursosAleatorios(Mapa mapa)
