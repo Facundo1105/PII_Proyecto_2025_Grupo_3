@@ -23,14 +23,8 @@ public class CentroCivico : IEstructurasDepositos
             throw new InvalidOperationException("Espacio Ocupado no puede ser seteado directamente.");
         }
     }
-    
-    public Dictionary<string, int> RecursosDeposito = new()
-    {
-        { "Oro", 0 },
-        { "Alimento", 100 },
-        { "Madera", 100 },
-        { "Piedra", 0 }
-    };
+
+    public Dictionary<string, int> RecursosDeposito;
     public string Nombre
     {
         get
@@ -49,6 +43,17 @@ public class CentroCivico : IEstructurasDepositos
         {
             this.vida = value < 0 ? 0 : value;
         }
+    }
+    
+    public CentroCivico() 
+    {
+        this.RecursosDeposito = new Dictionary<string, int> 
+        {
+            { "Oro", 0 },
+            { "Alimento", 100 },
+            { "Madera", 100 },
+            { "Piedra", 0 }
+        };
     }
 
     public void CrearAldeano(Jugador jugador, Celda celdaAldeano)

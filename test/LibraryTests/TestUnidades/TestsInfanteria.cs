@@ -54,7 +54,7 @@ public class InfanteriaTests
 
         infanteria.AtacarUnidades(caballeria);
 
-        Assert.That(caballeria.Vida, Is.EqualTo(45));
+        Assert.That(caballeria.Vida, Is.EqualTo(50));
     }
 
     [Test]
