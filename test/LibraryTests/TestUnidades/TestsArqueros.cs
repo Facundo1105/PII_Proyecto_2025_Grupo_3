@@ -54,7 +54,7 @@ public class ArqueroTests
 
         arquero.AtacarUnidades(infanteria);
 
-        Assert.That(infanteria.Vida, Is.EqualTo(28));
+        Assert.That(infanteria.Vida, Is.EqualTo(45));
     }
 
     [Test]
