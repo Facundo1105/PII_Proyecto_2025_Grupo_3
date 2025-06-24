@@ -1,6 +1,6 @@
 namespace Library;
 
-public class CastilloRomano : IEstructurasUnidades
+public class CastilloRomano : IEstructuras
 {
     private int vida = 3000;
     public Celda CeldaActual { get; set; }
@@ -26,7 +26,17 @@ public class CastilloRomano : IEstructurasUnidades
     }
     public void CrearUnidad(Jugador jugador)
     {
-        if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && jugador.UnidadEspecial.Count < 1)
+        bool noHayUnidadEspecial = true;
+        
+        foreach (IUnidades unidadEspecial in jugador.EjercitoGeneral)
+        {
+            if (unidadEspecial is Elefante && unidadEspecial is JulioCesar && unidadEspecial is Samurai && unidadEspecial is Thor)
+            {
+                noHayUnidadEspecial = false;
+            }
+        }
+        
+        if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && noHayUnidadEspecial)
         {
             const int CostoOro = 500;
             const int CostoAlimento = 250;
@@ -92,7 +102,7 @@ public class CastilloRomano : IEstructurasUnidades
                     centroCivico.RecursosDeposito["Alimento"] -= aDescontar;
                 }
                 
-                jugador.UnidadEspecial.Add(new JulioCesar(75, 15, 15, 3));
+                jugador.EjercitoGeneral.Add(new JulioCesar(75, 15, 15, 3));
             }
         }
     }

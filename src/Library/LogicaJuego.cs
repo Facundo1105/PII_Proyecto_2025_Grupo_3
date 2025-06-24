@@ -624,52 +624,31 @@ public class LogicaJuego
             celdaEjercitoAtaque.Unidades = null;
         }
     }
-    public static void SepararUnidades(List<IUnidades> unidadesUnidas, Celda celdaUnidades, Jugador jugador)
+    public static void SepararUnidades(Jugador jugador)
     {
-        foreach (IUnidades unidad in unidadesUnidas.ToList())
+        int mitadEjercito = jugador.EjercitoGeneral.Count / 2;
+        
+        foreach (IUnidades unidad in jugador.EjercitoGeneral.ToList())
         {
-            if (unidad.Nombre == "Infanteria")
+            if (jugador.EjercitoSecundario.Count < mitadEjercito)
             {
-                jugador.Infanteria.Add((Infanteria)unidad);
-                unidadesUnidas.Remove(unidad);
-            }
-            if (unidad.Nombre == "Caballeria")
-            {
-                jugador.Caballeria.Add((Caballeria)unidad);
-                unidadesUnidas.Remove(unidad);
-            }
-            if (unidad.Nombre == "Arquero")
-            {
-                jugador.Arqueros.Add((Arquero)unidad);
-                unidadesUnidas.Remove(unidad);
-            }
-
-            if (unidad.Nombre == "Thor" || unidad.Nombre == "Julio Cesar" || unidad.Nombre == "Samurai" || unidad.Nombre == "Elefante")
-            {
-                jugador.UnidadEspecial.Add(unidad);
-                unidadesUnidas.Remove(unidad);
+                jugador.EjercitoSecundario.Add(unidad);
+                jugador.EjercitoGeneral.Remove(unidad);
             }
         }
-        
-        celdaUnidades.Unidades = null;
     }
     
-    public static void JuntarUnidades(List<IUnidades> unidades1, List<IUnidades> unidades2, Celda celdaUnidad1, Celda celdaUnidad2, Jugador jugador)
+    public static void JuntarUnidades(Celda celdaEjercitoGeneral, Celda celdaEjercitoSecundario, Jugador jugador)
     {
-        foreach (IUnidades unidad in unidades1.ToList())
+        foreach (IUnidades unidad in jugador.EjercitoSecundario.ToList())
         {
-            jugador.Ejercito.Add(unidad);
-            unidades1.Remove(unidad);
-        }
-        foreach (IUnidades unidad in unidades2.ToList())
-        {
-            jugador.Ejercito.Add(unidad);
-            unidades2.Remove(unidad);
+            jugador.EjercitoGeneral.Add(unidad);
+            jugador.EjercitoSecundario.Remove(unidad);
         }
 
-        celdaUnidad2.Unidades = null;
-        celdaUnidad1.Unidades = null;
-        celdaUnidad1.AsignarUnidades(jugador.Ejercito);
+        celdaEjercitoSecundario.Unidades = null;
+        celdaEjercitoGeneral.Unidades = null;
+        celdaEjercitoSecundario.AsignarUnidades(jugador.EjercitoGeneral);
     }
     
     public static void MoverUnidades(List<IUnidades> unidadesMover, Celda origen, Celda destino)

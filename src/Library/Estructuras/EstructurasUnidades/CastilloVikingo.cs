@@ -1,6 +1,6 @@
 namespace Library;
 
-public class CastilloVikingo : IEstructurasUnidades
+public class CastilloVikingo : IEstructuras
 {
     private int vida = 3000;
     public Celda CeldaActual { get; set; }
@@ -26,7 +26,17 @@ public class CastilloVikingo : IEstructurasUnidades
     }
     public void CrearUnidad(Jugador jugador)
     {
-        if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && jugador.UnidadEspecial.Count < 1)
+        bool noHayUnidadEspecial = true;
+        
+        foreach (IUnidades unidadEspecial in jugador.EjercitoGeneral)
+        {
+            if (unidadEspecial is Elefante && unidadEspecial is JulioCesar && unidadEspecial is Samurai && unidadEspecial is Thor)
+            {
+                noHayUnidadEspecial = false;
+            }
+        }
+        
+        if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && noHayUnidadEspecial)
         {
             const int CostoOro = 450;
             const int CostoAlimento = 350;
@@ -116,7 +126,7 @@ public class CastilloVikingo : IEstructurasUnidades
                     centroCivico.RecursosDeposito["Madera"] -= aDescontar;
                 }
                 
-                jugador.UnidadEspecial.Add(new Thor(125, 50, 10, 1));
+                jugador.EjercitoGeneral.Add(new Thor(125, 50, 10, 1));
             }
         }
     }

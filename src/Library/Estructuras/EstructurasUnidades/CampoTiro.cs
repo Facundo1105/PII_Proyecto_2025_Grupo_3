@@ -2,7 +2,7 @@ using Library.Civilizaciones;
 
 namespace Library;
 
-public class CampoTiro : IEstructurasUnidades
+public class CampoTiro : IEstructuras
 {
     private int vida = 2500;
     public Celda CeldaActual { get; set; }
@@ -107,7 +107,7 @@ public class CampoTiro : IEstructurasUnidades
                     centroCivico.RecursosDeposito["Alimento"] -= aDescontar;
                 }
                 
-                jugador.Arqueros.Add(new Arquero(75, 20, 10, 2));
+                jugador.EjercitoGeneral.Add(new Arquero(75, 20, 10, 2));
             }
         }
     }

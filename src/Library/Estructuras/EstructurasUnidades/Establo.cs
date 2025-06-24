@@ -2,7 +2,7 @@ using Library.Civilizaciones;
 
 namespace Library;
 
-public class Establo : IEstructurasUnidades
+public class Establo : IEstructuras
 {
     private int vida = 2500;
     public Celda CeldaActual { get; set; }
@@ -123,7 +123,7 @@ public class Establo : IEstructurasUnidades
                     centroCivico.RecursosDeposito["Madera"] -= aDescontar;
                 }
                 
-                jugador.Caballeria.Add(new Caballeria(100, 20, 15, 1));
+                jugador.EjercitoGeneral.Add(new Caballeria(100, 20, 15, 1));
             }
         }
     }
