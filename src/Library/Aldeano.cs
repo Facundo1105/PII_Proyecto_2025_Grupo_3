@@ -1,6 +1,3 @@
-using Library.Civilizaciones;
-using Library.Recursos;
-
 namespace Library;
 
 public class Aldeano

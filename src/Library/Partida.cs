@@ -125,16 +125,16 @@ public class Partida
         {
             foreach (IEstructuras estructura in jugador.Estructuras)
             {
-                Console.WriteLine($"{estructura.Nombre} = ({estructura.CeldaActual.x}, {estructura.CeldaActual.y})");
+                Console.WriteLine($"{estructura.Nombre} = ({estructura.CeldaActual.X}, {estructura.CeldaActual.Y})");
             }
         }
 
 
-        if (jugador.Ejercito != null)
+        if (jugador.EjercitoGeneral != null)
         {
-            foreach (IUnidades unidades in jugador.Ejercito)
+            foreach (IUnidades unidades in jugador.EjercitoGeneral)
             {
-                Console.WriteLine($"{unidades.Nombre} = ({unidades.CeldaActual.x}, {unidades.CeldaActual.y})");
+                Console.WriteLine($"{unidades.Nombre} = ({unidades.CeldaActual.X}, {unidades.CeldaActual.Y})");
             }
         }
 
@@ -142,7 +142,7 @@ public class Partida
         {
             foreach (Aldeano aldeano in jugador.Aldeanos)
             {
-                Console.WriteLine($"{aldeano.Nombre} = ({aldeano.CeldaActual.x},{aldeano.CeldaActual.y})");
+                Console.WriteLine($"{aldeano.Nombre} = ({aldeano.CeldaActual.X},{aldeano.CeldaActual.Y})");
             }
         }
     }

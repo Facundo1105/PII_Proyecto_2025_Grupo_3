@@ -1,6 +1,6 @@
 namespace Library;
 
-public class CastilloRomano : IEstructurasUnidades
+public class CastilloRomano : IEstructuras
 {
     private int vida = 3000;
     public Celda CeldaActual { get; set; }
@@ -26,10 +26,20 @@ public class CastilloRomano : IEstructurasUnidades
     }
     public void CrearUnidad(Jugador jugador)
     {
-        if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && jugador.UnidadEspecial.Count < 1)
+        bool noHayUnidadEspecial = true;
+        
+        foreach (IUnidades unidadEspecial in jugador.EjercitoGeneral)
         {
-            const int CostoOro = 500;
-            const int CostoAlimento = 250;
+            if (unidadEspecial is Elefante && unidadEspecial is JulioCesar && unidadEspecial is Samurai && unidadEspecial is Thor)
+            {
+                noHayUnidadEspecial = false;
+            }
+        }
+        
+        if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && noHayUnidadEspecial)
+        {
+            const int costoOro = 500;
+            const int costoAlimento = 250;
 
             // Sumar recursos disponibles
             int oroTotal = 0;
@@ -59,10 +69,10 @@ public class CastilloRomano : IEstructurasUnidades
             }
             
             // Verificar si tiene recursos suficientes
-            if (oroTotal >= CostoOro && alimentoTotal >= CostoAlimento)
+            if (oroTotal >= costoOro && alimentoTotal >= costoAlimento)
             {
-                int oroRestante = CostoOro;
-                int alimentoRestante = CostoAlimento;
+                int oroRestante = costoOro;
+                int alimentoRestante = costoAlimento;
                 
                 // Descontar oro de depósito primero, luego centro cívico
                 foreach (DepositoOro dOro in depositosOro)
@@ -92,7 +102,7 @@ public class CastilloRomano : IEstructurasUnidades
                     centroCivico.RecursosDeposito["Alimento"] -= aDescontar;
                 }
                 
-                jugador.UnidadEspecial.Add(new JulioCesar(75, 15, 15, 3));
+                jugador.EjercitoGeneral.Add(new JulioCesar(75, 15, 15, 3));
             }
         }
     }

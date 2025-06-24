@@ -2,7 +2,7 @@ using Library.Civilizaciones;
 
 namespace Library;
 
-public class Cuartel : IEstructurasUnidades
+public class Cuartel : IEstructuras
 {
     private int vida = 2500;
     public Celda CeldaActual { get; set; }
@@ -30,12 +30,12 @@ public class Cuartel : IEstructurasUnidades
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30)
         { 
-             int CostoOro = 150;
-             int CostoAlimento = 150;
+             int costoOro = 150;
+             int costoAlimento = 150;
 
              if (jugador.Civilizacion is Indios)
              {
-                 CostoOro *= (int)Math.Round(0.80);
+                 costoOro *= (int)Math.Round(0.80);
              }
 
              // Sumar recursos disponibles
@@ -66,10 +66,10 @@ public class Cuartel : IEstructurasUnidades
             }
             
             // Verificar si tiene recursos suficientes
-            if (oroTotal >= CostoOro && alimentoTotal >= CostoAlimento)
+            if (oroTotal >= costoOro && alimentoTotal >= costoAlimento)
             {
-                int oroRestante = CostoOro;
-                int alimentoRestante = CostoAlimento;
+                int oroRestante = costoOro;
+                int alimentoRestante = costoAlimento;
                 
                 // Descontar oro de depósito primero, luego centro cívico
                 foreach (DepositoOro dOro in depositosOro)
@@ -99,7 +99,7 @@ public class Cuartel : IEstructurasUnidades
                     centroCivico.RecursosDeposito["Alimento"] -= aDescontar;
                 }
                 
-                jugador.Infanteria.Add(new Infanteria(80, 20, 10, 3));
+                jugador.EjercitoGeneral.Add(new Infanteria(80, 20, 10, 3));
             }
         }
     }

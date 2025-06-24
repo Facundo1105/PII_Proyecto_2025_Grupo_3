@@ -67,11 +67,11 @@ public class Fachada
     {
         // Jugador 1 recolecta recursos con uno de sus aldeanos
         
-        var aldeano = jugador1.Aldeanos[1];
-        int aldeanoX = aldeano.CeldaActual.x;
-        int aldeanoY = aldeano.CeldaActual.y;
+        Aldeano aldeano = jugador1.Aldeanos[1];
+        int aldeanoX = aldeano.CeldaActual.X;
+        int aldeanoY = aldeano.CeldaActual.Y;
 
-        var celdaConRecurso = LogicaJuego.BuscarRecursoCercano(aldeanoX, aldeanoY,mapa);
+        Celda celdaConRecurso = LogicaJuego.BuscarRecursoCercano(aldeanoX, aldeanoY,mapa);
         
         if (celdaConRecurso.Recursos == null)
         {
@@ -106,31 +106,33 @@ public class Fachada
         
         foreach (IEstructuras estructura in jugador1.Estructuras)
         {
-            if (estructura is IEstructurasUnidades estructuraUnidades)
-            { 
-                estructuraUnidades.CrearUnidad(jugador1);
+            if (estructura is Cuartel || estructura is Establo || estructura is CampoTiro)
+            {
+                
             }
         }
         
-        mapa.ObtenerCelda(25, 25).VaciarCelda();
+        mapa.ObtenerCelda(15, 15).VaciarCelda();
         var destino = mapa.ObtenerCelda(27, 27);
 
-        LogicaJuego.MoverUnidades(new List<IUnidades> { jugador1.Arqueros[0] }, mapa.ObtenerCelda(24, 17), destino); // Mover Arqueros
-        LogicaJuego.MoverUnidades(new List<IUnidades> { jugador1.Caballeria[0] }, mapa.ObtenerCelda(24, 18), destino); // Mover Caballeria
-        LogicaJuego.MoverUnidades(new List<IUnidades> { jugador1.Infanteria[0] }, mapa.ObtenerCelda(24, 19), destino); // Mover Infanteria
+        LogicaJuego.MoverUnidades(jugador1.EjercitoGeneral, mapa.ObtenerCelda(24, 17), destino); // Mueve el ejercito con Infanteria, Caballeria y Arqueros
         
-        var celda1 = mapa.ObtenerCelda(24, 17);
-        var celda2 = mapa.ObtenerCelda(24, 18);
+        LogicaJuego.SepararUnidades(jugador1); // Separa el ejercito a la mitad
+        
+        LogicaJuego.MoverUnidades(jugador1.EjercitoSecundario, mapa.ObtenerCelda(24, 19), mapa.ObtenerCelda(24, 18));
+        
+        Celda celda1 = mapa.ObtenerCelda(24, 17);
+        Celda celda2 = mapa.ObtenerCelda(24, 18);
 
-        var unidades1 = celda1.Unidades;
-        var unidades2 = celda2.Unidades;
+        List<IUnidades>? unidades1 = celda1.Unidades;
+        List<IUnidades>? unidades2 = celda2.Unidades;
 
         if (unidades1 != null && unidades2 != null)
         {
-            LogicaJuego.JuntarUnidades(unidades1, unidades2, celda1, celda2, jugador1); // Juntar Unidades
+            LogicaJuego.JuntarUnidades(celda1, celda2, jugador1); // Juntar Unidades
         }
 
-        LogicaJuego.MoverUnidades(jugador1.Ejercito, celda1, mapa.ObtenerCelda(15, 15)); // MoverEjercitoEntero
+        LogicaJuego.MoverUnidades(jugador1.EjercitoGeneral, celda1, mapa.ObtenerCelda(15, 15)); // MoverEjercitoEntero
 
     }
 
@@ -171,7 +173,7 @@ public class Fachada
 
         if (estructura is CentroCivico)
         {
-            LogicaJuego.UnidadesAtacarEstructura(jugador1.Ejercito, estructura, celdaCentroCivico, celdaEjercitoAtacante, jugador2);
+            LogicaJuego.UnidadesAtacarEstructura(jugador1.EjercitoGeneral, estructura, celdaCentroCivico, celdaEjercitoAtacante, jugador2);
 
             if (estructura.Vida <= 0)
             {

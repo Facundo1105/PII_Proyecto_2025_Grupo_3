@@ -61,8 +61,8 @@ public class CentroCivico : IEstructuras
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadAldeanos < 20)
         {
-            const int CostoOro = 50;
-            const int CostoAlimento = 50;
+            const int costoOro = 50;
+            const int costoAlimento = 50;
 
             // Sumar recursos disponibles
             int oroTotal = 0;
@@ -92,10 +92,10 @@ public class CentroCivico : IEstructuras
             }
             
             // Verificar si tiene recursos suficientes
-            if (oroTotal >= CostoOro && alimentoTotal >= CostoAlimento)
+            if (oroTotal >= costoOro && alimentoTotal >= costoAlimento)
             {
-                int oroRestante = CostoOro;
-                int alimentoRestante = CostoAlimento;
+                int oroRestante = costoOro;
+                int alimentoRestante = costoAlimento;
                 
                 // Descontar oro de depósito primero, luego centro cívico
                 foreach (DepositoOro dOro in depositosOro)
