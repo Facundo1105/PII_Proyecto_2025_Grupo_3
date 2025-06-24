@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Runtime.Serialization.Formatters;
 using Library.Civilizaciones;
 using Library.Recursos;
 
@@ -8,7 +9,6 @@ public class Partida
 {
     public Jugador jugador1;
     public Jugador jugador2;
-    public CentroCivico centroCivico { get; set; }
     public int turno = 1;
     public Mapa mapa;
     
@@ -59,10 +59,14 @@ public class Partida
                     {
                         SeleccionarAldeanoYRecolectarRecurso(jugadorActivo);
                         turno++;
+                        turnoCompletado = true;
                         break;
                     }
                     case "2":
                     {
+                        int indice = 1;
+                        Console.WriteLine("¿Qué estructura quieres construir?");
+                        
                         break;
                     }
                 }
@@ -157,10 +161,8 @@ public class Partida
                 }
             }
         }
-
-
     }
-
+    
     public void PosicionarLasEntidadesIniciales()
     {
         mapa.ObtenerCelda(21, 20).VaciarCelda();
