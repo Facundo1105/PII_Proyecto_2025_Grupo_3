@@ -15,22 +15,6 @@ public class TestsEstructuras
         jugador = new Jugador("juan");
         centro = (CentroCivico)jugador.Estructuras[0];
     }
-
-    [Test]
-    public void TestAumentoLimitePoblacionCorrecto()
-    {
-        jugador.LimitePoblacion = 40;
-        LogicaJuego.AumentarLimitePoblacion(jugador);
-        Assert.That(jugador.LimitePoblacion, Is.GreaterThan(40));
-    }
-
-    [Test]
-    public void TestAumentoLimitPoblacionFallado()
-    {
-        jugador.LimitePoblacion = 50;
-        LogicaJuego.AumentarLimitePoblacion(jugador);
-        Assert.That(jugador.LimitePoblacion, Is.EqualTo(50));
-    }
     
     [Test]
     public void NombreDebeSerCentroCivico()

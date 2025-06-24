@@ -42,7 +42,7 @@ public class Jugador
     public void CrearAldeano(CentroCivico centroCivico, Celda celdaAldeano)
 {
     // Restricciones de población (usa tus reglas reales)
-    if (this.LimitePoblacion < 50 && this.CantidadAldeanos < 20)
+    if (this.CantidadAldeanos < 20 && this.CantidadAldeanos < this.LimitePoblacion)
     {
         const int costoOro = 50;
         const int costoAlimento = 50;
