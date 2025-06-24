@@ -113,9 +113,9 @@ public class Partida
         }
 
 
-        if (jugador.Ejercito != null)
+        if (jugador.EjercitoGeneral != null)
         {
-            foreach (IUnidades unidades in jugador.Ejercito)
+            foreach (IUnidades unidades in jugador.EjercitoGeneral)
             {
                 Console.WriteLine($"{unidades.Nombre} = ({unidades.CeldaActual.X}, {unidades.CeldaActual.Y})");
             }

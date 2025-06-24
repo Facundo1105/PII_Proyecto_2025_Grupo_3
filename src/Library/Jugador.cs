@@ -14,17 +14,11 @@ public class Jugador
     public List<IEstructuras> Estructuras = new List<IEstructuras>(){new CentroCivico()};
 
     public List<Aldeano> Aldeanos = new List<Aldeano>() { new Aldeano(), new Aldeano(), new Aldeano() };
+    
+    public List<IUnidades> EjercitoGeneral = new List<IUnidades>();
 
-    public List<Infanteria> Infanteria = new List<Infanteria>();
-
-    public List<Arquero> Arqueros = new List<Arquero>();
-
-    public List<Caballeria> Caballeria = new List<Caballeria>();
-
-    public List<IUnidades> UnidadEspecial = new List<IUnidades>();
-
-    public List<IUnidades> Ejercito = new List<IUnidades>();
-
+    public List<IUnidades> EjercitoSecundario = new List<IUnidades>();
+    
     public Jugador(string nombre)
     {
         this.Nombre = nombre;
@@ -34,7 +28,7 @@ public class Jugador
     {
         get
         {
-            return UnidadEspecial.Count + Arqueros.Count + Infanteria.Count + Caballeria.Count;
+            return EjercitoGeneral.Count + EjercitoSecundario.Count;
         }
     }
 

@@ -1,6 +1,6 @@
 namespace Library;
 
-public class CastilloIndio : IEstructurasUnidades
+public class CastilloIndio : IEstructuras
 {
     private int vida = 3000;
     public Celda CeldaActual { get; set; }
@@ -26,7 +26,16 @@ public class CastilloIndio : IEstructurasUnidades
     }
     public void CrearUnidad(Jugador jugador)
     {
-        if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && jugador.UnidadEspecial.Count < 1)
+        bool noHayUnidadEspecial = true;
+        
+        foreach (IUnidades unidadEspecial in jugador.EjercitoGeneral)
+        {
+            if (unidadEspecial is Elefante && unidadEspecial is JulioCesar && unidadEspecial is Samurai && unidadEspecial is Thor)
+            {
+                noHayUnidadEspecial = false;
+            }
+        }
+        if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && noHayUnidadEspecial)
         {
             const int costoOro = 300;
             const int costoAlimento = 500;
@@ -118,7 +127,7 @@ public class CastilloIndio : IEstructurasUnidades
                     centroCivico.RecursosDeposito["Madera"] -= aDescontar;
                 }
 
-                jugador.UnidadEspecial.Add(new Elefante(150, 40, 20, 4));
+                jugador.EjercitoGeneral.Add(new Elefante(150, 40, 20, 4));
             }
         }
     }

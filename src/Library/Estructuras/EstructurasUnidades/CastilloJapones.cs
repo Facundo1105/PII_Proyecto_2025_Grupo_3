@@ -1,6 +1,6 @@
 namespace Library;
 
-public class CastilloJapones : IEstructurasUnidades
+public class CastilloJapones : IEstructuras
 { 
     private int vida = 3000;
     public Celda CeldaActual { get; set; }
@@ -26,7 +26,17 @@ public class CastilloJapones : IEstructurasUnidades
     }
     public void CrearUnidad(Jugador jugador)
     {
-        if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && jugador.UnidadEspecial.Count < 1)
+        bool noHayUnidadEspecial = true;
+        
+        foreach (IUnidades unidadEspecial in jugador.EjercitoGeneral)
+        {
+            if (unidadEspecial is Elefante && unidadEspecial is JulioCesar && unidadEspecial is Samurai && unidadEspecial is Thor)
+            {
+                noHayUnidadEspecial = false;
+            }
+        }
+        
+        if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && noHayUnidadEspecial)
         {
             const int costoOro = 400;
             const int costoAlimento = 350;
@@ -92,7 +102,7 @@ public class CastilloJapones : IEstructurasUnidades
                     centroCivico.RecursosDeposito["Alimento"] -= aDescontar;
                 }
                 
-                jugador.UnidadEspecial.Add(new Samurai(100, 40, 5, 2 ));
+                jugador.EjercitoGeneral.Add(new Samurai(100, 40, 5, 2 ));
             }
         }
     }
