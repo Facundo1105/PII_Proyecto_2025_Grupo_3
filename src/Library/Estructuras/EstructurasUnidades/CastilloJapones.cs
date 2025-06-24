@@ -38,8 +38,8 @@ public class CastilloJapones : IEstructuras
         
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && noHayUnidadEspecial)
         {
-            const int CostoOro = 400;
-            const int CostoAlimento = 350;
+            const int costoOro = 400;
+            const int costoAlimento = 350;
 
             // Sumar recursos disponibles
             int oroTotal = 0;
@@ -69,10 +69,10 @@ public class CastilloJapones : IEstructuras
             }
             
             // Verificar si tiene recursos suficientes
-            if (oroTotal >= CostoOro && alimentoTotal >= CostoAlimento)
+            if (oroTotal >= costoOro && alimentoTotal >= costoAlimento)
             {
-                int oroRestante = CostoOro;
-                int alimentoRestante = CostoAlimento;
+                int oroRestante = costoOro;
+                int alimentoRestante = costoAlimento;
                 
                 // Descontar oro de depósito primero, luego centro cívico
                 foreach (DepositoOro dOro in depositosOro)

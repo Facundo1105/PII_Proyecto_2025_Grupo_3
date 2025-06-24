@@ -1,12 +1,9 @@
-using System;
 using Library;
-using Library.Recursos;
-
 public class Mapa
 {
-    private const int ancho = 100;
-    private const int alto = 100;
-    public Celda[,] celdas;
+    private const int Ancho = 100;
+    private const int Alto = 100;
+    public Celda[,] Celdas;
 
     public Mapa()
     {
@@ -15,18 +12,18 @@ public class Mapa
 
     public void InicializarMapa()
     {
-        celdas = new Celda[ancho, alto];
-        for (int x = 0; x < ancho; x++)
+        Celdas = new Celda[Ancho, Alto];
+        for (int x = 0; x < Ancho; x++)
         {
-            for (int y = 0; y < alto; y++)
+            for (int y = 0; y < Alto; y++)
             {
-                celdas[x, y] = new Celda(x, y);
+                Celdas[x, y] = new Celda(x, y);
             }
         }
     }
 
     public Celda ObtenerCelda(int x, int y)
     {
-        return celdas[x, y];
+        return Celdas[x, y];
     }
 }

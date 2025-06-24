@@ -38,9 +38,9 @@ public class CastilloVikingo : IEstructuras
         
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && noHayUnidadEspecial)
         {
-            const int CostoOro = 450;
-            const int CostoAlimento = 350;
-            const int CostoMadera = 250;
+            const int costoOro = 450;
+            const int costoAlimento = 350;
+            const int costoMadera = 250;
 
             // Sumar recursos disponibles
             int oroTotal = 0;
@@ -77,11 +77,11 @@ public class CastilloVikingo : IEstructuras
             }
             
             // Verificar si tiene recursos suficientes
-            if (oroTotal >= CostoOro && alimentoTotal >= CostoAlimento)
+            if (oroTotal >= costoOro && alimentoTotal >= costoAlimento)
             {
-                int oroRestante = CostoOro;
-                int alimentoRestante = CostoAlimento;
-                int maderaRestante = CostoMadera;
+                int oroRestante = costoOro;
+                int alimentoRestante = costoAlimento;
+                int maderaRestante = costoMadera;
                 
                 // Descontar oro de depósito primero, luego centro cívico
                 foreach (DepositoOro dOro in depositosOro)

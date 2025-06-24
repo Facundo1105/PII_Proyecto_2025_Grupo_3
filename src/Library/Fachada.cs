@@ -67,11 +67,11 @@ public class Fachada
     {
         // Jugador 1 recolecta recursos con uno de sus aldeanos
         
-        var aldeano = jugador1.Aldeanos[1];
-        int aldeanoX = aldeano.CeldaActual.x;
-        int aldeanoY = aldeano.CeldaActual.y;
+        Aldeano aldeano = jugador1.Aldeanos[1];
+        int aldeanoX = aldeano.CeldaActual.X;
+        int aldeanoY = aldeano.CeldaActual.Y;
 
-        var celdaConRecurso = LogicaJuego.BuscarRecursoCercano(aldeanoX, aldeanoY,mapa);
+        Celda celdaConRecurso = LogicaJuego.BuscarRecursoCercano(aldeanoX, aldeanoY,mapa);
         
         if (celdaConRecurso.Recursos == null)
         {
@@ -121,11 +121,11 @@ public class Fachada
         
         LogicaJuego.MoverUnidades(jugador1.EjercitoSecundario, mapa.ObtenerCelda(24, 19), mapa.ObtenerCelda(24, 18));
         
-        var celda1 = mapa.ObtenerCelda(24, 17);
-        var celda2 = mapa.ObtenerCelda(24, 18);
+        Celda celda1 = mapa.ObtenerCelda(24, 17);
+        Celda celda2 = mapa.ObtenerCelda(24, 18);
 
-        var unidades1 = celda1.Unidades;
-        var unidades2 = celda2.Unidades;
+        List<IUnidades>? unidades1 = celda1.Unidades;
+        List<IUnidades>? unidades2 = celda2.Unidades;
 
         if (unidades1 != null && unidades2 != null)
         {
