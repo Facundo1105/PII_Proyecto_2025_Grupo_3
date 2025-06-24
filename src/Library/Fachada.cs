@@ -151,7 +151,7 @@ public class Fachada
     
     Celda celdaAldeanoJugador1 = mapa.ObtenerCelda(21, 23); 
     CentroCivico centroCivicoJugador1 = (CentroCivico)jugador1.Estructuras[0];
-    centroCivicoJugador1.CrearAldeano(jugador1, celdaAldeanoJugador1); 
+    jugador1.CrearAldeano(centroCivicoJugador1, celdaAldeanoJugador1); 
     
     Console.WriteLine($"Jugador 1 - Población después de crear aldeano: {jugador1.CantidadAldeanos + jugador1.CantidadUnidades}/{jugador1.LimitePoblacion}");
     
