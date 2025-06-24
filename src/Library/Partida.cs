@@ -191,7 +191,7 @@ public class Partida
         Console.WriteLine("¿Qué aldeano quieres que recolecte el recurso?");
         for (int i = 0; i < jugador.Aldeanos.Count; i++)
         {
-            Console.WriteLine($"{i + 1}. {jugador.Aldeanos[i].Nombre} {i + 1} - ({jugador.Aldeanos[i].CeldaActual.x}, {jugador.Aldeanos[i].CeldaActual.y})");
+            Console.WriteLine($"{i + 1}. {jugador.Aldeanos[i].Nombre} {i + 1} - ({jugador.Aldeanos[i].CeldaActual.X}, {jugador.Aldeanos[i].CeldaActual.Y})");
         }
 
         string aldeanoSeleccionado = Console.ReadLine();
@@ -199,7 +199,7 @@ public class Partida
         int indice = Convert.ToInt32(aldeanoSeleccionado) ;
         Aldeano aldeano = jugador.Aldeanos[indice - 1];
 
-        Celda recursoCercano = LogicaJuego.BuscarRecursoCercano(aldeano.CeldaActual.x, aldeano.CeldaActual.y, mapa);
+        Celda recursoCercano = LogicaJuego.BuscarRecursoCercano(aldeano.CeldaActual.X, aldeano.CeldaActual.Y, mapa);
 
         LogicaJuego.ObtenerRecursoDeCelda(recursoCercano, aldeano, jugador);
     }
