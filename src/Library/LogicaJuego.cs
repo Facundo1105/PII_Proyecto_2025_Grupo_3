@@ -175,367 +175,95 @@ public class LogicaJuego
         }
     }
     
-    public static void ConstruirEstructuras(IEstructuras estructuraConstruir, Jugador jugadorConstruir, Celda celdaEstructura, Celda celdaAldeano, Aldeano aldeanoContruir)
+public static void ConstruirEstructuras(IEstructuras estructuraConstruir, Jugador jugadorConstruir, Celda celdaEstructura, Celda celdaAldeano, Aldeano aldeanoContruir)
+{
+    if (celdaEstructura.EstaLibre())
     {
-        if (celdaEstructura.EstaLibre())
+        // Aldeano se ubica en donde construira la estructura
+        celdaAldeano.VaciarCelda();
+        celdaEstructura.Aldeano = aldeanoContruir;
+
+        // Sumar recursos disponibles
+        int oroTotal = 0;
+        int maderaTotal = 0;
+        int piedraTotal = 0;
+
+        List<IEstructurasDepositos> depositosOro = new List<IEstructurasDepositos>();
+        List<IEstructurasDepositos> depositosMadera = new List<IEstructurasDepositos>();
+        List<IEstructurasDepositos> depositosPiedra = new List<IEstructurasDepositos>();
+        CentroCivico centroCivico = (CentroCivico)jugadorConstruir.Estructuras[0];
+
+        foreach (IEstructuras estructura in jugadorConstruir.Estructuras)
         {
-            // Aldeano se ubica en donde construira la estructura
-            celdaAldeano.VaciarCelda();
-            celdaEstructura.Aldeano = aldeanoContruir;
-            
-            const int costoOro = 200;
-            const int costoMadera = 300;
-            const int costoPiedra = 300;
-
-            // Sumar recursos disponibles
-            
-            int oroTotal = 0;
-            int maderaTotal = 0;
-            int piedraTotal = 0;
-
-            List<DepositoOro> depositosOro = new List<DepositoOro>();
-            List<DepositoMadera> depositosMadera = new List<DepositoMadera>();
-            List<DepositoPiedra> depositosPiedra = new List<DepositoPiedra>();
-            CentroCivico centroCivico = (CentroCivico)jugadorConstruir.Estructuras[0];
-
-            foreach (IEstructuras estructura in jugadorConstruir.Estructuras)
+            if (estructura is DepositoOro dOro)
             {
-                if (estructura is DepositoOro dOro)
-                {
-                    depositosOro.Add(dOro);
-                    oroTotal += dOro.EspacioOcupado;
-                }
-                else if (estructura is DepositoMadera dMadera)
-                {
-                    depositosMadera.Add(dMadera);
-                    maderaTotal += dMadera.EspacioOcupado;
-                }
-                else if (estructura is DepositoPiedra dPiedra)
-                {
-                    depositosPiedra.Add(dPiedra);
-                    piedraTotal += dPiedra.EspacioOcupado;
-                }
-                else if (estructura is CentroCivico)
-                {
-                    oroTotal += centroCivico.RecursosDeposito["Oro"];
-                    maderaTotal += centroCivico.RecursosDeposito["Madera"];
-                    piedraTotal += centroCivico.RecursosDeposito["Piedra"];
-                }
+                depositosOro.Add(dOro);
+                oroTotal += dOro.EspacioOcupado;
             }
-
-            if (estructuraConstruir is CastilloIndio && jugadorConstruir.Civilizacion is Indios)
+            else if (estructura is DepositoMadera dMadera)
             {
-                // Verificar si tiene recursos suficientes
-                if (oroTotal >= 200 && maderaTotal >= 400 && piedraTotal >= 300)
-                {
-                    int oroRestante = 200;
-                    int maderaRestante = 400;
-                    int piedraRestante = 300;
-
-                    // Descontar oro de depósitos primero, luego centro cívico
-                    foreach (DepositoOro dOro in depositosOro)
-                    {
-                        if (oroRestante == 0) break;
-                        int aDescontar = Math.Min(oroRestante, dOro.EspacioOcupado);
-                        dOro.EspacioOcupado -= aDescontar;
-                        oroRestante -= aDescontar;
-                    }
-
-                    if (oroRestante > 0)
-                    {
-                        int aDescontar = Math.Min(oroRestante, centroCivico.RecursosDeposito["Oro"]);
-                        centroCivico.RecursosDeposito["Oro"] -= aDescontar;
-                    }
-
-                    // Descontar madera de depósitos primero, luego centro cívico
-                    foreach (DepositoMadera dMadera in depositosMadera)
-                    {
-                        if (maderaRestante == 0) break;
-                        int aDescontar = Math.Min(maderaRestante, dMadera.EspacioOcupado);
-                        dMadera.EspacioOcupado -= aDescontar;
-                        maderaRestante -= aDescontar;
-                    }
-
-                    if (maderaRestante > 0)
-                    {
-                        int aDescontar = Math.Min(maderaRestante, centroCivico.RecursosDeposito["Madera"]);
-                        centroCivico.RecursosDeposito["Madera"] -= aDescontar;
-                    }
-
-                    // Descontar piedra de depósitos primero, luego centro cívico
-                    foreach (var dPiedra in depositosPiedra)
-                    {
-                        if (piedraRestante == 0) break;
-                        int aDescontar = Math.Min(piedraRestante, dPiedra.EspacioOcupado);
-                        dPiedra.EspacioOcupado -= aDescontar;
-                        piedraRestante -= aDescontar;
-                    }
-
-                    if (piedraRestante > 0)
-                    {
-                        int aDescontar = Math.Min(piedraRestante, centroCivico.RecursosDeposito["Piedra"]);
-                        centroCivico.RecursosDeposito["Piedra"] -= aDescontar;
-                    }
-
-                    // Incorpora la estructura al mapa y a la lista de estructuras del jugador, Aldeano vuelve a su posicion
-                    celdaEstructura.VaciarCelda();
-                    celdaEstructura.AsignarEstructura(estructuraConstruir);
-                    jugadorConstruir.Estructuras.Add(estructuraConstruir);
-                    celdaAldeano.AsignarAldeano(aldeanoContruir);
-                }
+                depositosMadera.Add(dMadera);
+                maderaTotal += dMadera.EspacioOcupado;
             }
-            else if (estructuraConstruir is CastilloJapones && jugadorConstruir.Civilizacion is Japoneses)
+            else if (estructura is DepositoPiedra dPiedra)
             {
-                // Verificar si tiene recursos suficientes
-                if (oroTotal >= 250 && maderaTotal >= 500 && piedraTotal >= 200)
-                {
-                    int oroRestante = 250;
-                    int maderaRestante = 500;
-                    int piedraRestante = 200;
-
-                    // Descontar oro de depósitos primero, luego centro cívico
-                    foreach (DepositoOro dOro in depositosOro)
-                    {
-                        if (oroRestante == 0) break;
-                        int aDescontar = Math.Min(oroRestante, dOro.EspacioOcupado);
-                        dOro.EspacioOcupado -= aDescontar;
-                        oroRestante -= aDescontar;
-                    }
-
-                    if (oroRestante > 0)
-                    {
-                        int aDescontar = Math.Min(oroRestante, centroCivico.RecursosDeposito["Oro"]);
-                        centroCivico.RecursosDeposito["Oro"] -= aDescontar;
-                    }
-
-                    // Descontar madera de depósitos primero, luego centro cívico
-                    foreach (DepositoMadera dMadera in depositosMadera)
-                    {
-                        if (maderaRestante == 0) break;
-                        int aDescontar = Math.Min(maderaRestante, dMadera.EspacioOcupado);
-                        dMadera.EspacioOcupado -= aDescontar;
-                        maderaRestante -= aDescontar;
-                    }
-
-                    if (maderaRestante > 0)
-                    {
-                        int aDescontar = Math.Min(maderaRestante, centroCivico.RecursosDeposito["Madera"]);
-                        centroCivico.RecursosDeposito["Madera"] -= aDescontar;
-                    }
-
-                    // Descontar piedra de depósitos primero, luego centro cívico
-                    foreach (var dPiedra in depositosPiedra)
-                    {
-                        if (piedraRestante == 0) break;
-                        int aDescontar = Math.Min(piedraRestante, dPiedra.EspacioOcupado);
-                        dPiedra.EspacioOcupado -= aDescontar;
-                        piedraRestante -= aDescontar;
-                    }
-
-                    if (piedraRestante > 0)
-                    {
-                        int aDescontar = Math.Min(piedraRestante, centroCivico.RecursosDeposito["Piedra"]);
-                        centroCivico.RecursosDeposito["Piedra"] -= aDescontar;
-                    }
-
-                    // Incorpora la estructura al mapa y a la lista de estructuras del jugador. Aldeano vuelve a su posicion
-                    celdaEstructura.VaciarCelda();
-                    celdaEstructura.AsignarEstructura(estructuraConstruir);
-                    jugadorConstruir.Estructuras.Add(estructuraConstruir);
-                    celdaAldeano.AsignarAldeano(aldeanoContruir);
-                }
+                depositosPiedra.Add(dPiedra);
+                piedraTotal += dPiedra.EspacioOcupado;
             }
-            else if (estructuraConstruir is CastilloRomano && jugadorConstruir.Civilizacion is Romanos)
+            else if (estructura is CentroCivico)
             {
-                // Verificar si tiene recursos suficientes
-                if (oroTotal >= 400 && maderaTotal >= 200 && piedraTotal >= 350)
-                {
-                    int oroRestante = 400;
-                    int maderaRestante = 200;
-                    int piedraRestante = 350;
-
-                    // Descontar oro de depósitos primero, luego centro cívico
-                    foreach (DepositoOro dOro in depositosOro)
-                    {
-                        if (oroRestante == 0) break;
-                        int aDescontar = Math.Min(oroRestante, dOro.EspacioOcupado);
-                        dOro.EspacioOcupado -= aDescontar;
-                        oroRestante -= aDescontar;
-                    }
-
-                    if (oroRestante > 0)
-                    {
-                        int aDescontar = Math.Min(oroRestante, centroCivico.RecursosDeposito["Oro"]);
-                        centroCivico.RecursosDeposito["Oro"] -= aDescontar;
-                    }
-
-                    // Descontar madera de depósitos primero, luego centro cívico
-                    foreach (DepositoMadera dMadera in depositosMadera)
-                    {
-                        if (maderaRestante == 0) break;
-                        int aDescontar = Math.Min(maderaRestante, dMadera.EspacioOcupado);
-                        dMadera.EspacioOcupado -= aDescontar;
-                        maderaRestante -= aDescontar;
-                    }
-
-                    if (maderaRestante > 0)
-                    {
-                        int aDescontar = Math.Min(maderaRestante, centroCivico.RecursosDeposito["Madera"]);
-                        centroCivico.RecursosDeposito["Madera"] -= aDescontar;
-                    }
-
-                    // Descontar piedra de depósitos primero, luego centro cívico
-                    foreach (var dPiedra in depositosPiedra)
-                    {
-                        if (piedraRestante == 0) break;
-                        int aDescontar = Math.Min(piedraRestante, dPiedra.EspacioOcupado);
-                        dPiedra.EspacioOcupado -= aDescontar;
-                        piedraRestante -= aDescontar;
-                    }
-
-                    if (piedraRestante > 0)
-                    {
-                        int aDescontar = Math.Min(piedraRestante, centroCivico.RecursosDeposito["Piedra"]);
-                        centroCivico.RecursosDeposito["Piedra"] -= aDescontar;
-                    }
-
-                    // Incorpora la estructura al mapa y a la lista de estructuras del jugador. Aldeano vuelve a su posicion
-                    celdaEstructura.VaciarCelda();
-                    celdaEstructura.AsignarEstructura(estructuraConstruir);
-                    jugadorConstruir.Estructuras.Add(estructuraConstruir);
-                    celdaAldeano.AsignarAldeano(aldeanoContruir);
-                }
+                oroTotal += centroCivico.RecursosDeposito["Oro"];
+                maderaTotal += centroCivico.RecursosDeposito["Madera"];
+                piedraTotal += centroCivico.RecursosDeposito["Piedra"];
             }
-            else if (estructuraConstruir is CastilloVikingo && jugadorConstruir.Civilizacion is Vikingos)
+        }
+
+        // Obtener requisitos de recursos
+        RequisitosRecursos requisitos = RequisitosRecursos.ObtenerRequisitos(estructuraConstruir);
+
+        // Verificar si tiene recursos suficientes
+        if (oroTotal >= requisitos.CostoOro && maderaTotal >= requisitos.CostoMadera && piedraTotal >= requisitos.CostoPiedra)
+        {
+            int oroRestante = requisitos.CostoOro;
+            int maderaRestante = requisitos.CostoMadera;
+            int piedraRestante = requisitos.CostoPiedra;
+
+            // Descontar recursos de depósitos y centro cívico
+            DescontarRecursos(depositosOro, centroCivico, oroRestante, "Oro");
+            DescontarRecursos(depositosMadera, centroCivico, maderaRestante, "Madera");
+            DescontarRecursos(depositosPiedra, centroCivico, piedraRestante, "Piedra");
+
+            // Incorpora la estructura al mapa y a la lista de estructuras del jugador. Aldeano vuelve a su posicion
+            celdaEstructura.VaciarCelda();
+            celdaEstructura.AsignarEstructura(estructuraConstruir);
+            jugadorConstruir.Estructuras.Add(estructuraConstruir);
+            celdaAldeano.AsignarAldeano(aldeanoContruir);
+
+            // Aumenta la poblacion al crear una casa si todavia no se llego al limite
+            if (estructuraConstruir is Casa)
             {
-                // Verificar si tiene recursos suficientes
-                if (oroTotal >= 350 && maderaTotal >= 300 && piedraTotal >= 200)
-                {
-                    int oroRestante = 350;
-                    int maderaRestante = 300;
-                    int piedraRestante = 200;
-
-                    // Descontar oro de depósitos primero, luego centro cívico
-                    foreach (DepositoOro dOro in depositosOro)
-                    {
-                        if (oroRestante == 0) break;
-                        int aDescontar = Math.Min(oroRestante, dOro.EspacioOcupado);
-                        dOro.EspacioOcupado -= aDescontar;
-                        oroRestante -= aDescontar;
-                    }
-
-                    if (oroRestante > 0)
-                    {
-                        int aDescontar = Math.Min(oroRestante, centroCivico.RecursosDeposito["Oro"]);
-                        centroCivico.RecursosDeposito["Oro"] -= aDescontar;
-                    }
-
-                    // Descontar madera de depósitos primero, luego centro cívico
-                    foreach (DepositoMadera dMadera in depositosMadera)
-                    {
-                        if (maderaRestante == 0) break;
-                        int aDescontar = Math.Min(maderaRestante, dMadera.EspacioOcupado);
-                        dMadera.EspacioOcupado -= aDescontar;
-                        maderaRestante -= aDescontar;
-                    }
-
-                    if (maderaRestante > 0)
-                    {
-                        int aDescontar = Math.Min(maderaRestante, centroCivico.RecursosDeposito["Madera"]);
-                        centroCivico.RecursosDeposito["Madera"] -= aDescontar;
-                    }
-
-                    // Descontar piedra de depósitos primero, luego centro cívico
-                    foreach (var dPiedra in depositosPiedra)
-                    {
-                        if (piedraRestante == 0) break;
-                        int aDescontar = Math.Min(piedraRestante, dPiedra.EspacioOcupado);
-                        dPiedra.EspacioOcupado -= aDescontar;
-                        piedraRestante -= aDescontar;
-                    }
-
-                    if (piedraRestante > 0)
-                    {
-                        int aDescontar = Math.Min(piedraRestante, centroCivico.RecursosDeposito["Piedra"]);
-                        centroCivico.RecursosDeposito["Piedra"] -= aDescontar;
-                    }
-                    
-                    // Incorpora la estructura al mapa y a la lista de estructuras del jugador. Aldeano vuelve a su posicion
-                    celdaEstructura.VaciarCelda();
-                    celdaEstructura.AsignarEstructura(estructuraConstruir);
-                    jugadorConstruir.Estructuras.Add(estructuraConstruir);
-                    celdaAldeano.AsignarAldeano(aldeanoContruir);
-                }
-            }
-            else
-            {
-                // Verificar si tiene recursos suficientes
-                if (oroTotal >= costoOro && maderaTotal >= costoMadera && piedraTotal >= costoPiedra)
-                {
-                    int oroRestante = costoOro;
-                    int maderaRestante = costoMadera;
-                    int piedraRestante = costoPiedra;
-
-                    // Descontar oro de depósitos primero, luego centro cívico
-                    foreach (DepositoOro dOro in depositosOro)
-                    {
-                        if (oroRestante == 0) break;
-                        int aDescontar = Math.Min(oroRestante, dOro.EspacioOcupado);
-                        dOro.EspacioOcupado -= aDescontar;
-                        oroRestante -= aDescontar;
-                    }
-
-                    if (oroRestante > 0)
-                    {
-                        int aDescontar = Math.Min(oroRestante, centroCivico.RecursosDeposito["Oro"]);
-                        centroCivico.RecursosDeposito["Oro"] -= aDescontar;
-                    }
-
-                    // Descontar madera de depósitos primero, luego centro cívico
-                    foreach (DepositoMadera dMadera in depositosMadera)
-                    {
-                        if (maderaRestante == 0) break;
-                        int aDescontar = Math.Min(maderaRestante, dMadera.EspacioOcupado);
-                        dMadera.EspacioOcupado -= aDescontar;
-                        maderaRestante -= aDescontar;
-                    }
-
-                    if (maderaRestante > 0)
-                    {
-                        int aDescontar = Math.Min(maderaRestante, centroCivico.RecursosDeposito["Madera"]);
-                        centroCivico.RecursosDeposito["Madera"] -= aDescontar;
-                    }
-
-                    // Descontar piedra de depósitos primero, luego centro cívico
-                    foreach (var dPiedra in depositosPiedra)
-                    {
-                        if (piedraRestante == 0) break;
-                        int aDescontar = Math.Min(piedraRestante, dPiedra.EspacioOcupado);
-                        dPiedra.EspacioOcupado -= aDescontar;
-                        piedraRestante -= aDescontar;
-                    }
-
-                    if (piedraRestante > 0)
-                    {
-                        int aDescontar = Math.Min(piedraRestante, centroCivico.RecursosDeposito["Piedra"]);
-                        centroCivico.RecursosDeposito["Piedra"] -= aDescontar;
-                    }
-                    
-                    // Incorpora la estructura al mapa y a la lista de estructuras del jugador. Aldeano vuelve a su posicion
-                    celdaEstructura.VaciarCelda();
-                    celdaEstructura.AsignarEstructura(estructuraConstruir);
-                    jugadorConstruir.Estructuras.Add(estructuraConstruir);
-                    celdaAldeano.AsignarAldeano(aldeanoContruir);
-                    
-                    // Aumenta la poblacion al crear una casa si todavia no se llego al limite
-                    if (estructuraConstruir is Casa)
-                    {
-                        AumentarLimitePoblacion(jugadorConstruir);
-                    }
-                }
+                AumentarLimitePoblacion(jugadorConstruir);
             }
         }
     }
+}
+
+private static void DescontarRecursos(List<IEstructurasDepositos> depositos, CentroCivico centroCivico, int recursoRestante, string tipoRecurso)
+{
+    foreach (IEstructurasDepositos deposito in depositos)
+    {
+        if (recursoRestante == 0) break;
+        int aDescontar = Math.Min(recursoRestante, deposito.EspacioOcupado);
+        deposito.EspacioOcupado -= aDescontar;
+        recursoRestante -= aDescontar;
+    }
+
+    if (recursoRestante > 0)
+    {
+        int aDescontar = Math.Min(recursoRestante, centroCivico.RecursosDeposito[tipoRecurso]);
+        centroCivico.RecursosDeposito[tipoRecurso] -= aDescontar;
+    }
+}
     
     public static void UnidadesAtacarUnidades(List<IUnidades> ejercitoAtaque, List<IUnidades> ejercitoDefensa, Celda celdaEjercitoDefensa, Celda celdaEjercitoAtaque)
     {
