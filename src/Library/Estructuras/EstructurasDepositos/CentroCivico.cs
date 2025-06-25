@@ -7,128 +7,40 @@ public class CentroCivico : IEstructuras
 
     public int CapacidadMaxima
     {
-        get
-        {
-            return 10000;
-        }
+        get { return 10000; }
     }
 
     public int EspacioOcupado
     {
         get
         {
-            return RecursosDeposito["Oro"] + RecursosDeposito["Alimento"] + RecursosDeposito["Madera"] + RecursosDeposito["Piedra"];
+            return RecursosDeposito["Oro"] + RecursosDeposito["Alimento"] + RecursosDeposito["Madera"] +
+                   RecursosDeposito["Piedra"];
         }
-        set
-        {
-            throw new InvalidOperationException("Espacio Ocupado no puede ser seteado directamente.");
-        }
+        set { throw new InvalidOperationException("Espacio Ocupado no puede ser seteado directamente."); }
     }
 
     public Dictionary<string, int> RecursosDeposito;
+
     public string Nombre
     {
-        get
-        {
-            return "Centro Civico";
-        }
+        get { return "Centro Civico"; }
     }
 
     public int Vida
     {
-        get
-        {
-            return this.vida;
-        }
-        set
-        {
-            this.vida = value < 0 ? 0 : value;
-        }
+        get { return this.vida; }
+        set { this.vida = value < 0 ? 0 : value; }
     }
-    
-    public CentroCivico() 
+
+    public CentroCivico()
     {
-        this.RecursosDeposito = new Dictionary<string, int> 
+        this.RecursosDeposito = new Dictionary<string, int>
         {
             { "Oro", 0 },
             { "Alimento", 100 },
             { "Madera", 100 },
             { "Piedra", 0 }
         };
-    }
-
-    public void CrearAldeano(Jugador jugador, Celda celdaAldeano)
-    {
-        if (jugador.LimitePoblacion < 50 && jugador.CantidadAldeanos < 20)
-        {
-            const int costoOro = 50;
-            const int costoAlimento = 50;
-
-            // Sumar recursos disponibles
-            int oroTotal = 0;
-            int alimentoTotal = 0;
-
-            List<DepositoOro> depositosOro = new List<DepositoOro>();
-            List<Molino> molinos = new List<Molino>();
-            CentroCivico centroCivico = (CentroCivico)jugador.Estructuras[0];
-
-            foreach (IEstructuras estructura in jugador.Estructuras)
-            {
-                if (estructura is DepositoOro dOro)
-                {
-                    depositosOro.Add(dOro);
-                    oroTotal += dOro.EspacioOcupado;
-                }
-                else if (estructura is Molino molino)
-                {
-                    molinos.Add(molino);
-                    alimentoTotal += molino.EspacioOcupado;
-                }
-                else if (estructura is CentroCivico)
-                {
-                    oroTotal += centroCivico.RecursosDeposito["Oro"];
-                    alimentoTotal += centroCivico.RecursosDeposito["Alimento"];
-                }
-            }
-            
-            // Verificar si tiene recursos suficientes
-            if (oroTotal >= costoOro && alimentoTotal >= costoAlimento)
-            {
-                int oroRestante = costoOro;
-                int alimentoRestante = costoAlimento;
-                
-                // Descontar oro de depósito primero, luego centro cívico
-                foreach (DepositoOro dOro in depositosOro)
-                {
-                    if (oroRestante == 0) break;
-                    int aDescontar = Math.Min(oroRestante, dOro.EspacioOcupado);
-                    dOro.EspacioOcupado -= aDescontar;
-                    oroRestante -= aDescontar;
-                }
-
-                if (oroRestante > 0)
-                {
-                    int aDescontar = Math.Min(oroRestante, centroCivico.RecursosDeposito["Oro"]);
-                    centroCivico.RecursosDeposito["Oro"] -= aDescontar;
-                }
-                // Descontar alimento de depósitos primero, luego centro cívico
-                foreach (Molino molino in molinos)
-                {
-                    if (alimentoRestante == 0) break;
-                    int aDescontar = Math.Min(alimentoRestante, molino.EspacioOcupado);
-                    molino.EspacioOcupado -= aDescontar;
-                    alimentoRestante -= aDescontar;
-                }
-                if (alimentoRestante > 0)
-                {
-                    int aDescontar = Math.Min(alimentoRestante, centroCivico.RecursosDeposito["Alimento"]);
-                    centroCivico.RecursosDeposito["Alimento"] -= aDescontar;
-                }
-
-                Aldeano aldeanoCreado = new Aldeano();
-                celdaAldeano.Aldeano = aldeanoCreado;
-                jugador.Aldeanos.Add(aldeanoCreado);
-            }
-        }
     }
 }
