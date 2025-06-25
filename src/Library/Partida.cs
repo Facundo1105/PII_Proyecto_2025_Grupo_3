@@ -11,6 +11,10 @@ public class Partida
     public Jugador jugador2;
     public int turno = 1;
     public Mapa mapa;
+
+    private List<IEstructuras> castillo = new List<IEstructuras>()
+        { new CastilloIndio(), new CastilloJapones(), new CastilloRomano(), new CastilloVikingo() };
+    private List<IEstructuras> estructuras = new List<IEstructuras>() { new DepositoMadera(), new DepositoOro(), new DepositoPiedra(),new Molino(),new Granja(), new CampoTiro(), new Cuartel(), new Establo(), new Casa()  };
     
     public Partida(Jugador jugador1, Jugador jugador2)
     {
@@ -203,41 +207,45 @@ public class Partida
 
         LogicaJuego.ObtenerRecursoDeCelda(recursoCercano, aldeano, jugador);
     }
-
-    public void EstructurasGenerales(Jugador jugador)
-    {
-        Console.WriteLine("2. Deposito de Madera, [COSTOS: Madera 300, Piedra 300, Oro 200]\n3. Deposito de Oro, [COSTOS: Madera 300, Piedra 300, Oro 200]" +
-                          "\n4. Deposito de Piedra, [COSTOS: Madera 300, Piedra 300, Oro 200]\n5. Molino, [COSTOS: Madera 300, Piedra 300, Oro 200]" +
-                          "\n6. Granja, [COSTOS: Madera 300, Piedra 300, Oro 200]\n7. Campo de Tiro, [COSTOS: Madera 300, Piedra 300, Oro 200]" +
-                          "\n8. Cuartel, [COSTOS: Madera 300, Piedra 300, Oro 200]\n9. Establo, [COSTOS: Madera 300, Piedra 300, Oro 200]" +
-                          "\n10. Casa, [COSTOS: Madera 300, Piedra 300, Oro 200]");
-    }
-
+    
     public void SeleccionarAldeanoYEstructuraParaConstruir(Jugador jugador)
     {
-        Console.WriteLine("¿Qué estructura quieres construir?");
+        int indice = 1;
+        
+        Console.WriteLine("¿Qué estructura quieres construir?:");
+        foreach (IEstructuras estructura in estructuras)
+        {
+            RequisitosRecursos estructuraCosto = RequisitosRecursos.ObtenerRequisitos(estructura);
+            if (jugador.Civilizacion is Indios & indice == 1)
+            {
+                RequisitosRecursos castilloCosto = RequisitosRecursos.ObtenerRequisitos(castillo[0]);
+                Console.WriteLine($"{indice}. {castillo[0].Nombre} - {castilloCosto.CostoOro} ORO, {castilloCosto.CostoMadera} MADERA, {castilloCosto.CostoPiedra} PIEDRA");
+                indice++;
+            }
+            else if (jugador.Civilizacion is Japoneses & indice == 1)
+            {
+                RequisitosRecursos castilloCosto = RequisitosRecursos.ObtenerRequisitos(castillo[1]);
+                Console.WriteLine($"{indice}. {castillo[1].Nombre} - {castilloCosto.CostoOro} ORO, {castilloCosto.CostoMadera} MADERA, {castilloCosto.CostoPiedra} PIEDRA");
+                indice++;
+            }
+            else if (jugador.Civilizacion is Romanos & indice == 1)
+            {
+                RequisitosRecursos castilloCosto = RequisitosRecursos.ObtenerRequisitos(castillo[2]);
+                Console.WriteLine($"{indice}. {castillo[2].Nombre} - {castilloCosto.CostoOro} ORO, {castilloCosto.CostoMadera} MADERA, {castilloCosto.CostoPiedra} PIEDRA");
+                indice++;
+            }
+            else if (jugador.Civilizacion is Vikingos & indice == 1)
+            {
+                RequisitosRecursos castilloCosto = RequisitosRecursos.ObtenerRequisitos(castillo[3]);
+                Console.WriteLine($"{indice}. {castillo[3].Nombre} - {castilloCosto.CostoOro} ORO, {castilloCosto.CostoMadera} MADERA, {castilloCosto.CostoPiedra} PIEDRA");
+                indice++;
+            }
+            Console.WriteLine($"{indice}. {estructura.Nombre} - {estructuraCosto.CostoOro} ORO, {estructuraCosto.CostoMadera} MADERA, {estructuraCosto.CostoPiedra} PIEDRA");
+            indice++;
+        }
+        
         MostrarRecursos(jugador);
-        if (jugador.Civilizacion is Indios)
-        {
-            Console.WriteLine("1. Castillo Indio, [COSTOS: Madera 400, Piedra 300, Oro 200]");
-            EstructurasGenerales(jugador);
-        }
-        else if (jugador.Civilizacion is Japoneses)
-        {
-            Console.WriteLine("1. Castillo Japones, [COSTOS: Madera 500, Piedra 200, Oro 250]");
-            EstructurasGenerales(jugador);
-        }
-        else if (jugador.Civilizacion is Romanos)
-        {
-            Console.WriteLine("1. Castillo Romano, [COSTOS: Madera 200, Piedra 350, Oro 400]");
-            EstructurasGenerales(jugador);
-        }
-        else if (jugador.Civilizacion is Vikingos)
-        {
-            Console.WriteLine("1. Castillo Vikingo, [COSTOS: Madera 300, Piedra 200, Oro 350]");
-            EstructurasGenerales(jugador);
-        }
-
+        
         string opcionConstruir = Console.ReadLine();
 
         Console.WriteLine("Elegir posicion para la estructura (X Y)");
@@ -249,11 +257,11 @@ public class Partida
 
         Console.WriteLine("Elegir aldeano para construir la estructura");
 
-        int indice = 1;
+        int indiceAldeano = 1;
         foreach (Aldeano aldeano in jugador.Aldeanos)
         {
             Console.WriteLine(
-                $"{indice}. {aldeano.Nombre} y su ubicacion es: {aldeano.CeldaActual.X}, {aldeano.CeldaActual.Y}");
+                $"{indiceAldeano}. {aldeano.Nombre} y su ubicacion es: {aldeano.CeldaActual.X}, {aldeano.CeldaActual.Y}");
             indice++;
         }
 
