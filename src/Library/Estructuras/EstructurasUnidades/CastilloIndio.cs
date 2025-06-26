@@ -27,28 +27,29 @@ public class CastilloIndio : IEstructuras
     public void CrearUnidad(Jugador jugador)
     {
         bool noHayUnidadEspecial = true;
-        
+
         foreach (IUnidades unidadEspecial in jugador.EjercitoGeneral)
         {
-            if (unidadEspecial is Elefante && unidadEspecial is JulioCesar && unidadEspecial is Samurai && unidadEspecial is Thor)
+            if (unidadEspecial is Elefante || unidadEspecial is JulioCesar || unidadEspecial is Samurai || unidadEspecial is Thor)
             {
                 noHayUnidadEspecial = false;
+                break; // Salir del bucle si se encuentra una unidad especial
             }
         }
+
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && noHayUnidadEspecial)
         {
-            const int costoOro = 300;
-            const int costoAlimento = 500;
-            const int costoMadera = 200;
+            // Obtener requisitos de recursos para el Elefante
+            RequisitosRecursos requisitos = new RequisitosRecursos(300, 0, 200, 500);
 
             // Sumar recursos disponibles
             int oroTotal = 0;
             int alimentoTotal = 0;
             int maderaTotal = 0;
 
-            List<DepositoOro> depositosOro = new List<DepositoOro>();
-            List<Molino> molinos = new List<Molino>();
-            List<DepositoMadera> depositosMadera = new List<DepositoMadera>();
+            List<IEstructurasDepositos> depositosOro = new List<IEstructurasDepositos>();
+            List<IEstructurasDepositos> molinos = new List<IEstructurasDepositos>();
+            List<IEstructurasDepositos> depositosMadera = new List<IEstructurasDepositos>();
             CentroCivico centroCivico = (CentroCivico)jugador.Estructuras[0];
 
             foreach (IEstructuras estructura in jugador.Estructuras)
@@ -72,63 +73,42 @@ public class CastilloIndio : IEstructuras
                 {
                     oroTotal += centroCivico.RecursosDeposito["Oro"];
                     alimentoTotal += centroCivico.RecursosDeposito["Alimento"];
+                    maderaTotal += centroCivico.RecursosDeposito["Madera"];
                 }
             }
-            
+
             // Verificar si tiene recursos suficientes
-            if (oroTotal >= costoOro && alimentoTotal >= costoAlimento)
+            if (oroTotal >= requisitos.CostoOro && alimentoTotal >= requisitos.CostoAlimento && maderaTotal >= requisitos.CostoMadera)
             {
-                int oroRestante = costoOro;
-                int alimentoRestante = costoAlimento;
-                int maderaRestante = costoMadera;
+                int oroRestante = requisitos.CostoOro;
+                int alimentoRestante = requisitos.CostoAlimento;
+                int maderaRestante = requisitos.CostoMadera;
 
-                // Descontar oro de depósito primero, luego centro cívico
-                foreach (DepositoOro dOro in depositosOro)
-                {
-                    if (oroRestante == 0) break;
-                    int aDescontar = Math.Min(oroRestante, dOro.EspacioOcupado);
-                    dOro.EspacioOcupado -= aDescontar;
-                    oroRestante -= aDescontar;
-                }
+                // Descontar recursos de depósitos y centro cívico
+                DescontarRecursos(depositosOro, centroCivico, oroRestante, "Oro");
+                DescontarRecursos(molinos, centroCivico, alimentoRestante, "Alimento");
+                DescontarRecursos(depositosMadera, centroCivico, maderaRestante, "Madera");
 
-                if (oroRestante > 0)
-                {
-                    int aDescontar = Math.Min(oroRestante, centroCivico.RecursosDeposito["Oro"]);
-                    centroCivico.RecursosDeposito["Oro"] -= aDescontar;
-                }
-
-                // Descontar alimento de depósitos primero, luego centro cívico
-                foreach (Molino molino in molinos)
-                {
-                    if (alimentoRestante == 0) break;
-                    int aDescontar = Math.Min(alimentoRestante, molino.EspacioOcupado);
-                    molino.EspacioOcupado -= aDescontar;
-                    alimentoRestante -= aDescontar;
-                }
-
-                if (alimentoRestante > 0)
-                {
-                    int aDescontar = Math.Min(alimentoRestante, centroCivico.RecursosDeposito["Alimento"]);
-                    centroCivico.RecursosDeposito["Alimento"] -= aDescontar;
-                }
-
-                // Descontar madera de depósitos primero, luego centro cívico
-                foreach (DepositoMadera dMadera in depositosMadera)
-                {
-                    if (maderaRestante == 0) break;
-                    int aDescontar = Math.Min(maderaRestante, dMadera.EspacioOcupado);
-                    dMadera.EspacioOcupado -= aDescontar;
-                    maderaRestante -= aDescontar;
-                }
-
-                if (maderaRestante > 0)
-                {
-                    int aDescontar = Math.Min(maderaRestante, centroCivico.RecursosDeposito["Madera"]);
-                    centroCivico.RecursosDeposito["Madera"] -= aDescontar;
-                }
-
-                jugador.EjercitoGeneral.Add(new Elefante(150, 40, 20, 4));
+                // Agregar la unidad al ejército del jugador
+                jugador.EjercitoGeneral.Add(new Elefante());
             }
+        }
+    }
+
+    private static void DescontarRecursos(List<IEstructurasDepositos> depositos, CentroCivico centroCivico, int recursoRestante, string tipoRecurso)
+    {
+        foreach (IEstructurasDepositos deposito in depositos)
+        {
+            if (recursoRestante == 0) break;
+            int aDescontar = Math.Min(recursoRestante, deposito.EspacioOcupado);
+            deposito.EspacioOcupado -= aDescontar;
+            recursoRestante -= aDescontar;
+        }
+
+        if (recursoRestante > 0)
+        {
+            int aDescontar = Math.Min(recursoRestante, centroCivico.RecursosDeposito[tipoRecurso]);
+            centroCivico.RecursosDeposito[tipoRecurso] -= aDescontar;
         }
     }
 }

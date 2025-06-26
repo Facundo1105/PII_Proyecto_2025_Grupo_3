@@ -14,8 +14,8 @@ public class Partida
 
     private List<IEstructuras> castillo = new List<IEstructuras>() {new CastilloIndio(), new CastilloJapones(), new CastilloRomano(), new CastilloVikingo() };
     private List<IEstructuras> estructuras = new List<IEstructuras>() { new DepositoMadera(), new DepositoOro(), new DepositoPiedra(),new Molino(),new Granja(), new CampoTiro(), new Cuartel(), new Establo(), new Casa()  };
-    private List<IUnidades> unidades = new List<IUnidades>();
-    private List<IUnidades> unidadesEspeciales = new List<IUnidades>();
+    private List<IUnidades> unidades = new List<IUnidades>() { new Arquero(), new Caballeria(), new Infanteria() };
+    private List<IUnidades> unidadesEspeciales = new List<IUnidades>() {new Elefante(), new Samurai(), new JulioCesar(), new Thor()};
     
     public Partida(Jugador jugador1, Jugador jugador2)
     {
@@ -76,9 +76,7 @@ public class Partida
                     }
                     case "3":
                     {
-                        MostrarRecursos(jugadorActivo);
-                        Console.WriteLine("¿Qué unidad quieres crear?");
-                        
+                        SeleccionarUnidadParaCrear(jugadorActivo);
                         turno++;
                         turnoCompletado = true;
                         break;
@@ -359,6 +357,51 @@ public class Partida
                 }
             }
         }
+    }
+
+    public void SeleccionarUnidadParaCrear(Jugador jugador)
+    {
+        MostrarRecursos(jugador);
+        Console.WriteLine("¿Qué unidad quieres crear?");
+        int indice = 1;
+        foreach (IUnidades unidad in unidades)
+        {
+            RequisitosRecursos unidadCosto = RequisitosRecursos.ObtenerRequisitosUnidades(unidad);
+            if (jugador.Civilizacion is Indios & indice == 1)
+            {
+                RequisitosRecursos unidadEspCosto = RequisitosRecursos.ObtenerRequisitosUnidades(unidadesEspeciales[0]);
+                Console.WriteLine(
+                    $"{indice}. {unidadesEspeciales[0].Nombre} - {unidadEspCosto.CostoOro} ORO, {unidadEspCosto.CostoMadera} MADERA, {unidadEspCosto.CostoAlimento} ALIMENTO");
+                indice++;
+            }
+            else if (jugador.Civilizacion is Japoneses & indice == 1)
+            {
+                RequisitosRecursos unidadEspCosto = RequisitosRecursos.ObtenerRequisitosUnidades(unidadesEspeciales[1]);
+                Console.WriteLine(
+                    $"{indice}. {unidadesEspeciales[1].Nombre} - {unidadEspCosto.CostoOro} ORO, {unidadEspCosto.CostoMadera} MADERA, {unidadEspCosto.CostoAlimento} ALIMENTO");
+                indice++;
+            }
+            else if (jugador.Civilizacion is Romanos & indice == 1)
+            {
+                RequisitosRecursos unidadEspCosto = RequisitosRecursos.ObtenerRequisitosUnidades(unidadesEspeciales[2]);
+                Console.WriteLine(
+                    $"{indice}. {unidadesEspeciales[2].Nombre} - {unidadEspCosto.CostoOro} ORO, {unidadEspCosto.CostoMadera} MADERA, {unidadEspCosto.CostoAlimento} ALIMENTO");
+                indice++;
+            }
+            else if (jugador.Civilizacion is Vikingos & indice == 1)
+            {
+                RequisitosRecursos unidadEspCosto = RequisitosRecursos.ObtenerRequisitosUnidades(unidadesEspeciales[3]);
+                Console.WriteLine(
+                    $"{indice}. {unidadesEspeciales[3].Nombre} - {unidadEspCosto.CostoOro} ORO, {unidadEspCosto.CostoMadera} MADERA, {unidadEspCosto.CostoAlimento} ALIMENTO");
+                indice++;
+            }
+
+            Console.WriteLine(
+                $"{indice}. {unidad.Nombre} - {unidadCosto.CostoOro} ORO, {unidadCosto.CostoMadera} MADERA, {unidadCosto.CostoAlimento} ALIMENTO");
+            indice++;
+        }
+        Console.WriteLine($"{indice}. Aldeano - 50 ORO, 50 ALIMENTO");
+        Console.ReadLine();
     }
     
     

@@ -7,7 +7,7 @@ public class Samurai : Unidad
         get{return "Samurai";}
     }
     
-    public Samurai(int vida, int valorAtaque, int valorDefensa, int valorVelocidad) : base(vida, valorAtaque, valorDefensa, valorVelocidad)
+    public Samurai() : base(100, 40, 5, 2)
     {
         
     }
