@@ -39,10 +39,11 @@ public class Partida
         PosicionarLasEntidadesIniciales();
         
         MostrarPosiciones(ObtenerJugadorActivo());
-        MostrarRecursos(ObtenerJugadorActivo());
+        
 
         while (true)
         {
+            MostrarRecursos(ObtenerJugadorActivo());
             Jugador jugadorActivo = (turno % 2 != 0) ? jugador1 : jugador2;
             
             bool turnoCompletado = false;
@@ -200,6 +201,11 @@ public class Partida
     }
     public void SeleccionarAldeanoYRecolectarRecurso(Jugador jugador)
     {
+        Console.WriteLine("¿Que recursos quieres recolectar?");
+        Console.WriteLine("1. Oro\n2. Madera\n3. Piedra\n4. Alimento");
+
+        string opcionTipoRecurso = Console.ReadLine();
+        
         Console.WriteLine("¿Qué aldeano quieres que recolecte el recurso?");
         for (int i = 0; i < jugador.Aldeanos.Count; i++)
         {
@@ -211,9 +217,49 @@ public class Partida
         int indice = Convert.ToInt32(aldeanoSeleccionado) ;
         Aldeano aldeano = jugador.Aldeanos[indice - 1];
 
-        Celda recursoCercano = LogicaJuego.BuscarRecursoCercano(aldeano.CeldaActual.X, aldeano.CeldaActual.Y, mapa);
+        bool bandera = true;
 
-        LogicaJuego.ObtenerRecursoDeCelda(recursoCercano, aldeano, jugador);
+        while (bandera)
+        {
+            switch (opcionTipoRecurso)
+            {
+                case "1":
+                {
+                    Celda recursoCercano = LogicaJuego.BuscarRecursoCercano(aldeano.CeldaActual.X, aldeano.CeldaActual.Y, mapa, "Oro");
+                    LogicaJuego.ObtenerRecursoDeCelda(recursoCercano, aldeano, jugador, mapa);
+                    bandera = false;
+                    break;
+                }
+                case "2":
+                {
+                    Celda recursoCercano = LogicaJuego.BuscarRecursoCercano(aldeano.CeldaActual.X, aldeano.CeldaActual.Y, mapa, "Madera");
+                    LogicaJuego.ObtenerRecursoDeCelda(recursoCercano, aldeano, jugador, mapa);
+                    bandera = false;
+                    break;
+                }
+                case "3":
+                {
+                    Celda recursoCercano = LogicaJuego.BuscarRecursoCercano(aldeano.CeldaActual.X, aldeano.CeldaActual.Y, mapa, "Piedra");
+                    LogicaJuego.ObtenerRecursoDeCelda(recursoCercano, aldeano, jugador, mapa);
+                    bandera = false;
+                    break;
+                }
+                case "4":
+                {
+                    Celda recursoCercano = LogicaJuego.BuscarRecursoCercano(aldeano.CeldaActual.X, aldeano.CeldaActual.Y, mapa, "Alimento");
+                    LogicaJuego.ObtenerRecursoDeCelda(recursoCercano, aldeano, jugador, mapa);
+                    bandera = false;
+                    break;
+                }
+                default:
+                {
+                    Console.WriteLine($"Por favor, selecciona una opción");
+                    opcionTipoRecurso = Console.ReadLine();
+                    break;
+                }
+            }
+        }
+        
     }
     
     public void SeleccionarAldeanoYEstructuraParaConstruir(Jugador jugador)
@@ -223,28 +269,28 @@ public class Partida
         Console.WriteLine("¿Qué estructura quieres construir?:");
         foreach (IEstructuras estructura in estructuras)
         {
-            RequisitosRecursos estructuraCosto = RequisitosRecursos.ObtenerRequisitos(estructura);
+            RequisitosRecursos estructuraCosto = RequisitosRecursos.ObtenerRequisitosEstructuras(estructura);
             if (jugador.Civilizacion is Indios & indice == 1)
             {
-                RequisitosRecursos castilloCosto = RequisitosRecursos.ObtenerRequisitos(castillo[0]);
+                RequisitosRecursos castilloCosto = RequisitosRecursos.ObtenerRequisitosEstructuras(castillo[0]);
                 Console.WriteLine($"{indice}. {castillo[0].Nombre} - {castilloCosto.CostoOro} ORO, {castilloCosto.CostoMadera} MADERA, {castilloCosto.CostoPiedra} PIEDRA");
                 indice++;
             }
             else if (jugador.Civilizacion is Japoneses & indice == 1)
             {
-                RequisitosRecursos castilloCosto = RequisitosRecursos.ObtenerRequisitos(castillo[1]);
+                RequisitosRecursos castilloCosto = RequisitosRecursos.ObtenerRequisitosEstructuras(castillo[1]);
                 Console.WriteLine($"{indice}. {castillo[1].Nombre} - {castilloCosto.CostoOro} ORO, {castilloCosto.CostoMadera} MADERA, {castilloCosto.CostoPiedra} PIEDRA");
                 indice++;
             }
             else if (jugador.Civilizacion is Romanos & indice == 1)
             {
-                RequisitosRecursos castilloCosto = RequisitosRecursos.ObtenerRequisitos(castillo[2]);
+                RequisitosRecursos castilloCosto = RequisitosRecursos.ObtenerRequisitosEstructuras(castillo[2]);
                 Console.WriteLine($"{indice}. {castillo[2].Nombre} - {castilloCosto.CostoOro} ORO, {castilloCosto.CostoMadera} MADERA, {castilloCosto.CostoPiedra} PIEDRA");
                 indice++;
             }
             else if (jugador.Civilizacion is Vikingos & indice == 1)
             {
-                RequisitosRecursos castilloCosto = RequisitosRecursos.ObtenerRequisitos(castillo[3]);
+                RequisitosRecursos castilloCosto = RequisitosRecursos.ObtenerRequisitosEstructuras(castillo[3]);
                 Console.WriteLine($"{indice}. {castillo[3].Nombre} - {castilloCosto.CostoOro} ORO, {castilloCosto.CostoMadera} MADERA, {castilloCosto.CostoPiedra} PIEDRA");
                 indice++;
             }
@@ -353,6 +399,12 @@ public class Partida
                 {
                     LogicaJuego.ConstruirEstructuras(new Casa(), jugador, mapa.ObtenerCelda(x, y), aldeanoConstruir.CeldaActual, aldeanoConstruir);
                     bandera = false;
+                    break;
+                }
+                default:
+                {
+                    Console.WriteLine($"Por favor, selecciona una opción");
+                    opcionConstruir = Console.ReadLine();
                     break;
                 }
             }
