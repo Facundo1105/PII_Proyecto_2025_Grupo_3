@@ -6,7 +6,7 @@ namespace Library;
 public class LogicaJuego
 {
     
-    public static void ObtenerRecursoDeCelda(Celda celdaRecurso, Aldeano aldeano, Jugador jugador)
+    public static void ObtenerRecursoDeCelda(Celda celdaRecurso, Aldeano aldeano, Jugador jugador, Mapa mapa)
     {
         if (celdaRecurso.Recursos != null)
         {
@@ -58,6 +58,9 @@ public class LogicaJuego
 
             Console.WriteLine("Recurso recolectado");
 
+            IEstructurasDepositos depositoCercano = DepositoMasCercano(aldeano.CeldaActual.X, aldeano.CeldaActual.Y, celdaRecurso.Recursos.Nombre, mapa);
+            DepositarRecursos(jugador, depositoCercano, 500, celdaRecurso.Recursos.Nombre);
+            
             if (celdaRecurso.Recursos.Vida <= 0)
             {
                 celdaRecurso.Recursos = null;
@@ -71,7 +74,7 @@ public class LogicaJuego
             int tasaRecoleccion = granja.Alimento.TasaRecoleccion;
 
             //bonificacion japoneses
-            if (jugador.Civilizacion is Japoneses && granja.Alimento.Nombre == "Alimneto")
+            if (jugador.Civilizacion is Japoneses && granja.Alimento.Nombre == "Alimento")
             {
                 tasaRecoleccion *= (int)Math.Round(1.20);
             }
@@ -93,11 +96,20 @@ public class LogicaJuego
             
             Console.WriteLine("Recurso recolectado");
 
+            IEstructurasDepositos depositoCercano = DepositoMasCercano(aldeano.CeldaActual.X, aldeano.CeldaActual.Y, granja.Alimento.Nombre, mapa);
+            DepositarRecursos(jugador, depositoCercano, 500, granja.Alimento.Nombre);
+            
             if (granja.Alimento.Vida <= 0)
             {
                 celdaRecurso.Estructuras = null;
+                foreach (IEstructuras estructura in jugador.Estructuras)
+                {
+                    if (estructura is Granja && estructura.CeldaActual.X == celdaRecurso.X && estructura.CeldaActual.Y == celdaRecurso.Y)
+                    {
+                        jugador.Estructuras.Remove(estructura);
+                    }
+                }
             }
-            
         }
     }
 
@@ -219,7 +231,7 @@ public static void ConstruirEstructuras(IEstructuras estructuraConstruir, Jugado
         }
 
         // Obtener requisitos de recursos
-        RequisitosRecursos requisitos = RequisitosRecursos.ObtenerRequisitos(estructuraConstruir);
+        RequisitosRecursos requisitos = RequisitosRecursos.ObtenerRequisitosEstructuras(estructuraConstruir);
 
         // Verificar si tiene recursos suficientes
         if (oroTotal >= requisitos.CostoOro && maderaTotal >= requisitos.CostoMadera && piedraTotal >= requisitos.CostoPiedra)
@@ -514,7 +526,7 @@ private static void DescontarRecursos(List<IEstructurasDepositos> depositos, Cen
     }
 
 
-    public static Celda BuscarRecursoCercano(int xInicial, int yInicial,Mapa mapa)
+    public static Celda BuscarRecursoCercano(int xInicial, int yInicial, Mapa mapa, string tipoRecurso)
     {
         Celda recursoMasCercano = null;
         int menorDistancia = int.MaxValue;
@@ -523,7 +535,7 @@ private static void DescontarRecursos(List<IEstructurasDepositos> depositos, Cen
         {
             for (int y = 0; y < 100; y++)
             {
-                if (mapa.Celdas[x, y].Recursos != null)
+                if (mapa.Celdas[x, y].Recursos != null && mapa.Celdas[x, y].Recursos.Nombre == tipoRecurso || mapa.Celdas[x, y].Estructuras is Granja && tipoRecurso == "Alimento")
                 {
                     int distancia = Math.Abs(x - xInicial) + Math.Abs(y - yInicial);
                     if (distancia < menorDistancia)

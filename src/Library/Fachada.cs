@@ -65,29 +65,22 @@ public class Fachada
 
     public void RecolectarRecursos() // Historias de usuario - Gestión de Recursos
     {
-        // Jugador 1 recolecta recursos con uno de sus aldeanos
+        // Jugador 1 recolecta Oro con uno de sus aldeanos
         
         Aldeano aldeano = jugador1.Aldeanos[1];
         int aldeanoX = aldeano.CeldaActual.X;
         int aldeanoY = aldeano.CeldaActual.Y;
 
-        Celda celdaConRecurso = LogicaJuego.BuscarRecursoCercano(aldeanoX, aldeanoY,mapa);
+        Celda celdaConRecurso = LogicaJuego.BuscarRecursoCercano(aldeanoX, aldeanoY,mapa, "Oro");
         
         if (celdaConRecurso.Recursos == null)
         {
             return;
         }
       
-        LogicaJuego.ObtenerRecursoDeCelda(celdaConRecurso, aldeano, jugador1);
+        LogicaJuego.ObtenerRecursoDeCelda(celdaConRecurso, aldeano, jugador1, mapa);
         
-        Console.WriteLine($"{celdaConRecurso.Recursos.Nombre}: 500");
-
-        string recurso = celdaConRecurso.Recursos.Nombre;
-        
-        // Aldeano deposita los recusos recolectados
-        
-        IEstructurasDepositos depositoCercano = LogicaJuego.DepositoMasCercano(aldeanoX, aldeanoY, recurso,mapa);
-        LogicaJuego.DepositarRecursos(jugador1, depositoCercano, 500, recurso);
+        Console.WriteLine($"{celdaConRecurso.Recursos.Nombre}, obtuvo 500 de oro y los deposito");
     }
 
     public void CrearUnidades() // Historias de usuario - Unidades y combates

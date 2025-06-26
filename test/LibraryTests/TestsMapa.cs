@@ -59,7 +59,7 @@ namespace LibraryTests
             celdaConMadera.AsignarRecurso(new Madera());
             aldeano.CeldaActual = celdaaldeano;
             
-            LogicaJuego.ObtenerRecursoDeCelda(celdaConMadera, aldeano, jugador);
+            LogicaJuego.ObtenerRecursoDeCelda(celdaConMadera, aldeano, jugador, mapa);
 
             int aldeanoX = aldeano.CeldaActual.X;
             int aldeanoY = aldeano.CeldaActual.Y;
