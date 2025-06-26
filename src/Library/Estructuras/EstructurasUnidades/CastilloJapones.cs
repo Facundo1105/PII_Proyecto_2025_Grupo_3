@@ -40,7 +40,7 @@ public class CastilloJapones : IEstructuras
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && noHayUnidadEspecial)
         {
             // Obtener requisitos de recursos para el Samurai
-            RequisitosRecursos requisitos = new RequisitosRecursos(400, 0, 0, 350);
+            ManejoDeRecursos manejoDe = new ManejoDeRecursos(400, 0, 0, 350);
 
             // Sumar recursos disponibles
             int oroTotal = 0;
@@ -70,14 +70,14 @@ public class CastilloJapones : IEstructuras
             }
 
             // Verificar si tiene recursos suficientes
-            if (oroTotal >= requisitos.CostoOro && alimentoTotal >= requisitos.CostoAlimento)
+            if (oroTotal >= manejoDe.CostoOro && alimentoTotal >= manejoDe.CostoAlimento)
             {
-                int oroRestante = requisitos.CostoOro;
-                int alimentoRestante = requisitos.CostoAlimento;
+                int oroRestante = manejoDe.CostoOro;
+                int alimentoRestante = manejoDe.CostoAlimento;
 
                 // Descontar recursos de depósitos y centro cívico
-                DescontarRecursos(depositosOro, centroCivico, oroRestante, "Oro");
-                DescontarRecursos(molinos, centroCivico, alimentoRestante, "Alimento");
+                ManejoDeRecursos.DescontarRecursos(depositosOro, centroCivico, oroRestante, "Oro");
+                ManejoDeRecursos.DescontarRecursos(molinos, centroCivico, alimentoRestante, "Alimento");
 
                 // Agregar la unidad al ejército del jugador
                 jugador.EjercitoGeneral.Add(new Samurai());
@@ -85,20 +85,4 @@ public class CastilloJapones : IEstructuras
         }
     }
 
-    private static void DescontarRecursos(List<IEstructurasDepositos> depositos, CentroCivico centroCivico, int recursoRestante, string tipoRecurso)
-    {
-        foreach (IEstructurasDepositos deposito in depositos)
-        {
-            if (recursoRestante == 0) break;
-            int aDescontar = Math.Min(recursoRestante, deposito.EspacioOcupado);
-            deposito.EspacioOcupado -= aDescontar;
-            recursoRestante -= aDescontar;
-        }
-
-        if (recursoRestante > 0)
-        {
-            int aDescontar = Math.Min(recursoRestante, centroCivico.RecursosDeposito[tipoRecurso]);
-            centroCivico.RecursosDeposito[tipoRecurso] -= aDescontar;
-        }
-    }
 }

@@ -40,7 +40,7 @@ public class CastilloIndio : IEstructuras
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30 && noHayUnidadEspecial)
         {
             // Obtener requisitos de recursos para el Elefante
-            RequisitosRecursos requisitos = new RequisitosRecursos(300, 0, 200, 500);
+            ManejoDeRecursos manejoDe = new ManejoDeRecursos(300, 0, 200, 500);
 
             // Sumar recursos disponibles
             int oroTotal = 0;
@@ -78,37 +78,20 @@ public class CastilloIndio : IEstructuras
             }
 
             // Verificar si tiene recursos suficientes
-            if (oroTotal >= requisitos.CostoOro && alimentoTotal >= requisitos.CostoAlimento && maderaTotal >= requisitos.CostoMadera)
+            if (oroTotal >= manejoDe.CostoOro && alimentoTotal >= manejoDe.CostoAlimento && maderaTotal >= manejoDe.CostoMadera)
             {
-                int oroRestante = requisitos.CostoOro;
-                int alimentoRestante = requisitos.CostoAlimento;
-                int maderaRestante = requisitos.CostoMadera;
+                int oroRestante = manejoDe.CostoOro;
+                int alimentoRestante = manejoDe.CostoAlimento;
+                int maderaRestante = manejoDe.CostoMadera;
 
                 // Descontar recursos de depósitos y centro cívico
-                DescontarRecursos(depositosOro, centroCivico, oroRestante, "Oro");
-                DescontarRecursos(molinos, centroCivico, alimentoRestante, "Alimento");
-                DescontarRecursos(depositosMadera, centroCivico, maderaRestante, "Madera");
+                ManejoDeRecursos.DescontarRecursos(depositosOro, centroCivico, oroRestante, "Oro");
+                ManejoDeRecursos.DescontarRecursos(molinos, centroCivico, alimentoRestante, "Alimento");
+                ManejoDeRecursos.DescontarRecursos(depositosMadera, centroCivico, maderaRestante, "Madera");
 
                 // Agregar la unidad al ejército del jugador
                 jugador.EjercitoGeneral.Add(new Elefante());
             }
-        }
-    }
-
-    private static void DescontarRecursos(List<IEstructurasDepositos> depositos, CentroCivico centroCivico, int recursoRestante, string tipoRecurso)
-    {
-        foreach (IEstructurasDepositos deposito in depositos)
-        {
-            if (recursoRestante == 0) break;
-            int aDescontar = Math.Min(recursoRestante, deposito.EspacioOcupado);
-            deposito.EspacioOcupado -= aDescontar;
-            recursoRestante -= aDescontar;
-        }
-
-        if (recursoRestante > 0)
-        {
-            int aDescontar = Math.Min(recursoRestante, centroCivico.RecursosDeposito[tipoRecurso]);
-            centroCivico.RecursosDeposito[tipoRecurso] -= aDescontar;
         }
     }
 }

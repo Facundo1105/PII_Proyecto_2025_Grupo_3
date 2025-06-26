@@ -223,28 +223,28 @@ public class Partida
         Console.WriteLine("¿Qué estructura quieres construir?:");
         foreach (IEstructuras estructura in estructuras)
         {
-            RequisitosRecursos estructuraCosto = RequisitosRecursos.ObtenerRequisitos(estructura);
+            ManejoDeRecursos estructuraCosto = ManejoDeRecursos.ObtenerRequisitos(estructura);
             if (jugador.Civilizacion is Indios & indice == 1)
             {
-                RequisitosRecursos castilloCosto = RequisitosRecursos.ObtenerRequisitos(castillo[0]);
+                ManejoDeRecursos castilloCosto = ManejoDeRecursos.ObtenerRequisitos(castillo[0]);
                 Console.WriteLine($"{indice}. {castillo[0].Nombre} - {castilloCosto.CostoOro} ORO, {castilloCosto.CostoMadera} MADERA, {castilloCosto.CostoPiedra} PIEDRA");
                 indice++;
             }
             else if (jugador.Civilizacion is Japoneses & indice == 1)
             {
-                RequisitosRecursos castilloCosto = RequisitosRecursos.ObtenerRequisitos(castillo[1]);
+                ManejoDeRecursos castilloCosto = ManejoDeRecursos.ObtenerRequisitos(castillo[1]);
                 Console.WriteLine($"{indice}. {castillo[1].Nombre} - {castilloCosto.CostoOro} ORO, {castilloCosto.CostoMadera} MADERA, {castilloCosto.CostoPiedra} PIEDRA");
                 indice++;
             }
             else if (jugador.Civilizacion is Romanos & indice == 1)
             {
-                RequisitosRecursos castilloCosto = RequisitosRecursos.ObtenerRequisitos(castillo[2]);
+                ManejoDeRecursos castilloCosto = ManejoDeRecursos.ObtenerRequisitos(castillo[2]);
                 Console.WriteLine($"{indice}. {castillo[2].Nombre} - {castilloCosto.CostoOro} ORO, {castilloCosto.CostoMadera} MADERA, {castilloCosto.CostoPiedra} PIEDRA");
                 indice++;
             }
             else if (jugador.Civilizacion is Vikingos & indice == 1)
             {
-                RequisitosRecursos castilloCosto = RequisitosRecursos.ObtenerRequisitos(castillo[3]);
+                ManejoDeRecursos castilloCosto = ManejoDeRecursos.ObtenerRequisitos(castillo[3]);
                 Console.WriteLine($"{indice}. {castillo[3].Nombre} - {castilloCosto.CostoOro} ORO, {castilloCosto.CostoMadera} MADERA, {castilloCosto.CostoPiedra} PIEDRA");
                 indice++;
             }
@@ -366,31 +366,31 @@ public class Partida
         int indice = 1;
         foreach (IUnidades unidad in unidades)
         {
-            RequisitosRecursos unidadCosto = RequisitosRecursos.ObtenerRequisitosUnidades(unidad);
+            ManejoDeRecursos unidadCosto = ManejoDeRecursos.ObtenerRequisitosUnidades(unidad);
             if (jugador.Civilizacion is Indios & indice == 1)
             {
-                RequisitosRecursos unidadEspCosto = RequisitosRecursos.ObtenerRequisitosUnidades(unidadesEspeciales[0]);
+                ManejoDeRecursos unidadEspCosto = ManejoDeRecursos.ObtenerRequisitosUnidades(unidadesEspeciales[0]);
                 Console.WriteLine(
                     $"{indice}. {unidadesEspeciales[0].Nombre} - {unidadEspCosto.CostoOro} ORO, {unidadEspCosto.CostoMadera} MADERA, {unidadEspCosto.CostoAlimento} ALIMENTO");
                 indice++;
             }
             else if (jugador.Civilizacion is Japoneses & indice == 1)
             {
-                RequisitosRecursos unidadEspCosto = RequisitosRecursos.ObtenerRequisitosUnidades(unidadesEspeciales[1]);
+                ManejoDeRecursos unidadEspCosto = ManejoDeRecursos.ObtenerRequisitosUnidades(unidadesEspeciales[1]);
                 Console.WriteLine(
                     $"{indice}. {unidadesEspeciales[1].Nombre} - {unidadEspCosto.CostoOro} ORO, {unidadEspCosto.CostoMadera} MADERA, {unidadEspCosto.CostoAlimento} ALIMENTO");
                 indice++;
             }
             else if (jugador.Civilizacion is Romanos & indice == 1)
             {
-                RequisitosRecursos unidadEspCosto = RequisitosRecursos.ObtenerRequisitosUnidades(unidadesEspeciales[2]);
+                ManejoDeRecursos unidadEspCosto = ManejoDeRecursos.ObtenerRequisitosUnidades(unidadesEspeciales[2]);
                 Console.WriteLine(
                     $"{indice}. {unidadesEspeciales[2].Nombre} - {unidadEspCosto.CostoOro} ORO, {unidadEspCosto.CostoMadera} MADERA, {unidadEspCosto.CostoAlimento} ALIMENTO");
                 indice++;
             }
             else if (jugador.Civilizacion is Vikingos & indice == 1)
             {
-                RequisitosRecursos unidadEspCosto = RequisitosRecursos.ObtenerRequisitosUnidades(unidadesEspeciales[3]);
+                ManejoDeRecursos unidadEspCosto = ManejoDeRecursos.ObtenerRequisitosUnidades(unidadesEspeciales[3]);
                 Console.WriteLine(
                     $"{indice}. {unidadesEspeciales[3].Nombre} - {unidadEspCosto.CostoOro} ORO, {unidadEspCosto.CostoMadera} MADERA, {unidadEspCosto.CostoAlimento} ALIMENTO");
                 indice++;
