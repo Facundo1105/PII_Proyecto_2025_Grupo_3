@@ -7,7 +7,7 @@ public class Arquero : Unidad
         get{return "Arquero";}
     }
     
-    public Arquero(int vida, int valorAtaque, int valorDefensa, int valorVelocidad) : base(vida, valorAtaque, valorDefensa, valorVelocidad)
+    public Arquero() : base(75, 20, 10, 2)
     {
         
     }

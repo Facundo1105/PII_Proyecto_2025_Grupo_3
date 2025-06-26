@@ -99,7 +99,7 @@ public class Cuartel : IEstructuras
                     centroCivico.RecursosDeposito["Alimento"] -= aDescontar;
                 }
                 
-                jugador.EjercitoGeneral.Add(new Infanteria(80, 20, 10, 3));
+                jugador.EjercitoGeneral.Add(new Infanteria());
             }
         }
     }

@@ -12,9 +12,10 @@ public class Partida
     public int turno = 1;
     public Mapa mapa;
 
-    private List<IEstructuras> castillo = new List<IEstructuras>()
-        { new CastilloIndio(), new CastilloJapones(), new CastilloRomano(), new CastilloVikingo() };
+    private List<IEstructuras> castillo = new List<IEstructuras>() {new CastilloIndio(), new CastilloJapones(), new CastilloRomano(), new CastilloVikingo() };
     private List<IEstructuras> estructuras = new List<IEstructuras>() { new DepositoMadera(), new DepositoOro(), new DepositoPiedra(),new Molino(),new Granja(), new CampoTiro(), new Cuartel(), new Establo(), new Casa()  };
+    private List<IUnidades> unidades = new List<IUnidades>();
+    private List<IUnidades> unidadesEspeciales = new List<IUnidades>();
     
     public Partida(Jugador jugador1, Jugador jugador2)
     {
@@ -51,7 +52,7 @@ public class Partida
                 Console.WriteLine($"{jugadorActivo.Nombre}, ¿Qué quieres hacer?");  
                 Console.WriteLine("1. Recolectar recurso");
                 Console.WriteLine("2. Construir estructura");
-                Console.WriteLine("3. Entrenar unidad");
+                Console.WriteLine("3. Crear unidad");
                 Console.WriteLine("4. Atacar unidad");
                 Console.WriteLine("5. Mover unidad");
                 
@@ -69,6 +70,15 @@ public class Partida
                     case "2":
                     {
                         SeleccionarAldeanoYEstructuraParaConstruir(jugadorActivo);
+                        turno++;
+                        turnoCompletado = true;
+                        break;
+                    }
+                    case "3":
+                    {
+                        MostrarRecursos(jugadorActivo);
+                        Console.WriteLine("¿Qué unidad quieres crear?");
+                        
                         turno++;
                         turnoCompletado = true;
                         break;
@@ -211,7 +221,7 @@ public class Partida
     public void SeleccionarAldeanoYEstructuraParaConstruir(Jugador jugador)
     {
         int indice = 1;
-        
+        MostrarRecursos(jugador);
         Console.WriteLine("¿Qué estructura quieres construir?:");
         foreach (IEstructuras estructura in estructuras)
         {
@@ -244,8 +254,6 @@ public class Partida
             indice++;
         }
         
-        MostrarRecursos(jugador);
-        
         string opcionConstruir = Console.ReadLine();
 
         Console.WriteLine("Elegir posicion para la estructura (X Y)");
@@ -256,18 +264,16 @@ public class Partida
         int y = int.Parse(posicion[1]);
 
         Console.WriteLine("Elegir aldeano para construir la estructura");
-
-        int indiceAldeano = 1;
-        foreach (Aldeano aldeano in jugador.Aldeanos)
+        
+        for (int i = 0; i < jugador.Aldeanos.Count; i++)
         {
-            Console.WriteLine(
-                $"{indiceAldeano}. {aldeano.Nombre} y su ubicacion es: {aldeano.CeldaActual.X}, {aldeano.CeldaActual.Y}");
-            indice++;
+            Console.WriteLine($"{i + 1}. {jugador.Aldeanos[i].Nombre} {i + 1} - ({jugador.Aldeanos[i].CeldaActual.X}, {jugador.Aldeanos[i].CeldaActual.Y})");
         }
 
-        string opcionAldeano = Console.ReadLine();
-        int aldeanoElegido = int.Parse(opcionAldeano);
-        Aldeano aldeanoConstruir = jugador.Aldeanos[aldeanoElegido];
+        string aldeanoSeleccionado = Console.ReadLine();
+
+        int indiceAldeano = Convert.ToInt32(aldeanoSeleccionado) ;
+        Aldeano aldeanoConstruir = jugador.Aldeanos[indiceAldeano - 1];
 
         bool bandera = true;
 
@@ -354,4 +360,6 @@ public class Partida
             }
         }
     }
+    
+    
 }

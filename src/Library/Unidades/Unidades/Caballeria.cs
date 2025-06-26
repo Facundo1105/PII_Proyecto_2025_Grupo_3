@@ -7,7 +7,7 @@ public class Caballeria : Unidad
         get{return "Caballeria";}
     }
     
-    public Caballeria(int vida, int valorAtaque, int valorDefensa, int valorVelocidad) : base(vida, valorAtaque, valorDefensa, valorVelocidad)
+    public Caballeria() : base(100, 20, 15, 1)
     {
         
     }
