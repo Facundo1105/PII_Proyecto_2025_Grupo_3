@@ -528,4 +528,39 @@ public class LogicaJuego
             jugador.LimitePoblacion += 5;
         }
     }
+    
+    public static Celda BuscarCeldaLibreCercana(IEstructuras estructura, Mapa mapa)
+    {
+        int centroX = estructura.CeldaActual.X;
+        int centroY = estructura.CeldaActual.Y;
+        int rango = 10;
+
+        Celda celdaLibreMasCercana = null;
+        int distanciaMinima = int.MaxValue;
+
+        for (int dx = -rango; dx <= rango; dx++)
+        {
+            for (int dy = -rango; dy <= rango; dy++)
+            {
+                int x = centroX + dx;
+                int y = centroY + dy;
+
+                Celda celda = mapa.ObtenerCelda(x, y);
+
+                if (celda != null && celda.EstaLibre())
+                {
+                    int distancia = Math.Abs(dx) + Math.Abs(dy);
+
+                    if (distancia < distanciaMinima)
+                    {
+                        distanciaMinima = distancia;
+                        celdaLibreMasCercana = celda;
+                    }
+                }
+            }
+        }
+
+        return celdaLibreMasCercana;
+    }
+
 }

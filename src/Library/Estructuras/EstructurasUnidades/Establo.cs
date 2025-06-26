@@ -27,7 +27,7 @@ public class Establo : IEstructuras
         }
     }
 
-    public void CrearUnidad(Jugador jugador)
+    public static void CrearUnidad(Jugador jugador)
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30)
         {

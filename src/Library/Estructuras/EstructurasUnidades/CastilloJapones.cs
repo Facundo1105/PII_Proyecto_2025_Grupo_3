@@ -24,7 +24,7 @@ public class CastilloJapones : IEstructuras
             this.vida = value < 0 ? 0 : value;
         }
     } 
-    public void CrearUnidad(Jugador jugador)
+    public static void CrearUnidad(Jugador jugador)
     {
         bool noHayUnidadEspecial = true;
 
