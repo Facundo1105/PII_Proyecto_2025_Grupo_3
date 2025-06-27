@@ -15,7 +15,7 @@ public class ManejoDeRecursos
         this.CostoAlimento = costoAlimento;
     }
     
-    public static ManejoDeRecursos ObtenerRequisitos(IEstructuras estructura)
+    public static ManejoDeRecursos ObtenerRequisitosEstructuras(IEstructuras estructura)
     {
         if (estructura is CastilloIndio)
             return new ManejoDeRecursos(200, 400, 300, 0);
