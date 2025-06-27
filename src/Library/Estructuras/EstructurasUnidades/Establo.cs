@@ -27,7 +27,7 @@ public class Establo : IEstructuras
         }
     }
 
-    public void CrearUnidad(Jugador jugador)
+    public static void CrearUnidad(Jugador jugador)
     {
         if (jugador.LimitePoblacion < 50 && jugador.CantidadUnidades < 30)
         {
@@ -84,9 +84,9 @@ public class Establo : IEstructuras
                 int maderaRestante = costoMadera;
 
                 // Descontar recursos de depósitos y centro cívico
-                DescontarRecursos(depositosOro, centroCivico, oroRestante, "Oro");
-                DescontarRecursos(molinos, centroCivico, alimentoRestante, "Alimento");
-                DescontarRecursos(depositosMadera, centroCivico, maderaRestante, "Madera");
+                ManejoDeRecursos.DescontarRecursos(depositosOro, centroCivico, oroRestante, "Oro");
+                ManejoDeRecursos.DescontarRecursos(molinos, centroCivico, alimentoRestante, "Alimento");
+                ManejoDeRecursos.DescontarRecursos(depositosMadera, centroCivico, maderaRestante, "Madera");
 
                 // Agregar la unidad al ejército del jugador
                 jugador.EjercitoGeneral.Add(new Caballeria());
@@ -94,20 +94,4 @@ public class Establo : IEstructuras
         }
     }
 
-    private static void DescontarRecursos(List<IEstructurasDepositos> depositos, CentroCivico centroCivico, int recursoRestante, string tipoRecurso)
-    {
-        foreach (IEstructurasDepositos deposito in depositos)
-        {
-            if (recursoRestante == 0) break;
-            int aDescontar = Math.Min(recursoRestante, deposito.EspacioOcupado);
-            deposito.EspacioOcupado -= aDescontar;
-            recursoRestante -= aDescontar;
-        }
-
-        if (recursoRestante > 0)
-        {
-            int aDescontar = Math.Min(recursoRestante, centroCivico.RecursosDeposito[tipoRecurso]);
-            centroCivico.RecursosDeposito[tipoRecurso] -= aDescontar;
-        }
-    }
 }
