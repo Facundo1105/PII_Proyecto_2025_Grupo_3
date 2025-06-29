@@ -13,31 +13,24 @@ public class ArqueroTests
     [SetUp]
     public void Setup()
     {
-        arquero = new Arquero(20, 35, 10, 2 );
-        infanteria = new Infanteria(50, 20, 30, 2);
-        caballeria = new Caballeria(50, 20, 25, 1);
+        arquero = new Arquero();
+        infanteria = new Infanteria();
+        caballeria = new Caballeria();
         casa = new Casa();
     }
-    
+
     [Test]
     public void PropiedadesArqueroCorrectamente()
     {
-        // Verifica todas las propiedades del arquero
-        
         Assert.That(arquero.Nombre, Is.EqualTo("Arquero"));
-        Assert.That(arquero.Vida, Is.EqualTo(20));
-        Assert.That(arquero.ValorAtaque, Is.EqualTo(35));
+        Assert.That(arquero.Vida, Is.EqualTo(75));
+        Assert.That(arquero.ValorAtaque, Is.EqualTo(20));
         Assert.That(arquero.ValorDefensa, Is.EqualTo(10));
         Assert.That(arquero.ValorVelocidad, Is.EqualTo(2));
-        
-        // Verifica que la vida del arquero sea siempre mayor o igual a 0
-        
+
         arquero.Vida = -10;
-        
         Assert.That(arquero.Vida, Is.EqualTo(0));
 
-        // Verifica que los valores de ataque, defensa y velocidad del aquero siempre sean mayor o igual a 0
-        
         arquero.ValorAtaque = -5;
         arquero.ValorDefensa = -8;
         arquero.ValorVelocidad = -3;
@@ -50,32 +43,22 @@ public class ArqueroTests
     [Test]
     public void ArqueroVSInfanteriaCorrectamente()
     {
-        // Verifica el buen funcionamiento del ataque entre arquero e infanteria
-
         arquero.AtacarUnidades(infanteria);
-
-        Assert.That(infanteria.Vida, Is.EqualTo(45));
+        Assert.That(infanteria.Vida, Is.EqualTo(70)); // 80 - (20 - 10)
     }
 
     [Test]
     public void ArqueroVSCaballeriaCorreectamente()
     {
-        // Verifica el buen funcionamiento del ataque entre arquero y caballeria
-        
         arquero.AtacarUnidades(caballeria);
-        
-        Assert.That(caballeria.Vida, Is.EqualTo(40));
+        Assert.That(caballeria.Vida, Is.EqualTo(95)); // 100 - (20 - 15)
     }
 
     [Test]
     public void AtacarEstructurasCorrectamente()
     {
-        // Verifica el buen funcionamiento del ataque entre arquero y estructura
-        
         casa.Vida = 100;
-
         arquero.AtacarEstructuras(casa);
-
-        Assert.That(casa.Vida, Is.EqualTo(65));
+        Assert.That(casa.Vida, Is.EqualTo(80)); // 100 - 20
     }
 }
