@@ -55,14 +55,14 @@ public class ElefanteTests
     public void ElefanteVSInfanteriaCorrectamente()
     {
         elefante.AtacarUnidades(infanteria);
-        Assert.That(infanteria.Vida, Is.EqualTo(50)); // 80 - (40 - 10)
+        Assert.That(infanteria.Vida, Is.EqualTo(30)); // 80 - (40 + 20 por bonificacion - 10)
     }
 
     [Test]
     public void ElefanteVSCaballeria()
     {
         elefante.AtacarUnidades(caballeria);
-        Assert.That(caballeria.Vida, Is.EqualTo(75)); // 100 - (40 - 15)
+        Assert.That(caballeria.Vida, Is.EqualTo(55)); // 100 - (40 + 20 por bonificacion - 15)
     }
 
     [Test]
