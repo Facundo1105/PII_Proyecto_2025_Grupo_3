@@ -48,7 +48,7 @@ public class ThorTests
     public void ThorVsSamuraiCorrectamente()
     {
         thor.AtacarUnidades(samurai);
-        Assert.That(samurai.Vida, Is.EqualTo(55)); // 100 - 45
+        Assert.That(samurai.Vida, Is.EqualTo(30)); // 100 - (50 + 25 por bonificacion - 5)
     }
 
     [Test]

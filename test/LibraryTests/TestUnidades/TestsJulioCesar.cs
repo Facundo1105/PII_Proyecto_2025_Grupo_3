@@ -48,7 +48,7 @@ public class JulioCesarTests
     public void JulioCesarVSThor()
     {
         julioCesar.AtacarUnidades(thor);
-        Assert.That(thor.Vida, Is.EqualTo(120)); // 125 - 5
+        Assert.That(thor.Vida, Is.EqualTo(113)); // 125 - (15 + 7 por bonificacion - 10)
     }
 
     [Test]
