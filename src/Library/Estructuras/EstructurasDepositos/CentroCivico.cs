@@ -37,10 +37,10 @@ public class CentroCivico : IEstructurasDepositos
     {
         this.RecursosDeposito = new Dictionary<string, int>
         {
-            { "Oro", 0 },
-            { "Alimento", 100 },
-            { "Madera", 100 },
-            { "Piedra", 0 }
+            { "Oro", 1000 },
+            { "Alimento", 1000 },
+            { "Madera", 1000 },
+            { "Piedra", 1000 }
         };
     }
 }
