@@ -309,14 +309,12 @@ private static void DescontarRecursos(List<IEstructurasDepositos> depositos, Cen
                 }
             }
 
-            if (ejercitoAtaque.Count > ejercitoDefensa.Count)
+            if (ejercitoDefensa.Count == 0)
             {
                 celdaEjercitoDefensa.Unidades = null;
                 celdaEjercitoAtaque.Unidades = null;
                 celdaEjercitoDefensa.AsignarUnidades(ejercitoAtaque);
             }
-
-            celdaEjercitoAtaque.Unidades = null;
         }
     }
     
@@ -360,8 +358,6 @@ private static void DescontarRecursos(List<IEstructurasDepositos> depositos, Cen
                 celdaEjercitoAtaque.Unidades = null;
                 celdaEstructuraDefensa.AsignarUnidades(ejercitoAtaque);
             }
-
-            celdaEjercitoAtaque.Unidades = null;
         }
     }
     public static void SepararUnidades(Jugador jugador)
