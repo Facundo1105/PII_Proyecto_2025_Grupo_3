@@ -101,7 +101,7 @@ public class Fachada
         {
             if (estructura is Cuartel || estructura is Establo || estructura is CampoTiro)
             {
-                jugador1.CrearUnidad(estructura);
+                jugador1.CrearUnidad(estructura, LogicaJuego.BuscarCeldaLibreCercana(jugador1.Estructuras[0],mapa));
             }
         }
         

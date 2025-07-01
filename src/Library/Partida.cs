@@ -38,12 +38,13 @@ public class Partida
         LogicaJuego.RecursosAleatorios(mapa);
         PosicionarLasEntidadesIniciales();
         
-        MostrarPosiciones(ObtenerJugadorActivo());
+        
         
 
         while (true)
         {
             MostrarRecursos(ObtenerJugadorActivo());
+            MostrarPosiciones(ObtenerJugadorActivo());
             Jugador jugadorActivo = (turno % 2 != 0) ? jugador1 : jugador2;
             
             bool turnoCompletado = false;
@@ -134,29 +135,20 @@ public class Partida
     public void MostrarPosiciones(Jugador jugador)
     {
         Console.WriteLine($"{jugador.Nombre}, tienes las siguientes entidades en las siguientes posiciones:");
-        if (jugador.Estructuras != null)
+        
+        foreach (IEstructuras estructura in jugador.Estructuras)
         {
-            foreach (IEstructuras estructura in jugador.Estructuras)
-            {
-                Console.WriteLine($"{estructura.Nombre} = ({estructura.CeldaActual.X}, {estructura.CeldaActual.Y})");
-            }
+            Console.WriteLine($"{estructura.Nombre} = ({estructura.CeldaActual.X}, {estructura.CeldaActual.Y})");
         }
-
-
-        if (jugador.EjercitoGeneral != null)
+        
+        foreach (IUnidades unidades in jugador.EjercitoGeneral)
         {
-            foreach (IUnidades unidades in jugador.EjercitoGeneral)
-            {
-                Console.WriteLine($"{unidades.Nombre} = ({unidades.CeldaActual.X}, {unidades.CeldaActual.Y})");
-            }
+            Console.WriteLine($"{unidades.Nombre} = ({unidades.CeldaActual.X}, {unidades.CeldaActual.Y})");
         }
-
-        if (jugador.Aldeanos != null)
+        
+        foreach (Aldeano aldeano in jugador.Aldeanos)
         {
-            foreach (Aldeano aldeano in jugador.Aldeanos)
-            {
-                Console.WriteLine($"{aldeano.Nombre} = ({aldeano.CeldaActual.X},{aldeano.CeldaActual.Y})");
-            }
+            Console.WriteLine($"{aldeano.Nombre} = ({aldeano.CeldaActual.X},{aldeano.CeldaActual.Y})");
         }
     }
 
@@ -300,13 +292,6 @@ public class Partida
         
         string opcionConstruir = Console.ReadLine();
 
-        Console.WriteLine("Elegir posicion para la estructura (X Y)");
-        string opcionCelda = Console.ReadLine();
-
-        string[] posicion = opcionCelda.Split(' ');
-        int x = int.Parse(posicion[0]);
-        int y = int.Parse(posicion[1]);
-
         Console.WriteLine("Elegir aldeano para construir la estructura");
         
         for (int i = 0; i < jugador.Aldeanos.Count; i++)
@@ -329,19 +314,19 @@ public class Partida
                 {
                     if (jugador.Civilizacion is Indios)
                     {
-                        LogicaJuego.ConstruirEstructuras(new CastilloIndio(), jugador, mapa.ObtenerCelda(x, y), aldeanoConstruir.CeldaActual, aldeanoConstruir);
+                        LogicaJuego.ConstruirEstructuras(new CastilloIndio(), jugador, LogicaJuego.BuscarCeldaLibreCercana(jugador.Estructuras[0], mapa), aldeanoConstruir.CeldaActual, aldeanoConstruir);
                     }
                     else if (jugador.Civilizacion is Japoneses)
                     {
-                        LogicaJuego.ConstruirEstructuras(new CastilloJapones(), jugador, mapa.ObtenerCelda(x, y), aldeanoConstruir.CeldaActual, aldeanoConstruir);
+                        LogicaJuego.ConstruirEstructuras(new CastilloJapones(), jugador, LogicaJuego.BuscarCeldaLibreCercana(jugador.Estructuras[0], mapa), aldeanoConstruir.CeldaActual, aldeanoConstruir);
                     }
                     else if (jugador.Civilizacion is Romanos)
                     {
-                        LogicaJuego.ConstruirEstructuras(new CastilloRomano(), jugador, mapa.ObtenerCelda(x, y), aldeanoConstruir.CeldaActual, aldeanoConstruir);
+                        LogicaJuego.ConstruirEstructuras(new CastilloRomano(), jugador, LogicaJuego.BuscarCeldaLibreCercana(jugador.Estructuras[0], mapa), aldeanoConstruir.CeldaActual, aldeanoConstruir);
                     }
                     else if (jugador.Civilizacion is Vikingos)
                     {
-                        LogicaJuego.ConstruirEstructuras(new CastilloVikingo(), jugador, mapa.ObtenerCelda(x, y), aldeanoConstruir.CeldaActual, aldeanoConstruir);
+                        LogicaJuego.ConstruirEstructuras(new CastilloVikingo(), jugador, LogicaJuego.BuscarCeldaLibreCercana(jugador.Estructuras[0], mapa), aldeanoConstruir.CeldaActual, aldeanoConstruir);
                     }
 
                     bandera = false;
@@ -349,55 +334,55 @@ public class Partida
                 }
                 case "2":
                 {
-                    LogicaJuego.ConstruirEstructuras(new DepositoMadera(), jugador, mapa.ObtenerCelda(x, y), aldeanoConstruir.CeldaActual, aldeanoConstruir);
+                    LogicaJuego.ConstruirEstructuras(new DepositoMadera(), jugador, LogicaJuego.BuscarCeldaLibreCercana(jugador.Estructuras[0], mapa), aldeanoConstruir.CeldaActual, aldeanoConstruir);
                     bandera = false;
                     break;
                 }
                 case "3":
                 {
-                    LogicaJuego.ConstruirEstructuras(new DepositoOro(), jugador, mapa.ObtenerCelda(x, y), aldeanoConstruir.CeldaActual, aldeanoConstruir);
+                    LogicaJuego.ConstruirEstructuras(new DepositoOro(), jugador, LogicaJuego.BuscarCeldaLibreCercana(jugador.Estructuras[0], mapa), aldeanoConstruir.CeldaActual, aldeanoConstruir);
                     bandera = false;
                     break;
                 }
                 case "4":
                 {
-                    LogicaJuego.ConstruirEstructuras(new DepositoPiedra(), jugador, mapa.ObtenerCelda(x, y), aldeanoConstruir.CeldaActual, aldeanoConstruir);
+                    LogicaJuego.ConstruirEstructuras(new DepositoPiedra(), jugador, LogicaJuego.BuscarCeldaLibreCercana(jugador.Estructuras[0], mapa), aldeanoConstruir.CeldaActual, aldeanoConstruir);
                     bandera = false;
                     break;
                 }
                 case "5":
                 {
-                    LogicaJuego.ConstruirEstructuras(new Molino(), jugador, mapa.ObtenerCelda(x, y), aldeanoConstruir.CeldaActual, aldeanoConstruir);
+                    LogicaJuego.ConstruirEstructuras(new Molino(), jugador, LogicaJuego.BuscarCeldaLibreCercana(jugador.Estructuras[0], mapa), aldeanoConstruir.CeldaActual, aldeanoConstruir);
                     bandera = false;
                     break;
                 }
                 case "6":
                 {
-                    LogicaJuego.ConstruirEstructuras(new Granja(), jugador, mapa.ObtenerCelda(x, y), aldeanoConstruir.CeldaActual, aldeanoConstruir);
+                    LogicaJuego.ConstruirEstructuras(new Granja(), jugador, LogicaJuego.BuscarCeldaLibreCercana(jugador.Estructuras[0], mapa), aldeanoConstruir.CeldaActual, aldeanoConstruir);
                     bandera = false;
                     break;
                 }
                 case "7":
                 {
-                    LogicaJuego.ConstruirEstructuras(new CampoTiro(), jugador, mapa.ObtenerCelda(x, y), aldeanoConstruir.CeldaActual, aldeanoConstruir);
+                    LogicaJuego.ConstruirEstructuras(new CampoTiro(), jugador, LogicaJuego.BuscarCeldaLibreCercana(jugador.Estructuras[0], mapa), aldeanoConstruir.CeldaActual, aldeanoConstruir);
                     bandera = false;
                     break;
                 }
                 case "8":
                 {
-                    LogicaJuego.ConstruirEstructuras(new Cuartel(), jugador, mapa.ObtenerCelda(x, y), aldeanoConstruir.CeldaActual, aldeanoConstruir);
+                    LogicaJuego.ConstruirEstructuras(new Cuartel(), jugador, LogicaJuego.BuscarCeldaLibreCercana(jugador.Estructuras[0], mapa), aldeanoConstruir.CeldaActual, aldeanoConstruir);
                     bandera = false;
                     break;
                 }
                 case "9":
                 {
-                    LogicaJuego.ConstruirEstructuras(new Establo(), jugador, mapa.ObtenerCelda(x, y), aldeanoConstruir.CeldaActual, aldeanoConstruir);
+                    LogicaJuego.ConstruirEstructuras(new Establo(), jugador, LogicaJuego.BuscarCeldaLibreCercana(jugador.Estructuras[0], mapa), aldeanoConstruir.CeldaActual, aldeanoConstruir);
                     bandera = false;
                     break;
                 }
                 case "10":
                 {
-                    LogicaJuego.ConstruirEstructuras(new Casa(), jugador, mapa.ObtenerCelda(x, y), aldeanoConstruir.CeldaActual, aldeanoConstruir);
+                    LogicaJuego.ConstruirEstructuras(new Casa(), jugador, LogicaJuego.BuscarCeldaLibreCercana(jugador.Estructuras[0], mapa), aldeanoConstruir.CeldaActual, aldeanoConstruir);
                     bandera = false;
                     break;
                 }
@@ -453,7 +438,31 @@ public class Partida
             indice++;
         }
         Console.WriteLine($"{indice}. Aldeano - 50 ORO, 50 ALIMENTO");
-        Console.ReadLine();
+        string opcion = Console.ReadLine();
+
+        foreach (IEstructuras estructuraJugador in jugador.Estructuras)
+        {
+            switch (opcion)
+            {
+                case "1":
+                    if (estructuraJugador is CastilloIndio || estructuraJugador is CastilloJapones || estructuraJugador is CastilloRomano || estructuraJugador is CastilloVikingo)
+                        jugador.CrearUnidad(estructuraJugador, LogicaJuego.BuscarCeldaLibreCercana(jugador.Estructuras[0],mapa));
+                    break;
+                case "2":
+                    if (estructuraJugador is CampoTiro)
+                        jugador.CrearUnidad(estructuraJugador, LogicaJuego.BuscarCeldaLibreCercana(jugador.Estructuras[0],mapa));                    break;
+                case "3":
+                    if (estructuraJugador is Establo)
+                        jugador.CrearUnidad(estructuraJugador, LogicaJuego.BuscarCeldaLibreCercana(jugador.Estructuras[0],mapa));                    break;
+                case "4":
+                    if (estructuraJugador is Cuartel)
+                        jugador.CrearUnidad(estructuraJugador, LogicaJuego.BuscarCeldaLibreCercana(jugador.Estructuras[0],mapa));                    break;
+                case "5":
+                    if (estructuraJugador is CentroCivico centroCivico)
+                        jugador.CrearAldeano(centroCivico,LogicaJuego.BuscarCeldaLibreCercana(estructuraJugador,mapa));
+                    break;
+            }
+        }
     }
     
     
