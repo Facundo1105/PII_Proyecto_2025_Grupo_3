@@ -287,9 +287,8 @@ public void CrearUnidad(IEstructuras estructuraUnidades, Celda celdaUnidad)
         // Asignar la unidad al mapa y al ejército del jugador si se creó exitosamente
         if (nuevaUnidad != null)
         {
-            List<IUnidades> listaUnidad = new List<IUnidades> { nuevaUnidad };
-            celdaUnidad.AsignarUnidades(listaUnidad);
             EjercitoGeneral.Add(nuevaUnidad);
+            celdaUnidad.AsignarUnidades(EjercitoGeneral);
         }
     }
 }}
