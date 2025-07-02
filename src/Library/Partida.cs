@@ -38,6 +38,9 @@ public class Partida
         LogicaJuego.RecursosAleatorios(mapa);
         PosicionarLasEntidadesIniciales();
         
+        
+        
+
         while (true)
         {
             MostrarRecursos(ObtenerJugadorActivo());
@@ -54,8 +57,6 @@ public class Partida
                 Console.WriteLine("3. Crear unidad");
                 Console.WriteLine("4. Atacar unidad");
                 Console.WriteLine("5. Mover unidad");
-                
-                
                 
                 string opcion = Console.ReadLine();
 
@@ -89,30 +90,6 @@ public class Partida
                         turnoCompletado = true;
                         break;
                     }
-                    case "5":
-                    {
-                        SeleccionarUnidadParaMover(jugadorActivo);
-                        turno++;
-                        turnoCompletado = true;
-                        break;
-                    }
-                    case "6":
-                    {
-                        jugadorActivo.CrearUnidad(new CampoTiro(), LogicaJuego.BuscarCeldaLibreCercana(jugadorActivo.Estructuras[0],mapa));
-                        turno++;
-                        turnoCompletado = true;
-                        break;
-                    }
-                    case "7":
-                    {
-                        jugadorActivo.CrearUnidad(new Establo(), LogicaJuego.BuscarCeldaLibreCercana(jugadorActivo.Estructuras[0],mapa));
-                        turno++;
-                        turnoCompletado = true;
-                        break;
-                    }
-                        
-                    default:
-                        Console.WriteLine("Por favor seleccione una opción."); break;
                 }
             }
             
@@ -469,11 +446,7 @@ public class Partida
         }
         Console.WriteLine($"{indice}. Aldeano - 50 ORO, 50 ALIMENTO");
         string opcion = Console.ReadLine();
-        
-        if (jugador.EjercitoGeneral.Count > 0)
-            jugador.EjercitoGeneral[0].CeldaActual.VaciarCelda();
-        
-        
+
         foreach (IEstructuras estructuraJugador in jugador.Estructuras)
         {
             switch (opcion)
@@ -633,48 +606,5 @@ public class Partida
                 }
             }
         }
-    }
-    
-    public void SeleccionarUnidadParaMover(Jugador jugador)
-    {
-        Console.WriteLine("¿Qué ejército quieres mover?");
-        Console.WriteLine("1. Ejército General");
-        Console.WriteLine("2. Ejército Secundario");
-    
-        string seleccionEjercito = Console.ReadLine();
-        int tipoEjercito = Convert.ToInt32(seleccionEjercito);
-
-        if (tipoEjercito == 1)
-        {
-            Console.WriteLine("Tienes las siguientes unidades en tu ejercito general:");
-            for (int i = 0; i < jugador.EjercitoGeneral.Count; i++)
-            {
-                Console.WriteLine($" - {jugador.EjercitoGeneral[i].Nombre} - ({jugador.EjercitoGeneral[i].CeldaActual.X}, {jugador.EjercitoGeneral[i].CeldaActual.Y})");
-            }
-        }
-        else if (tipoEjercito == 2)
-        {
-            Console.WriteLine("Tienes las siguientes unidades en tu ejercito secundario:");
-            for (int i = 0; i < jugador.EjercitoSecundario.Count; i++)
-            {
-                Console.WriteLine($" - {jugador.EjercitoSecundario[i].Nombre} - ({jugador.EjercitoSecundario[i].CeldaActual.X}, {jugador.EjercitoSecundario[i].CeldaActual.Y})");
-            }
-        }
-
-        Celda celdaEjercitoGeneral = jugador.EjercitoGeneral[0].CeldaActual;
-        
-        
-        Console.WriteLine("¿A dónde quieres moverlo?");
-        Console.Write("Coordenada X: ");
-        string coordX = Console.ReadLine();
-        Console.Write("Coordenada Y: ");
-        string coordY = Console.ReadLine();
-    
-        int coordenadaX = Convert.ToInt32(coordX);
-        int coordenadaY = Convert.ToInt32(coordY);
-    
-        Celda destino = mapa.ObtenerCelda(coordenadaX, coordenadaY);
-    
-        LogicaJuego.MoverUnidades(jugador.EjercitoGeneral, celdaEjercitoGeneral, destino);
     }
 }
