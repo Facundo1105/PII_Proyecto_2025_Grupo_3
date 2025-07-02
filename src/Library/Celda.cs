@@ -98,17 +98,4 @@ public class Celda
         Aldeano = null;
         return true;
     }
-    
-    public void EliminarUnidad(IUnidades unidad)
-    {
-        if (Unidades != null)
-        {
-            Unidades.Remove(unidad);
-            if (Unidades.Count == 0)
-            {
-                Unidades = null;
-            }
-        }
-    }
-
 }
