@@ -6,6 +6,8 @@ namespace Library;
 public class Jugador
 {
     public string Nombre { get; set; }
+    
+    public string DisplayName { get;}
 
     public ICivilizaciones Civilizacion { get; set; }
 
@@ -19,10 +21,13 @@ public class Jugador
 
     public List<IUnidades> EjercitoSecundario = new List<IUnidades>();
 
-    public Jugador(string nombre)
+    public Jugador(string displayName)
     {
-        this.Nombre = nombre;
+        this.Nombre = displayName;
+        this.DisplayName = displayName;
     }
+    
+ 
 
     public int CantidadUnidades
     {
