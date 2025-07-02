@@ -227,6 +227,21 @@ public class Fachada
             return $"{displayName} no estaba en la lista de espera.";
         }
     }
+    
+    public string ListaJugadoresEnEspera()
+    {
+        var jugadores = Lista.JugadoresEnListaDeEspera();
+
+        if (jugadores.Count == 0)
+        {
+            return "No hay jugadores en la lista de espera.";
+        }
+
+        var nombres = jugadores.Select(j => j.DisplayName).ToList();
+        return "Jugadores en espera:\n" + string.Join("\n", nombres);
+    }
+    
+    
 
     
     private static Fachada? _instance;
@@ -242,7 +257,8 @@ public class Fachada
             return _instance;
         }
     }
-
+    
+    
 
 
 }
