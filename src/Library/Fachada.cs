@@ -216,6 +216,19 @@ public class Fachada
         return $"{displayName} ya estaba en la lista de espera.";
     }
     
+    public string SalirDeLaLista(string displayName)
+    {
+        if (Lista.EliminarJugador(displayName))
+        {
+            return $"{displayName} fue eliminado de la lista de espera.";
+        }
+        else
+        {
+            return $"{displayName} no estaba en la lista de espera.";
+        }
+    }
+
+    
     private static Fachada? _instance;
 
     public static Fachada Instance
