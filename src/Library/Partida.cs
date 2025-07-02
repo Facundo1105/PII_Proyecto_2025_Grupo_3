@@ -651,6 +651,22 @@ public class Partida
             {
                 Console.WriteLine($" - {jugador.EjercitoGeneral[i].Nombre} - ({jugador.EjercitoGeneral[i].CeldaActual.X}, {jugador.EjercitoGeneral[i].CeldaActual.Y})");
             }
+            
+            Console.WriteLine("¿A dónde quieres moverlo?");
+            Console.Write("Coordenada X: ");
+            string coordX = Console.ReadLine();
+            Console.Write("Coordenada Y: ");
+            string coordY = Console.ReadLine();
+    
+            int coordenadaX = Convert.ToInt32(coordX);
+            int coordenadaY = Convert.ToInt32(coordY);
+    
+            Celda destino = mapa.ObtenerCelda(coordenadaX, coordenadaY);
+            
+            Celda celdaEjercitoGeneral = jugador.EjercitoGeneral[0].CeldaActual;
+        
+            LogicaJuego.MoverUnidades(jugador.EjercitoGeneral, celdaEjercitoGeneral, destino);
+            
         }
         else if (tipoEjercito == 2)
         {
@@ -659,22 +675,21 @@ public class Partida
             {
                 Console.WriteLine($" - {jugador.EjercitoSecundario[i].Nombre} - ({jugador.EjercitoSecundario[i].CeldaActual.X}, {jugador.EjercitoSecundario[i].CeldaActual.Y})");
             }
-        }
+            
+            Console.WriteLine("¿A dónde quieres moverlo?");
+            Console.Write("Coordenada X: ");
+            string coordX = Console.ReadLine();
+            Console.Write("Coordenada Y: ");
+            string coordY = Console.ReadLine();
+    
+            int coordenadaX = Convert.ToInt32(coordX);
+            int coordenadaY = Convert.ToInt32(coordY);
+    
+            Celda destino = mapa.ObtenerCelda(coordenadaX, coordenadaY);
+            
+            Celda celdaEjercitoSecundario = jugador.EjercitoSecundario[0].CeldaActual;
 
-        Celda celdaEjercitoGeneral = jugador.EjercitoGeneral[0].CeldaActual;
-        
-        
-        Console.WriteLine("¿A dónde quieres moverlo?");
-        Console.Write("Coordenada X: ");
-        string coordX = Console.ReadLine();
-        Console.Write("Coordenada Y: ");
-        string coordY = Console.ReadLine();
-    
-        int coordenadaX = Convert.ToInt32(coordX);
-        int coordenadaY = Convert.ToInt32(coordY);
-    
-        Celda destino = mapa.ObtenerCelda(coordenadaX, coordenadaY);
-    
-        LogicaJuego.MoverUnidades(jugador.EjercitoGeneral, celdaEjercitoGeneral, destino);
+            LogicaJuego.MoverUnidades(jugador.EjercitoSecundario, celdaEjercitoSecundario, destino);
+        }
     }
 }
