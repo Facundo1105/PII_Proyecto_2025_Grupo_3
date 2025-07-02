@@ -281,6 +281,17 @@ private static void DescontarRecursos(List<IEstructurasDepositos> depositos, Cen
     {
         if (celdaEjercitoDefensa.Unidades != null)
         {
+            if (ejercitoAtaque == null || ejercitoAtaque.Count == 0)
+            {
+                Console.WriteLine("No puedes atacar con un ejército vacío.");
+                return;
+            }
+            if (ejercitoDefensa == null || ejercitoDefensa.Count == 0)
+            {
+                Console.WriteLine("No hay unidades enemigas a las que atacar.");
+                return;
+            }
+            
             int i = 0;
             int j = 0;
             
@@ -322,6 +333,12 @@ private static void DescontarRecursos(List<IEstructurasDepositos> depositos, Cen
     {
         if (celdaEstructuraDefensa.Estructuras != null)
         {
+            if (ejercitoAtaque == null || ejercitoAtaque.Count == 0)
+            {
+                Console.WriteLine("No puedes atacar una estructura con un ejército vacío.");
+                return;
+            }
+            
             int i = 0;
 
             while (i < ejercitoAtaque.Count && estructuraDefensa.Vida > 0)

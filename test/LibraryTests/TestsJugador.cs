@@ -119,9 +119,9 @@ public class TestsJugador
     [Test]
     public void CrearAldeano_NoPermiteSuperarLimitePoblacion()
     {
-        var jugador = new Jugador("juan");
+        Jugador jugador = new Jugador("juan");
         jugador.LimitePoblacion = 3; 
-        var centro = (CentroCivico)jugador.Estructuras[0];
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
         centro.RecursosDeposito["Oro"] = 100;
         centro.RecursosDeposito["Alimento"] = 100;
 
@@ -129,4 +129,384 @@ public class TestsJugador
         jugador.CrearAldeano(centro, mapa.ObtenerCelda(27,27));
         Assert.That(jugador.CantidadAldeanos, Is.EqualTo(cantidadInicial));
     }
+
+    [Test]
+    public void CrearArqueroCorrectamente()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        centro.RecursosDeposito["Oro"] = 100;
+        centro.RecursosDeposito["Alimento"] = 150;
+        CampoTiro campoTiro = new CampoTiro();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(campoTiro,mapa.ObtenerCelda(25,25));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.GreaterThan(cantidadInicial));
+    }
+
+    
+    [Test]
+    public void CrearArqueroFallaPorAlimento()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 100;
+        centro.RecursosDeposito["Alimento"] = 100;
+        CampoTiro campoTiro = new CampoTiro();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(campoTiro,mapa.ObtenerCelda(25,25));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.EqualTo(cantidadInicial));
+    }
+    
+    [Test]
+    public void CrearArqueroFallaPorOro()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 50;
+        centro.RecursosDeposito["Alimento"] = 150;
+        CampoTiro campoTiro = new CampoTiro();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(campoTiro,mapa.ObtenerCelda(25,25));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.EqualTo(cantidadInicial));
+    }
+    
+    [Test]
+    public void CrearInfanteriaCorrecto()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 150;
+        centro.RecursosDeposito["Alimento"] = 150;
+        Cuartel cuartel = new Cuartel();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(cuartel,mapa.ObtenerCelda(26,26));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.GreaterThan(cantidadInicial));
+    }
+    
+    [Test]
+    public void CrearInfanteriaFallaPorAlimento()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 150;
+        centro.RecursosDeposito["Alimento"] = 100;
+        Cuartel cuartel = new Cuartel();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(cuartel,mapa.ObtenerCelda(26,26));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.EqualTo(cantidadInicial));
+    }
+    
+    [Test]
+    public void CrearInfanteriaFallaPorOro()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 100;
+        centro.RecursosDeposito["Alimento"] = 150;
+        Cuartel cuartel = new Cuartel();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(cuartel,mapa.ObtenerCelda(26,26));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.EqualTo(cantidadInicial));
+    }
+
+    [Test]
+    public void CrearCaballeriaCorrecto()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 200;
+        centro.RecursosDeposito["Alimento"] = 300;
+        centro.RecursosDeposito["Madera"] = 100;
+        Establo establo = new Establo();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(establo,mapa.ObtenerCelda(27,27));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.GreaterThan(cantidadInicial));
+    }
+    
+    [Test]
+    public void CrearCaballeriaFallaAlimento()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 200;
+        centro.RecursosDeposito["Alimento"] = 200;
+        centro.RecursosDeposito["Madera"] = 100;
+        Establo establo = new Establo();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(establo,mapa.ObtenerCelda(27,27));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.EqualTo(cantidadInicial));
+    }
+    
+    [Test]
+    public void CrearCaballeriaFallaOro()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 100;
+        centro.RecursosDeposito["Alimento"] = 300;
+        centro.RecursosDeposito["Madera"] = 100;
+        Establo establo = new Establo();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(establo,mapa.ObtenerCelda(27,27));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.EqualTo(cantidadInicial));
+    }
+    
+    [Test]
+    public void CrearCaballeriaFallaPorMadera()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 200;
+        centro.RecursosDeposito["Alimento"] = 300;
+        centro.RecursosDeposito["Madera"] = 50;
+        Establo establo = new Establo();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(establo,mapa.ObtenerCelda(27,27));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.EqualTo(cantidadInicial));
+    }
+
+    [Test]
+    public void CrearElefanteCorrecto()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 300;
+        centro.RecursosDeposito["Madera"] = 200;
+        centro.RecursosDeposito["Alimento"] = 500;
+        CastilloIndio castilloIndio = new CastilloIndio();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(castilloIndio,mapa.ObtenerCelda(28,28));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.GreaterThan(cantidadInicial));
+    }
+    
+    [Test]
+    public void CrearElefanteFallaPorOro()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 200;
+        centro.RecursosDeposito["Madera"] = 200;
+        centro.RecursosDeposito["Alimento"] = 500;
+        CastilloIndio castilloIndio = new CastilloIndio();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(castilloIndio,mapa.ObtenerCelda(28,28));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.EqualTo(cantidadInicial));
+    }
+    
+    [Test]
+    public void CrearElefanteFallaPorAlimento()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 300;
+        centro.RecursosDeposito["Madera"] = 200;
+        centro.RecursosDeposito["Alimento"] = 400;
+        CastilloIndio castilloIndio = new CastilloIndio();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(castilloIndio,mapa.ObtenerCelda(28,28));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.EqualTo(cantidadInicial));
+    }
+    
+    [Test]
+    public void CrearElefanteFallaPorMadera()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 300;
+        centro.RecursosDeposito["Madera"] = 100;
+        centro.RecursosDeposito["Alimento"] = 500;
+        CastilloIndio castilloIndio = new CastilloIndio();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(castilloIndio,mapa.ObtenerCelda(28,28));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.EqualTo(cantidadInicial));
+    }
+    
+    [Test]
+    public void CrearSamuraiCorrecto()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 400;
+        centro.RecursosDeposito["Madera"] = 200;
+        centro.RecursosDeposito["Alimento"] = 350;
+        CastilloJapones castilloJapones = new CastilloJapones();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(castilloJapones,mapa.ObtenerCelda(28,28));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.GreaterThan(cantidadInicial));
+    }
+    
+    [Test]
+    public void CrearSamuraiFallaPorOro()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 300;
+        centro.RecursosDeposito["Madera"] = 200;
+        centro.RecursosDeposito["Alimento"] = 350;
+        CastilloJapones castilloJapones = new CastilloJapones();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(castilloJapones,mapa.ObtenerCelda(28,28));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.EqualTo(cantidadInicial));
+    }
+
+    [Test]
+    public void CrearSamuraiFallaPorAlimento()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 400;
+        centro.RecursosDeposito["Madera"] = 200;
+        centro.RecursosDeposito["Alimento"] = 250;
+        CastilloJapones castilloJapones = new CastilloJapones();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(castilloJapones, mapa.ObtenerCelda(28, 28));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.EqualTo(cantidadInicial));
+    }
+
+    [Test]
+    public void CrearJulioCesarCorrecto()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 500;
+        centro.RecursosDeposito["Madera"] = 200;
+        centro.RecursosDeposito["Alimento"] = 250;
+        CastilloRomano castilloRomano = new CastilloRomano();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(castilloRomano, mapa.ObtenerCelda(29, 29));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.GreaterThan(cantidadInicial));
+    }
+
+    [Test]
+    public void CrearJulioCesarFallaPorOro()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 400;
+        centro.RecursosDeposito["Madera"] = 200;
+        centro.RecursosDeposito["Alimento"] = 250;
+        CastilloRomano castilloRomano = new CastilloRomano();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(castilloRomano, mapa.ObtenerCelda(28, 28));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.EqualTo(cantidadInicial));
+    }
+    
+    [Test]
+    public void CrearJulioCesarFallaPorAlimento()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 500;
+        centro.RecursosDeposito["Madera"] = 200;
+        centro.RecursosDeposito["Alimento"] = 150;
+        CastilloRomano castilloRomano = new CastilloRomano();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(castilloRomano, mapa.ObtenerCelda(28, 28));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.EqualTo(cantidadInicial));
+    }
+
+    [Test]
+    public void CrearThorCorrecto()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 500;
+        centro.RecursosDeposito["Madera"] = 250;
+        centro.RecursosDeposito["Alimento"] = 350;
+        CastilloVikingo castilloVikingo = new CastilloVikingo();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(castilloVikingo, mapa.ObtenerCelda(30, 30));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.GreaterThan(cantidadInicial));
+    }
+    
+    [Test]
+    public void CrearThorFallaPorOro()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 400;
+        centro.RecursosDeposito["Madera"] = 250;
+        centro.RecursosDeposito["Alimento"] = 350;
+        CastilloVikingo castilloVikingo = new CastilloVikingo();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(castilloVikingo, mapa.ObtenerCelda(30, 30));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.EqualTo(cantidadInicial));
+    }
+    
+    [Test]
+    public void CrearThorFallaPorMadera()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 500;
+        centro.RecursosDeposito["Madera"] = 150;
+        centro.RecursosDeposito["Alimento"] = 350;
+        CastilloVikingo castilloVikingo = new CastilloVikingo();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(castilloVikingo, mapa.ObtenerCelda(30, 30));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.EqualTo(cantidadInicial));
+    }
+    
+    [Test]
+    public void CrearThorFallaPorAlimento()
+    {
+        Jugador jugador = new Jugador("juan");
+        jugador.LimitePoblacion = 4;
+        CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
+        centro.RecursosDeposito["Oro"] = 500;
+        centro.RecursosDeposito["Madera"] = 250;
+        centro.RecursosDeposito["Alimento"] = 250;
+        CastilloVikingo castilloVikingo = new CastilloVikingo();
+
+        int cantidadInicial = this.jugador.CantidadUnidades;
+        jugador.CrearUnidad(castilloVikingo, mapa.ObtenerCelda(30, 30));
+        Assert.That(jugador.EjercitoGeneral.Count, Is.EqualTo(cantidadInicial));
+    }
+
+
 }

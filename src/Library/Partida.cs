@@ -502,74 +502,135 @@ public class Partida
     public void SeleccionarUnidadParaAtacar(Jugador jugadorAtaque)
     {
         Jugador jugadorDefensa = (jugadorAtaque == jugador1) ? jugador2 : jugador1;
-        
-        Console.WriteLine("¿Que quieres atacar?");
-        Console.WriteLine("1. Unidades enemigas\n2. Estructuras enemigas");
 
-        string opcionAtaque = Console.ReadLine();
-
-        Console.WriteLine("¿Con cuantas unidades quieres atacar?");
-        Console.WriteLine("1. Atacar con todo el ejercito\n2. Atacar con la mitad del ejercito");
-
-        string opcionAtaqueCantidad = Console.ReadLine();
-
-        switch (opcionAtaque)
+        bool bandera = true;
+                
+        while (bandera)
         {
-            case "1":
+            Console.WriteLine("¿Que quieres atacar?");
+            Console.WriteLine("1. Unidades enemigas\n2. Estructuras enemigas");
+
+            string opcionAtaque = Console.ReadLine();
+
+            Console.WriteLine("¿Con cuantas unidades quieres atacar?");
+            Console.WriteLine("1. Atacar con todo el ejercito\n2. Atacar con la mitad del ejercito");
+
+            string opcionAtaqueCantidad = Console.ReadLine();
+            
+            switch (opcionAtaque)
             {
-                switch (opcionAtaqueCantidad)
+                case "1":
                 {
-                    case "1":
+                    Console.WriteLine("¿Que ejercito enemigo quieres atacar?");
+                    Console.WriteLine("1. Ejercito General, unidades:");
+                    foreach (IUnidades unidad in jugadorDefensa.EjercitoGeneral)
                     {
-                        LogicaJuego.UnidadesAtacarUnidades(jugadorAtaque.EjercitoGeneral, jugadorDefensa.EjercitoGeneral,
-                            jugadorDefensa.EjercitoGeneral[0].CeldaActual, jugadorAtaque.EjercitoGeneral[0].CeldaActual);
-                        break;
+                        Console.WriteLine($"({unidad.Nombre})");
                     }
-                    case "2":
-                    {
-                        LogicaJuego.SepararUnidades(jugadorAtaque);
-                        LogicaJuego.UnidadesAtacarUnidades(jugadorAtaque.EjercitoSecundario,
-                            jugadorDefensa.EjercitoGeneral,
-                            jugadorDefensa.EjercitoGeneral[0].CeldaActual,
-                            jugadorAtaque.EjercitoSecundario[0].CeldaActual);
-                        break;
-                    }
-                }
 
-                break;
-            }
-            case "2":
-            {
-                int indice = 1;
-                Console.WriteLine("¿Que estructura quieres atacar?");
-                foreach (IEstructuras estructura in jugadorDefensa.Estructuras)
+                    Console.WriteLine("2. Ejercito Secundario, unidades:");
+                    foreach (IUnidades unidad in jugadorDefensa.EjercitoSecundario)
+                    {
+                        Console.WriteLine($"({unidad.Nombre})");
+                    }
+
+                    string opcionEjercitoDefensa = Console.ReadLine();
+
+                    switch (opcionAtaqueCantidad)
+                    {
+                        case "1":
+                        {
+                            switch (opcionEjercitoDefensa)
+                            {
+                                case "1":
+                                {
+                                    LogicaJuego.UnidadesAtacarUnidades(jugadorAtaque.EjercitoGeneral,
+                                        jugadorDefensa.EjercitoGeneral,
+                                        jugadorDefensa.EjercitoGeneral[0].CeldaActual,
+                                        jugadorAtaque.EjercitoGeneral[0].CeldaActual);
+                                    bandera = false;
+                                    break;
+                                }
+                                case "2":
+                                {
+                                    LogicaJuego.UnidadesAtacarUnidades(jugadorAtaque.EjercitoGeneral,
+                                        jugadorDefensa.EjercitoSecundario,
+                                        jugadorDefensa.EjercitoSecundario[0].CeldaActual,
+                                        jugadorAtaque.EjercitoGeneral[0].CeldaActual);
+                                    bandera = false;
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                        case "2":
+                        {
+                            switch (opcionEjercitoDefensa)
+                            {
+                                case "1":
+                                {
+                                    LogicaJuego.SepararUnidades(jugadorAtaque);
+                                    LogicaJuego.UnidadesAtacarUnidades(jugadorAtaque.EjercitoSecundario,
+                                        jugadorDefensa.EjercitoGeneral,
+                                        jugadorDefensa.EjercitoGeneral[0].CeldaActual,
+                                        jugadorAtaque.EjercitoSecundario[0].CeldaActual);
+                                    bandera = false;
+                                    break;
+                                }
+                                case "2":
+                                {
+                                    LogicaJuego.SepararUnidades(jugadorAtaque);
+                                    LogicaJuego.UnidadesAtacarUnidades(jugadorAtaque.EjercitoSecundario,
+                                        jugadorDefensa.EjercitoSecundario,
+                                        jugadorDefensa.EjercitoSecundario[0].CeldaActual,
+                                        jugadorAtaque.EjercitoSecundario[0].CeldaActual);
+                                    bandera = false;
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                    break;
+                }
+                case "2":
                 {
-                    Console.WriteLine($"{indice}. {estructura.Nombre}, ubicada: ({estructura.CeldaActual.X}, {estructura.CeldaActual.Y})");
-                    indice++;
-                }
-
-                string opcionEstructura = Console.ReadLine();
-                int indiceEstructura = Convert.ToInt32(opcionEstructura);
-
-                switch (opcionAtaqueCantidad)
-                {
-                    case "1":
+                    int indice = 1;
+                    Console.WriteLine("¿Que estructura quieres atacar?");
+                    foreach (IEstructuras estructura in jugadorDefensa.Estructuras)
                     {
-                        LogicaJuego.UnidadesAtacarEstructura(jugadorAtaque.EjercitoGeneral, jugadorDefensa.Estructuras[indiceEstructura - 1],
-                            jugadorDefensa.Estructuras[indiceEstructura - 1].CeldaActual, 
-                            jugadorAtaque.EjercitoGeneral[0].CeldaActual, jugadorDefensa);
-                        break;
+                        Console.WriteLine(
+                            $"{indice}. {estructura.Nombre}, ubicada: ({estructura.CeldaActual.X}, {estructura.CeldaActual.Y})");
+                        indice++;
                     }
-                    case "2":
+
+                    string opcionEstructura = Console.ReadLine();
+                    int indiceEstructura = Convert.ToInt32(opcionEstructura);
+
+                    switch (opcionAtaqueCantidad)
                     {
-                        LogicaJuego.SepararUnidades(jugadorAtaque);
-                        LogicaJuego.UnidadesAtacarEstructura(jugadorAtaque.EjercitoSecundario, jugadorDefensa.Estructuras[indiceEstructura - 1],
-                            jugadorDefensa.Estructuras[indiceEstructura - 1].CeldaActual,
-                            jugadorAtaque.EjercitoSecundario[0].CeldaActual, jugadorDefensa);
-                        break;
+                        case "1":
+                        {
+                            LogicaJuego.UnidadesAtacarEstructura(jugadorAtaque.EjercitoGeneral,
+                                jugadorDefensa.Estructuras[indiceEstructura - 1],
+                                jugadorDefensa.Estructuras[indiceEstructura - 1].CeldaActual,
+                                jugadorAtaque.EjercitoGeneral[0].CeldaActual, jugadorDefensa);
+                            bandera = false;
+                            break;
+                        }
+                        case "2":
+                        {
+                            LogicaJuego.SepararUnidades(jugadorAtaque);
+                            LogicaJuego.UnidadesAtacarEstructura(jugadorAtaque.EjercitoSecundario,
+                                jugadorDefensa.Estructuras[indiceEstructura - 1],
+                                jugadorDefensa.Estructuras[indiceEstructura - 1].CeldaActual,
+                                jugadorAtaque.EjercitoSecundario[0].CeldaActual, jugadorDefensa);
+                            bandera = false;
+                            break;
+                        }
                     }
+                    break;
                 }
-                break;
             }
         }
     }

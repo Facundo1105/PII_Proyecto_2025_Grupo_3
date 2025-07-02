@@ -2,12 +2,18 @@ using Library.Civilizaciones;
 
 namespace Library;
 
+
+
 public class Fachada
 {
     private Jugador jugador1;
     private Jugador jugador2;
     private Mapa mapa;
-
+    
+    private Fachada()
+    {
+        this.Lista = new Lista_De_Espera();
+    }
 
     public Fachada(Jugador jugador1, Jugador jugador2, Mapa mapa)
     {
@@ -186,4 +192,57 @@ public class Fachada
         Console.WriteLine($"Centros Cívicos restantes perdedor: {jugador2.Estructuras.Count(e => e is CentroCivico)}");
         Console.WriteLine("--------------------------------");
     }
+    
+    
+    private Lista_De_Espera Lista { get; } = new Lista_De_Espera();
+
+    public string Unirse(string displayName)
+    {
+        if (this.Lista.AgregarJugador(displayName))
+        {
+            return $"{displayName} fue agregado a la lista de espera.";
+        }
+
+        return $"{displayName} ya está en la lista de espera.";
+    }
+    
+    public string UnirseALaLista(string displayName)
+    {
+        if (this.Lista.AgregarJugador(displayName))
+        {
+            return $"{displayName} se unió a la lista de espera.";
+        }
+
+        return $"{displayName} ya estaba en la lista de espera.";
+    }
+    
+    public string SalirDeLaLista(string displayName)
+    {
+        if (Lista.EliminarJugador(displayName))
+        {
+            return $"{displayName} fue eliminado de la lista de espera.";
+        }
+        else
+        {
+            return $"{displayName} no estaba en la lista de espera.";
+        }
+    }
+
+    
+    private static Fachada? _instance;
+
+    public static Fachada Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = new Fachada(); 
+            }
+            return _instance;
+        }
+    }
+
+
+
 }

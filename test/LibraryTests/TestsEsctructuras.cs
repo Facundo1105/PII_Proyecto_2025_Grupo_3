@@ -28,4 +28,6 @@ public class TestsEstructuras
         centro.Vida = -100;
         Assert.That(centro.Vida, Is.EqualTo(0));
     }
+    
+    
 }

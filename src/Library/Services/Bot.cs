@@ -5,12 +5,8 @@ using Microsoft.Extensions.Logging;
 using Discord;    
 using Discord.Commands;
 using Discord.WebSocket;
-
 namespace Ucu.Poo.DiscordBot.Services;
 
-/// <summary>
-/// Esta clase implementa el bot de Discord.
-/// </summary>
 public class Bot : IBot
 {
     private ServiceProvider? serviceProvider;
@@ -29,8 +25,7 @@ public class Bot : IBot
             AlwaysDownloadUsers = true,
             GatewayIntents = 
                 GatewayIntents.AllUnprivileged
-                | GatewayIntents.MessageContent/*
-                | GatewayIntents.GuildMembers*/
+                | GatewayIntents.MessageContent
         };
 
         client = new DiscordSocketClient(config);
@@ -40,6 +35,7 @@ public class Bot : IBot
     public async Task StartAsync(ServiceProvider services)
     {
         string discordToken = configuration["DiscordToken"] ?? throw new Exception("Falta el token");
+
 
         logger.LogInformation("Iniciando el con token {Token}", discordToken);
         
