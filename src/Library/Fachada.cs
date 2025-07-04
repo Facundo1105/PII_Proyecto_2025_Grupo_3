@@ -207,14 +207,14 @@ public class Fachada
         return $"{displayName} ya está en la lista de espera.";
     }
     
-    public string UnirseALaLista(string displayName)
+    public string UnirseALaLista(string username)
+    
     {
-        if (this.Lista.AgregarJugador(displayName))
-        {
-            return $"{displayName} se unió a la lista de espera.";
-        }
+        if (this.Lista.AgregarJugador(username))
+            return $"{username} fue agregado a la lista de espera.";
 
-        return $"{displayName} ya estaba en la lista de espera.";
+        return $"{username} ya está en la lista de espera.";
+        
     }
     
     public string SalirDeLaLista(string displayName)
@@ -238,7 +238,7 @@ public class Fachada
             return "No hay jugadores en la lista de espera.";
         }
 
-        var nombres = jugadores.Select(j => j.DisplayName).ToList();
+        var nombres = jugadores.Select(j => j.Username).ToList();
         return "Jugadores en espera:\n" + string.Join("\n", nombres);
     }
     
@@ -273,19 +273,19 @@ public class Fachada
         Jugador jugador2 = Lista.JugadoresEnListaDeEspera()[1];
 
         partida = new Partida(jugador1, jugador2);
-    
+        partida.InicializarDesdeDiscord(); // ✅ este es el nuevo método seguro
         
 
-        return $"¡Partida iniciada entre {jugador1.DisplayName} y {jugador2.DisplayName}!";
-
-        Lista.EliminarJugador(jugador1.DisplayName); 
-        Lista.EliminarJugador(jugador2.DisplayName);
+        return $"¡Partida iniciada entre {jugador1.Username} y {jugador2.Username}!";
     }
+
+
     
     public string ElegirCivilizacion(string nombreJugador, string civilizacion)
     {
         
-        Jugador? jugador = this.Lista.EncontrarJugadorPorNombreDeDiscord(displayName: nombreJugador);
+        Jugador? jugador = this.Lista.EncontrarJugadorPorUsername(nombreJugador);
+
         if (jugador == null)
             return "No se encontró el jugador.";
 
@@ -311,12 +311,155 @@ public class Fachada
         var jugadores = Lista.JugadoresEnListaDeEspera();
         if (jugadores.Count >= 2 && jugadores[0].Civilizacion != null && jugadores[1].Civilizacion != null)
         {
-            string turnoJugador = jugadores[0].DisplayName;
-            return $"{jugador.DisplayName} eligió la civilización {civilizacion}.\n\n¡Ambos jugadores eligieron su civilización! Es el turno de {turnoJugador} Elegí tu acción usando los siguientes comandos.\n\n 1. !RecolectarRecurso \n\n 2. !ConstruirEstructura \n\n 3. !CrearUnidad \n\n 4. !CrearUnidadEspecial \n\n 5. !AtacarUnidad \n\n 6. MoverUnidad ";
+            string turnoJugador = jugadores[0].Username;
+            return $"{jugador.Username} eligió la civilización {civilizacion}.\n\n¡Ambos jugadores eligieron su civilización! Es el turno de {turnoJugador} Elegí tu acción usando los siguientes comandos.\n\n 1. !RecolectarRecurso \n\n 2. !ConstruirEstructura \n\n 3. !CrearUnidad \n\n 4. !CrearUnidadEspecial \n\n 5. !AtacarUnidad \n\n 6. MoverUnidad ";
         }
 
         return $"{jugador.Nombre} eligió la civilización {civilizacion}.";
     }
+    
+    public string RecolectarRecurso(string nombreJugador, string tipoRecurso, int numeroAldeano)
+{
+    Jugador? jugador = null;
+
+    if (partida != null)
+    {
+        if (partida.jugador1.Username == nombreJugador)
+            jugador = partida.jugador1;
+        else if (partida.jugador2.Username == nombreJugador)
+            jugador = partida.jugador2;
+    }
+
+    if (jugador == null)
+        jugador = Lista.EncontrarJugadorPorUsername(nombreJugador);
+
+    if (jugador == null)
+        return "No se encontró el jugador.";
+
+    if (numeroAldeano < 1 || numeroAldeano > jugador.Aldeanos.Count)
+        return "Número de aldeano inválido.";
+
+    tipoRecurso = tipoRecurso.Trim().ToLower();
+    if (tipoRecurso != "oro" && tipoRecurso != "madera" && tipoRecurso != "piedra" && tipoRecurso != "alimento")
+        return "Recurso inválido. Opciones: oro, madera, piedra, alimento.";
+
+    Aldeano aldeano = jugador.Aldeanos[numeroAldeano - 1];
+
+    if (aldeano.CeldaActual == null)
+        return "El aldeano seleccionado no tiene una celda asignada.";
+
+    Celda recursoCercano = LogicaJuego.BuscarRecursoCercano(
+        aldeano.CeldaActual.X,
+        aldeano.CeldaActual.Y,
+        partida?.mapa ?? new Mapa(),
+        char.ToUpper(tipoRecurso[0]) + tipoRecurso.Substring(1)
+    );
+
+    LogicaJuego.ObtenerRecursoDeCelda(recursoCercano, aldeano, jugador, partida?.mapa ?? new Mapa());
+
+    // Mostrar estado actual del jugador
+    string estado = MostrarResumenJugador(jugador.Username);
+
+    // Cambiar turno
+    partida.turno++;
+
+    Jugador siguiente = partida.ObtenerJugadorActivo();
+
+    // Mensaje final
+    string mensaje = 
+        $" ¡{jugador.Username} recolectó {tipoRecurso} con el aldeano {numeroAldeano} en la celda ({recursoCercano.X},{recursoCercano.Y})!\n\n" +
+        $"{estado}\n\n" +
+        $" Turno de {siguiente.Username}.\n" +
+        $"¿Qué querés hacer?\n" +
+        $"1. !recogerRecurso <recurso>\n" +
+        $"2. !construirEstructura <estructura>\n" +
+        $"3. !crearUnidad\n" +
+        $"4. !crearUnidadEspecial\n" +
+        $"5. !atacarUnidad\n" +
+        $"6. !moverUnidad";
+
+    return mensaje;
+}
+
+    
+    public List<Aldeano> GetAldeanos(string displayName)
+    {
+        Console.WriteLine($"[DEBUG] Buscando aldeanos para jugador: {displayName}");
+
+        if (partida != null)
+        {
+            Console.WriteLine($"[DEBUG] Partida activa entre {partida.jugador1.Username} y {partida.jugador2.Username}");
+
+            if (partida.jugador1.Username.Equals(displayName, StringComparison.OrdinalIgnoreCase))
+            {
+                Console.WriteLine($"[DEBUG] Retornando aldeanos de jugador1: {partida.jugador1.Aldeanos.Count}");
+                return partida.jugador1.Aldeanos;
+            }
+
+            if (partida.jugador2.Username.Equals(displayName, StringComparison.OrdinalIgnoreCase))
+            {
+                Console.WriteLine($"[DEBUG] Retornando aldeanos de jugador2: {partida.jugador2.Aldeanos.Count}");
+                return partida.jugador2.Aldeanos;
+            }
+
+            Console.WriteLine("[DEBUG] No se encontró jugador en partida con ese nombre");
+        }
+
+        Console.WriteLine("[DEBUG] Buscando jugador en lista de espera");
+        var jugador = Lista.EncontrarJugadorPorUsername(displayName);
+        Console.WriteLine($"[DEBUG] Aldeanos encontrados en lista: {jugador?.Aldeanos.Count ?? 0}");
+
+        return jugador?.Aldeanos ?? new List<Aldeano>();
+    }
+    
+    public string MostrarResumenJugador(string nombreJugador)
+    {
+        Jugador? jugador = null;
+
+        if (partida != null)
+        {
+            if (partida.jugador1.Username == nombreJugador)
+                jugador = partida.jugador1;
+            else if (partida.jugador2.Username == nombreJugador)
+                jugador = partida.jugador2;
+        }
+
+        if (jugador == null)
+            return "No se encontró el jugador.";
+
+        var resumen = $" {jugador.Username}, tienes la siguiente cantidad de recursos:\n";
+
+        foreach (var estructura in jugador.Estructuras)
+        {
+            if (estructura is CentroCivico cc)
+            {
+                foreach (var recurso in cc.RecursosDeposito)
+                {
+                    resumen += $"{recurso.Key} = {recurso.Value}\n";
+                }
+            }
+        }
+
+        resumen += $"\n {jugador.Username}, tienes a tus aldeanos en las siguientes posiciones:\n";
+
+        foreach (var estructura in jugador.Estructuras)
+        {
+            resumen += $"{estructura.Nombre} = ({estructura.CeldaActual?.X}, {estructura.CeldaActual?.Y})\n";
+        }
+
+        foreach (var aldeano in jugador.Aldeanos)
+        {
+            resumen += $"{aldeano.Nombre} = ({aldeano.CeldaActual?.X},{aldeano.CeldaActual?.Y})\n";
+        }
+
+        return resumen;
+    }
+
+
+    
+    
+    
+    
 
     
     
