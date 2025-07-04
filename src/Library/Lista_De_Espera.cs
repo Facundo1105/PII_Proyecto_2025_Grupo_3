@@ -32,9 +32,9 @@ public class Lista_De_Espera
     
     public bool EliminarJugador(string displayName)
     {
-        Jugador? trainer = this.EncontrarJugadorPorNombreDeDiscord(displayName);
-        if (trainer == null) return false;
-        jugadores.Remove(trainer);
+        Jugador? jugador = this.EncontrarJugadorPorNombreDeDiscord(displayName);
+        if (jugador == null) return false;
+        jugadores.Remove(jugador);
         return true;
 
     }
