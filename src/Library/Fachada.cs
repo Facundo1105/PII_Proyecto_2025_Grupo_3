@@ -22,7 +22,7 @@ public class Fachada
         this.mapa = mapa;
     }
 
-    public void IniciarPartida() // Historia de usuario - Configuración y Creación
+    /*public void IniciarPartida() // Historia de usuario - Configuración y Creación
     {
         mapa.InicializarMapa();
         // LogicaJuego.RecursosAleatorios();
@@ -51,6 +51,7 @@ public class Fachada
         mapa.ObtenerCelda(81, 82).AsignarAldeano(jugador2.Aldeanos[2]);
         mapa.ObtenerCelda(80, 80).AsignarEstructura(jugador2.Estructuras[0]); // Centro civico
     }
+    */
 
     public void ConstruirEstructuras() // Historias de usuario - Gestión de Recursos
     {
@@ -257,6 +258,66 @@ public class Fachada
             return _instance;
         }
     }
+    
+    
+    private Partida? partida;
+
+    public string IniciarPartida()
+    {
+        if (Lista.Count != 2)
+        {
+            return "Se necesitan exactamente 2 jugadores en la lista de espera para iniciar la partida.";
+        }
+
+        Jugador jugador1 = Lista.JugadoresEnListaDeEspera()[0];
+        Jugador jugador2 = Lista.JugadoresEnListaDeEspera()[1];
+
+        partida = new Partida(jugador1, jugador2);
+    
+        
+
+        return $"¡Partida iniciada entre {jugador1.DisplayName} y {jugador2.DisplayName}!";
+
+        Lista.EliminarJugador(jugador1.DisplayName); 
+        Lista.EliminarJugador(jugador2.DisplayName);
+    }
+    
+    public string ElegirCivilizacion(string nombreJugador, string civilizacion)
+    {
+        
+        Jugador? jugador = this.Lista.EncontrarJugadorPorNombreDeDiscord(displayName: nombreJugador);
+        if (jugador == null)
+            return "No se encontró el jugador.";
+
+        
+        switch (civilizacion.ToLower())
+        {
+            case "indios":
+                jugador.Civilizacion = new Indios();
+                break;
+            case "japoneses":
+                jugador.Civilizacion = new Japoneses();
+                break;
+            case "romanos":
+                jugador.Civilizacion = new Romanos();
+                break;
+            case "vikingos":
+                jugador.Civilizacion = new Vikingos();
+                break;
+            default:
+                return "Civilización no válida, Opciones: indios, japoneses, romanos, vikingos.";
+        }
+        
+        var jugadores = Lista.JugadoresEnListaDeEspera();
+        if (jugadores.Count >= 2 && jugadores[0].Civilizacion != null && jugadores[1].Civilizacion != null)
+        {
+            string turnoJugador = jugadores[0].DisplayName;
+            return $"{jugador.DisplayName} eligió la civilización {civilizacion}.\n\n¡Ambos jugadores eligieron su civilización! Es el turno de {turnoJugador} Elegí tu acción usando los siguientes comandos.\n\n 1. !RecolectarRecurso \n\n 2. !ConstruirEstructura \n\n 3. !CrearUnidad \n\n 4. !CrearUnidadEspecial \n\n 5. !AtacarUnidad \n\n 6. MoverUnidad ";
+        }
+
+        return $"{jugador.Nombre} eligió la civilización {civilizacion}.";
+    }
+
     
     
 
