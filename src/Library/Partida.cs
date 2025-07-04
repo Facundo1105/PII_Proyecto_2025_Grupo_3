@@ -29,95 +29,89 @@ public class Partida
         return turno % 2 != 0 ? jugador1 : jugador2;
     }
 
+
     public void IniciarPartida()
+{
+    
+    CentroCivico cc1 = new CentroCivico();
+    CentroCivico cc2 = new CentroCivico();
+    jugador1.Estructuras.Add(cc1);
+    jugador2.Estructuras.Add(cc2);
+
+    jugador1.Aldeanos.Add(new Aldeano(jugador1));
+    jugador1.Aldeanos.Add(new Aldeano(jugador1));
+    jugador1.Aldeanos.Add(new Aldeano(jugador1));
+
+    jugador2.Aldeanos.Add(new Aldeano(jugador2));
+    jugador2.Aldeanos.Add(new Aldeano(jugador2));
+    jugador2.Aldeanos.Add(new Aldeano(jugador2));
+
+    
+    SeleccionarCivilización(jugador1);
+    SeleccionarCivilización(jugador2);
+
+    
+    mapa.InicializarMapa();
+    LogicaJuego.RecursosAleatorios(mapa);
+
+    
+    PosicionarLasEntidadesIniciales();
+
+    
+    while (true)
     {
-        SeleccionarCivilización(jugador1);
-        SeleccionarCivilización(jugador2);
-        mapa.InicializarMapa();
-        //Posicionar recursos, aldeanos y centro civico para cada jugador
-        LogicaJuego.RecursosAleatorios(mapa);
-        PosicionarLasEntidadesIniciales();
-        
-        while (true)
+        MostrarRecursos(ObtenerJugadorActivo());
+        MostrarPosiciones(ObtenerJugadorActivo());
+
+        Jugador jugadorActivo = (turno % 2 != 0) ? jugador1 : jugador2;
+        bool turnoCompletado = false;
+
+        while (!turnoCompletado)
         {
-            MostrarRecursos(ObtenerJugadorActivo());
-            MostrarPosiciones(ObtenerJugadorActivo());
-            Jugador jugadorActivo = (turno % 2 != 0) ? jugador1 : jugador2;
-            
-            bool turnoCompletado = false;
+            Console.WriteLine($"{jugadorActivo.Nombre}, ¿Qué quieres hacer?");
+            Console.WriteLine("1. Recolectar recurso");
+            Console.WriteLine("2. Construir estructura");
+            Console.WriteLine("3. Crear unidad");
+            Console.WriteLine("4. Atacar unidad");
+            Console.WriteLine("5. Mover unidad");
 
-            while (!turnoCompletado)
+            string opcion = Console.ReadLine();
+
+            switch (opcion)
             {
-                Console.WriteLine($"{jugadorActivo.Nombre}, ¿Qué quieres hacer?");  
-                Console.WriteLine("1. Recolectar recurso");
-                Console.WriteLine("2. Construir estructura");
-                Console.WriteLine("3. Crear unidad");
-                Console.WriteLine("4. Atacar unidad");
-                Console.WriteLine("5. Mover unidad");
-                
-                
-                
-                string opcion = Console.ReadLine();
-
-                switch (opcion)
-                {
-                    case "1":
-                    {
-                        SeleccionarAldeanoYRecolectarRecurso(jugadorActivo);
-                        turno++;
-                        turnoCompletado = true;
-                        break;
-                    }
-                    case "2":
-                    {
-                        SeleccionarAldeanoYEstructuraParaConstruir(jugadorActivo);
-                        turno++;
-                        turnoCompletado = true;
-                        break;
-                    }
-                    case "3":
-                    {
-                        SeleccionarUnidadParaCrear(jugadorActivo);
-                        turno++;
-                        turnoCompletado = true;
-                        break;
-                    }
-                    case "4":
-                    {
-                        SeleccionarUnidadParaAtacar(jugadorActivo);
-                        turno++;
-                        turnoCompletado = true;
-                        break;
-                    }
-                    case "5":
-                    {
-                        SeleccionarUnidadParaMover(jugadorActivo);
-                        turno++;
-                        turnoCompletado = true;
-                        break;
-                    }
-                    case "6":
-                    {
-                        jugadorActivo.CrearUnidad(new CampoTiro(), LogicaJuego.BuscarCeldaLibreCercana(jugadorActivo.Estructuras[0],mapa));
-                        turno++;
-                        turnoCompletado = true;
-                        break;
-                    }
-                    case "7":
-                    {
-                        jugadorActivo.CrearUnidad(new Establo(), LogicaJuego.BuscarCeldaLibreCercana(jugadorActivo.Estructuras[0],mapa));
-                        turno++;
-                        turnoCompletado = true;
-                        break;
-                    }
-                        
-                    default:
-                        Console.WriteLine("Por favor seleccione una opción."); break;
-                }
+                case "1":
+                    SeleccionarAldeanoYRecolectarRecurso(jugadorActivo);
+                    turno++;
+                    turnoCompletado = true;
+                    break;
+                case "2":
+                    SeleccionarAldeanoYEstructuraParaConstruir(jugadorActivo);
+                    turno++;
+                    turnoCompletado = true;
+                    break;
+                case "3":
+                    SeleccionarUnidadParaCrear(jugadorActivo);
+                    turno++;
+                    turnoCompletado = true;
+                    break;
+                case "4":
+                    SeleccionarUnidadParaAtacar(jugadorActivo);
+                    turno++;
+                    turnoCompletado = true;
+                    break;
+                case "5":
+                    SeleccionarUnidadParaMover(jugadorActivo);
+                    turno++;
+                    turnoCompletado = true;
+                    break;
+                default:
+                    Console.WriteLine("Por favor seleccione una opción válida.");
+                    break;
             }
-            
         }
     }
+}
+
 
     public void SeleccionarCivilización(Jugador jugador)
     {
@@ -692,4 +686,37 @@ public class Partida
             LogicaJuego.MoverUnidades(jugador.EjercitoSecundario, celdaEjercitoSecundario, destino);
         }
     }
+    
+    public void InicializarDesdeDiscord()
+    {
+        
+        jugador1.Aldeanos.Clear();
+        jugador2.Aldeanos.Clear();
+        jugador1.Estructuras.Clear();
+        jugador2.Estructuras.Clear();
+
+        
+        CentroCivico cc1 = new CentroCivico();
+        CentroCivico cc2 = new CentroCivico();
+        jugador1.Estructuras.Add(cc1);
+        jugador2.Estructuras.Add(cc2);
+
+        
+        jugador1.Aldeanos.Add(new Aldeano(jugador1));
+        jugador1.Aldeanos.Add(new Aldeano(jugador1));
+        jugador1.Aldeanos.Add(new Aldeano(jugador1));
+
+        jugador2.Aldeanos.Add(new Aldeano(jugador2));
+        jugador2.Aldeanos.Add(new Aldeano(jugador2));
+        jugador2.Aldeanos.Add(new Aldeano(jugador2));
+
+        
+        mapa.InicializarMapa();
+        LogicaJuego.RecursosAleatorios(mapa);
+
+        
+        PosicionarLasEntidadesIniciales();
+    }
+
+
 }

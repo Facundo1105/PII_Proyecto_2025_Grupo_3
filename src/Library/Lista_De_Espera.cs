@@ -1,54 +1,41 @@
 using System.Collections.ObjectModel;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Library;
 
 public class Lista_De_Espera
 {
     private readonly List<Jugador> jugadores = new List<Jugador>();
-    
-    public int Count
-    {
-        get { return this.jugadores.Count; }
-    }
-    
+
+    public int Count => jugadores.Count;
+
     public ReadOnlyCollection<Jugador> JugadoresEnListaDeEspera()
     {
-        return this.jugadores.AsReadOnly();
+        return jugadores.AsReadOnly();
     }
     
-    public bool AgregarJugador(string displayName)
+    public bool AgregarJugador(string username)
     {
-        if (string.IsNullOrEmpty(displayName))
-        {
-            throw new ArgumentException(nameof(displayName));
-        }
-        
-        if (this.EncontrarJugadorPorNombreDeDiscord(displayName) != null) return false;
-        jugadores.Add(new Jugador(displayName));
-        return true;
+        if (string.IsNullOrEmpty(username))
+            throw new ArgumentException(nameof(username));
 
+        if (EncontrarJugadorPorUsername(username) != null) return false;
+
+        jugadores.Add(new Jugador(username));  // Aquí el nombre queda exactamente como vino
+        return true;
     }
-    
-    public bool EliminarJugador(string displayName)
+
+
+    public bool EliminarJugador(string username)
     {
-        Jugador? jugador = this.EncontrarJugadorPorNombreDeDiscord(displayName);
+        Jugador? jugador = EncontrarJugadorPorUsername(username);
         if (jugador == null) return false;
+
         jugadores.Remove(jugador);
         return true;
-
     }
     
-    public Jugador? EncontrarJugadorPorNombreDeDiscord(string displayName)
+    public Jugador? EncontrarJugadorPorUsername(string username)
     {
-        foreach (Jugador jugador in this.jugadores)
-        {
-            if (jugador.DisplayName == displayName)
-            {
-                return jugador;
-            }
-        }
-
-        return null;
+        return jugadores.FirstOrDefault(j => j.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
     }
 }

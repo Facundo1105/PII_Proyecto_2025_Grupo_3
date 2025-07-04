@@ -10,7 +10,7 @@ public class ElegirCivilizacion : ModuleBase<SocketCommandContext>
     [Summary("Elige la civilización para el jugador")]
     public async Task ElegirCivilizacionAsync([Remainder] string civilizacion)
     {
-        string nombreJugador = (Context.User as SocketGuildUser)?.DisplayName ?? Context.User.Username;
+        string nombreJugador = Context.User.Username;
         string resultado = Fachada.Instance.ElegirCivilizacion(nombreJugador, civilizacion);
         await ReplyAsync(resultado);
     }

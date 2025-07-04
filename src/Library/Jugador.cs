@@ -7,7 +7,7 @@ public class Jugador
 {
     public string Nombre { get; set; }
     
-    public string DisplayName { get;}
+    public string Username { get; set; }
 
     public ICivilizaciones Civilizacion { get; set; }
 
@@ -15,16 +15,17 @@ public class Jugador
 
     public List<IEstructuras> Estructuras = new List<IEstructuras>() { new CentroCivico() };
 
-    public List<Aldeano> Aldeanos = new List<Aldeano>() { new Aldeano(), new Aldeano(), new Aldeano() };
+    public List<Aldeano> Aldeanos = new List<Aldeano>();
+
 
     public List<IUnidades> EjercitoGeneral = new List<IUnidades>();
 
     public List<IUnidades> EjercitoSecundario = new List<IUnidades>();
 
-    public Jugador(string displayName)
+    public Jugador(string username)
     {
-        this.Nombre = displayName;
-        this.DisplayName = displayName;
+        this.Nombre = username;
+        this.Username = username;
     }
     
  

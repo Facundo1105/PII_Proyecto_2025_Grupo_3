@@ -11,12 +11,7 @@ public class IniciarPartida : ModuleBase<SocketCommandContext>
     {
         string resultado = Fachada.Instance.IniciarPartida();
         await ReplyAsync(resultado);
-        await ReplyAsync("Cada Jugador debe elegir una civilizacion con el comando !ElegirCivilizacion <nombre-de-civilizacion>");
-        
-        
-        
-        
-        
+        await ReplyAsync("Cad Jugador debe elegir una civilizacion con el comando !ElegirCivilizacion <nombre-de-civilizacion>");
         
     }
 }
