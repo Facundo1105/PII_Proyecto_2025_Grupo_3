@@ -317,66 +317,67 @@ public class Fachada
 
         return $"{jugador.Nombre} eligió la civilización {civilizacion}.";
     }
-    
+
     public string RecolectarRecurso(string nombreJugador, string tipoRecurso, int numeroAldeano)
-{
-    Jugador? jugador = null;
-
-    if (partida != null)
     {
-        if (partida.jugador1.Username == nombreJugador)
-            jugador = partida.jugador1;
-        else if (partida.jugador2.Username == nombreJugador)
-            jugador = partida.jugador2;
-    }
+        Jugador? jugador = null;
 
-    if (jugador == null)
-        jugador = Lista.EncontrarJugadorPorUsername(nombreJugador);
+        if (partida != null)
+        {
+            if (partida.jugador1.Username == nombreJugador)
+                jugador = partida.jugador1;
+            else if (partida.jugador2.Username == nombreJugador)
+                jugador = partida.jugador2;
+        }
 
-    if (jugador == null)
-        return "No se encontró el jugador.";
+        if (jugador == null)
+            jugador = Lista.EncontrarJugadorPorUsername(nombreJugador);
 
-    if (numeroAldeano < 1 || numeroAldeano > jugador.Aldeanos.Count)
-        return "Número de aldeano inválido.";
+        if (jugador == null)
+            return "No se encontró el jugador.";
 
-    tipoRecurso = tipoRecurso.Trim().ToLower();
-    if (tipoRecurso != "oro" && tipoRecurso != "madera" && tipoRecurso != "piedra" && tipoRecurso != "alimento")
-        return "Recurso inválido. Opciones: oro, madera, piedra, alimento.";
+        if (numeroAldeano < 1 || numeroAldeano > jugador.Aldeanos.Count)
+            return "Número de aldeano inválido.";
 
-    Aldeano aldeano = jugador.Aldeanos[numeroAldeano - 1];
+        tipoRecurso = tipoRecurso.Trim().ToLower();
+        if (tipoRecurso != "oro" && tipoRecurso != "madera" && tipoRecurso != "piedra" && tipoRecurso != "alimento")
+            return "Recurso inválido. Opciones: oro, madera, piedra, alimento.";
 
-    if (aldeano.CeldaActual == null)
-        return "El aldeano seleccionado no tiene una celda asignada.";
+        Aldeano aldeano = jugador.Aldeanos[numeroAldeano - 1];
 
-    Celda recursoCercano = LogicaJuego.BuscarRecursoCercano(
-        aldeano.CeldaActual.X,
-        aldeano.CeldaActual.Y,
-        partida?.mapa ?? new Mapa(),
-        char.ToUpper(tipoRecurso[0]) + tipoRecurso.Substring(1)
-    );
+        if (aldeano.CeldaActual == null)
+            return "El aldeano seleccionado no tiene una celda asignada.";
 
-    LogicaJuego.ObtenerRecursoDeCelda(recursoCercano, aldeano, jugador, partida?.mapa ?? new Mapa());
+        Celda recursoCercano = LogicaJuego.BuscarRecursoCercano(
+            aldeano.CeldaActual.X,
+            aldeano.CeldaActual.Y,
+            partida?.mapa ?? new Mapa(),
+            char.ToUpper(tipoRecurso[0]) + tipoRecurso.Substring(1)
+        );
 
-    // Mostrar estado actual del jugador
-    string estado = MostrarResumenJugador(jugador.Username);
+        LogicaJuego.ObtenerRecursoDeCelda(recursoCercano, aldeano, jugador, partida?.mapa ?? new Mapa());
 
-    // Cambiar turno
-    partida.turno++;
+        
+        string estado = MostrarResumenJugador(jugador.Username);
 
-    Jugador siguiente = partida.ObtenerJugadorActivo();
+        
+        partida.turno++;
 
-    // Mensaje final
-    string mensaje = 
-        $" ¡{jugador.Username} recolectó {tipoRecurso} con el aldeano {numeroAldeano} en la celda ({recursoCercano.X},{recursoCercano.Y})!\n\n" +
-        $"{estado}\n\n" +
-        $" Turno de {siguiente.Username}.\n" +
-        $"¿Qué querés hacer?\n" +
-        $"1. !recogerRecurso <recurso>\n" +
-        $"2. !construirEstructura <estructura>\n" +
-        $"3. !crearUnidad\n" +
-        $"4. !crearUnidadEspecial\n" +
-        $"5. !atacarUnidad\n" +
-        $"6. !moverUnidad";
+        Jugador siguiente = partida.ObtenerJugadorActivo();
+
+        // Mensaje final
+        string mensaje =
+            $" ¡{jugador.Username} recolectó {tipoRecurso} con el aldeano {numeroAldeano} en la celda ({recursoCercano.X},{recursoCercano.Y})!\n\n" +
+            $"{estado}\n\n" +
+            $" Turno de {siguiente.Username}.\n" +
+            $"¿Qué querés hacer?\n" +
+            $"1. !recogerRecurso <recurso>\n" +
+            $"2. !construirEstructura <estructura>\n" +
+            $"3. !crearUnidad\n" +
+            $"4. !crearUnidadEspecial\n" +
+            $"5. !atacarUnidad\n" +
+            $"6. !atacarEstructura" +
+            $"7. !moverUnidad\n";
 
     return mensaje;
 }
@@ -454,15 +455,181 @@ public class Fachada
 
         return resumen;
     }
+    
+public string ConstruirEstructura(string nombreJugador, string tipoEstructura, int numeroAldeano)
+{
+    Jugador? jugador = null;
 
+    if (partida != null)
+    {
+        if (partida.jugador1.Username == nombreJugador)
+            jugador = partida.jugador1;
+        else if (partida.jugador2.Username == nombreJugador)
+            jugador = partida.jugador2;
+    }
 
-    
-    
-    
-    
+    if (jugador == null)
+        jugador = Lista.EncontrarJugadorPorUsername(nombreJugador);
 
-    
-    
+    if (jugador == null)
+        return "No se encontró al jugador.";
+
+    if (numeroAldeano < 1 || numeroAldeano > jugador.Aldeanos.Count)
+        return "Número de aldeano inválido.";
+
+    Aldeano aldeano = jugador.Aldeanos[numeroAldeano - 1];
+    Celda celdaLibre = LogicaJuego.BuscarCeldaLibreCercana(jugador.Estructuras[0], partida?.mapa ?? new Mapa());
+    Celda celdaAldeano = aldeano.CeldaActual;
+
+    if (celdaLibre == null || celdaAldeano == null)
+        return "No se pudo encontrar una celda válida para construir.";
+
+    IEstructuras estructura;
+
+    switch (tipoEstructura.ToLower())
+    {
+        case "molino":
+            estructura = new Molino(); break;
+        case "granja":
+            estructura = new Granja(); break;
+        case "casa":
+            estructura = new Casa(); break;
+        case "depositomadera":
+        case "deposito de madera":
+            estructura = new DepositoMadera(); break;
+        case "depositooro":
+        case "deposito de oro":
+            estructura = new DepositoOro(); break;
+        case "depositopiedra":
+        case "deposito de piedra":
+            estructura = new DepositoPiedra(); break;
+        case "campotiro":
+        case "campo de tiro":
+            estructura = new CampoTiro(); break;
+        case "cuartel":
+            estructura = new Cuartel(); break;
+        case "establo":
+            estructura = new Establo(); break;
+        case "castillo":
+            if (jugador.Civilizacion is Indios) estructura = new CastilloIndio();
+            else if (jugador.Civilizacion is Japoneses) estructura = new CastilloJapones();
+            else if (jugador.Civilizacion is Romanos) estructura = new CastilloRomano();
+            else if (jugador.Civilizacion is Vikingos) estructura = new CastilloVikingo();
+            else return "No se pudo determinar tu civilización para el castillo.";
+            break;
+        default:
+            return "Estructura no válida. Opciones: molino, granja, casa, cuartel, castillo, establo, campotiro, depositoMadera, depositoOro, depositoPiedra.";
+    }
+
+    LogicaJuego.ConstruirEstructuras(estructura, jugador, celdaLibre, celdaAldeano, aldeano);
+
+    // Generar resumen
+    string resumen = $"{jugador.Username} construyó un {estructura.Nombre} en la celda ({celdaLibre.X},{celdaLibre.Y}) con el aldeano {numeroAldeano}.\n\n";
+    resumen += "Estructuras actuales:\n";
+
+    foreach (var e in jugador.Estructuras)
+    {
+        if (e.CeldaActual != null)
+        {
+            resumen += $"- {e.Nombre} en ({e.CeldaActual.X}, {e.CeldaActual.Y})\n";
+        }
+    }
+
+    // Cambiar turno
+    partida.turno++;
+    Jugador siguiente = partida.ObtenerJugadorActivo();
+
+    // Mostrar recursos del siguiente jugador
+    CentroCivico cc = (CentroCivico)siguiente.Estructuras[0];
+    resumen += $"\nTurno de {siguiente.Username}, tienes los siguientes recursos:\n";
+    foreach (var recurso in cc.RecursosDeposito)
+    {
+        resumen += $"- {recurso.Key}: {recurso.Value}\n";
+    }
+
+    resumen += "\n¿Qué querés hacer?\n";
+    resumen += "1. !recogerRecurso <tipo>\n";
+    resumen += "2. !construirEstructura <tipo>\n";
+    resumen += "3. !crearUnidad <tipo>\n";
+    resumen += "4. !atacar <...>\n";
+    resumen += "5. !moverUnidad <...>";
+
+    return resumen; 
+}
+
+public string CrearUnidadComun(string nombreJugador, string tipoUnidad)
+{
+    if (partida == null)
+        return "No hay una partida activa.";
+
+    Jugador jugador = (partida.jugador1.Username == nombreJugador) ? partida.jugador1 :
+                      (partida.jugador2.Username == nombreJugador) ? partida.jugador2 : null;
+
+    if (jugador == null)
+        return "No se encontró al jugador.";
+
+    // Buscar estructura correspondiente
+    IEstructuras estructura = tipoUnidad.ToLower() switch
+    {
+        "arquero" => jugador.Estructuras.FirstOrDefault(e => e is CampoTiro),
+        "caballeria" => jugador.Estructuras.FirstOrDefault(e => e is Establo),
+        "infanteria" => jugador.Estructuras.FirstOrDefault(e => e is Cuartel),
+        "elefante" => jugador.Estructuras.FirstOrDefault(e => e is CastilloIndio),
+        "samurai" => jugador.Estructuras.FirstOrDefault(e => e is CastilloJapones),
+        "juliocesar" => jugador.Estructuras.FirstOrDefault(e => e is CastilloRomano),
+        "thor" => jugador.Estructuras.FirstOrDefault(e => e is CastilloVikingo),
+        _ => null
+    };
+
+    if (estructura == null)
+        return "No tienes la estructura necesaria para crear esa unidad.";
+
+    Celda celdaLibre = LogicaJuego.BuscarCeldaLibreCercana(estructura, partida.mapa);
+    if (celdaLibre == null)
+        return "No se encontró una celda libre cercana para crear la unidad.";
+
+    jugador.CrearUnidad(estructura, celdaLibre);
+
+    string mensaje = $" {jugador.Username} creó una unidad {tipoUnidad} en la celda ({celdaLibre.X},{celdaLibre.Y}).\n\n";
+    mensaje += " Tus unidades actuales:\n";
+
+    foreach (var unidad in jugador.EjercitoGeneral.Concat(jugador.EjercitoSecundario))
+    {
+        if (unidad.CeldaActual != null)
+            mensaje += $"- {unidad.Nombre} en ({unidad.CeldaActual.X},{unidad.CeldaActual.Y})\n";
+    }
+
+    // Cambiar turno
+    partida.turno++;
+
+    // Obtener siguiente jugador
+    Jugador jugadorSiguiente = partida.ObtenerJugadorActivo();
+
+    // Mostrar recursos y preguntar acción
+    mensaje += $"\n Turno de {jugadorSiguiente.Username}\n";
+    mensaje += "Tienes la siguiente cantidad de recursos:\n";
+
+    foreach (var Estructura in jugadorSiguiente.Estructuras)
+    {
+        if (estructura is CentroCivico cc)
+        {
+            foreach (var recurso in cc.RecursosDeposito)
+            {
+                mensaje += $"- {recurso.Key} = {recurso.Value}\n";
+            }
+        }
+    }
+
+    mensaje += "\n¿Qué querés hacer?\n";
+    mensaje += "1. !recogerRecurso <tipo>\n";
+    mensaje += "2. !construirEstructura <tipo>\n";
+    mensaje += "3. !crearUnidad <tipo>\n";
+    mensaje += "4. !atacarUnidad\n";
+    mensaje += "5. !moverUnidad\n";
+
+    return mensaje;
+}
+
 
 
 }
