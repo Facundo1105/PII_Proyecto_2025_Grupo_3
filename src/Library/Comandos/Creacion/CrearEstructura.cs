@@ -30,7 +30,7 @@ public class ConstruirEstructura : ModuleBase<SocketCommandContext>
         for (int i = 0; i < aldeanos.Count; i++)
             msg += $"{i + 1}. Aldeano (posición: {aldeanos[i].CeldaActual?.X},{aldeanos[i].CeldaActual?.Y})\n";
 
-        msg += "Usá el comando: `!elegirAldeanoConstruir <número>` para elegir.";
+        msg += "Usá el comando: `!aldeanoConstruir <número>` para elegir.";
         await ReplyAsync(msg);
     }
 }
