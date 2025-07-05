@@ -6,7 +6,7 @@ namespace Ucu.Poo.DiscordBot.Commands;
 
 public class CrearUnidad : ModuleBase<SocketCommandContext>
 {
-    [Command("crearUnidadcomun")]
+    [Command("crearUnidadComun")]
     [Summary("Crea una unidad si tenés la estructura correspondiente")]
     public async Task CrearUnidadAsync([Remainder] string tipoUnidad)
     {

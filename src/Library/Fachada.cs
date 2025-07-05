@@ -312,7 +312,9 @@ public class Fachada
         if (jugadores.Count >= 2 && jugadores[0].Civilizacion != null && jugadores[1].Civilizacion != null)
         {
             string turnoJugador = jugadores[0].Username;
-            return $"{jugador.Username} eligió la civilización {civilizacion}.\n\n¡Ambos jugadores eligieron su civilización! Es el turno de {turnoJugador} Elegí tu acción usando los siguientes comandos.\n\n 1. !RecolectarRecurso \n\n 2. !ConstruirEstructura \n\n 3. !CrearUnidad \n\n 4. !CrearUnidadEspecial \n\n 5. !AtacarUnidad \n\n 6. MoverUnidad ";
+            return $"{jugador.Username} eligió la civilización {civilizacion}.\n¡Ambos jugadores eligieron su civilización! Es el turno de {turnoJugador} Elegí tu acción usando los siguientes comandos." +
+                   $"\n 1. !recogerRecurso <recurso> \n 2. !construirEstructura <estructura> \n 3. !crearUnidadComun <unidad> \n 4. !crearUnidadEspecial" +
+                   $" \n 5. !atacarUnidad \n 6. !atacarEstructura \n 7. !moverUnidades \n 8. !juntarUnidades \n 9. !separarUnidades " ;
         }
 
         return $"{jugador.Nombre} eligió la civilización {civilizacion}.";
@@ -365,7 +367,7 @@ public class Fachada
 
         Jugador siguiente = partida.ObtenerJugadorActivo();
 
-        // Mensaje final
+        
         string mensaje =
             $" ¡{jugador.Username} recolectó {tipoRecurso} con el aldeano {numeroAldeano} en la celda ({recursoCercano.X},{recursoCercano.Y})!\n\n" +
             $"{estado}\n\n" +
@@ -373,11 +375,13 @@ public class Fachada
             $"¿Qué querés hacer?\n" +
             $"1. !recogerRecurso <recurso>\n" +
             $"2. !construirEstructura <estructura>\n" +
-            $"3. !crearUnidad\n" +
+            $"3. !crearUnidad <unidad>\n" +
             $"4. !crearUnidadEspecial\n" +
             $"5. !atacarUnidad\n" +
             $"6. !atacarEstructura" +
-            $"7. !moverUnidad\n";
+            $"7. !moverUnidades\n" +
+            $"8. !juntarUnidades\n" +
+            $"9. !separarUnidades";
 
     return mensaje;
 }
@@ -523,7 +527,7 @@ public string ConstruirEstructura(string nombreJugador, string tipoEstructura, i
 
     LogicaJuego.ConstruirEstructuras(estructura, jugador, celdaLibre, celdaAldeano, aldeano);
 
-    // Generar resumen
+    
     string resumen = $"{jugador.Username} construyó un {estructura.Nombre} en la celda ({celdaLibre.X},{celdaLibre.Y}) con el aldeano {numeroAldeano}.\n\n";
     resumen += "Estructuras actuales:\n";
 
@@ -535,11 +539,11 @@ public string ConstruirEstructura(string nombreJugador, string tipoEstructura, i
         }
     }
 
-    // Cambiar turno
+    
     partida.turno++;
     Jugador siguiente = partida.ObtenerJugadorActivo();
 
-    // Mostrar recursos del siguiente jugador
+    
     CentroCivico cc = (CentroCivico)siguiente.Estructuras[0];
     resumen += $"\nTurno de {siguiente.Username}, tienes los siguientes recursos:\n";
     foreach (var recurso in cc.RecursosDeposito)
@@ -548,11 +552,15 @@ public string ConstruirEstructura(string nombreJugador, string tipoEstructura, i
     }
 
     resumen += "\n¿Qué querés hacer?\n";
-    resumen += "1. !recogerRecurso <tipo>\n";
+    resumen += "1. !recogerRecurso <>\n";
     resumen += "2. !construirEstructura <tipo>\n";
     resumen += "3. !crearUnidad <tipo>\n";
-    resumen += "4. !atacar <...>\n";
-    resumen += "5. !moverUnidad <...>";
+    resumen += "4. !crearUnidadEspecial \n";
+    resumen += "5. !atacarUnidad \n";
+    resumen += "6. !atacarEstructura \n";
+    resumen += "7. !moverUnidades \n";
+    resumen += "8. !juntarUnidades \n";
+    resumen += "9. !separarUnidades \n";
 
     return resumen; 
 }
@@ -599,13 +607,13 @@ public string CrearUnidadComun(string nombreJugador, string tipoUnidad)
             mensaje += $"- {unidad.Nombre} en ({unidad.CeldaActual.X},{unidad.CeldaActual.Y})\n";
     }
 
-    // Cambiar turno
+    
     partida.turno++;
 
-    // Obtener siguiente jugador
+    
     Jugador jugadorSiguiente = partida.ObtenerJugadorActivo();
 
-    // Mostrar recursos y preguntar acción
+    
     mensaje += $"\n Turno de {jugadorSiguiente.Username}\n";
     mensaje += "Tienes la siguiente cantidad de recursos:\n";
 
@@ -621,11 +629,15 @@ public string CrearUnidadComun(string nombreJugador, string tipoUnidad)
     }
 
     mensaje += "\n¿Qué querés hacer?\n";
-    mensaje += "1. !recogerRecurso <tipo>\n";
-    mensaje += "2. !construirEstructura <tipo>\n";
-    mensaje += "3. !crearUnidad <tipo>\n";
-    mensaje += "4. !atacarUnidad\n";
-    mensaje += "5. !moverUnidad\n";
+    mensaje += "1. !recogerRecurso <recurso>\n";
+    mensaje += "2. !construirEstructura <estructura>\n";
+    mensaje += "3. !crearUnidad <unidad>\n";
+    mensaje += "4. !crearUnidadEspecial\n";
+    mensaje += "5. !atacarUnidad\n";
+    mensaje += "6. !atacarEstructura \n";
+    mensaje += "7. !moverUnidades\n";
+    mensaje += "8. !juntarUnidades \n";
+    mensaje += "9. !separarUnidades \n";
 
     return mensaje;
 }
