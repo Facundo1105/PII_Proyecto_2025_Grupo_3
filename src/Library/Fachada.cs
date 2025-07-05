@@ -389,30 +389,23 @@ public class Fachada
     
     public List<Aldeano> GetAldeanos(string displayName)
     {
-        Console.WriteLine($"[DEBUG] Buscando aldeanos para jugador: {displayName}");
 
         if (partida != null)
         {
-            Console.WriteLine($"[DEBUG] Partida activa entre {partida.jugador1.Username} y {partida.jugador2.Username}");
 
             if (partida.jugador1.Username.Equals(displayName, StringComparison.OrdinalIgnoreCase))
             {
-                Console.WriteLine($"[DEBUG] Retornando aldeanos de jugador1: {partida.jugador1.Aldeanos.Count}");
                 return partida.jugador1.Aldeanos;
             }
 
             if (partida.jugador2.Username.Equals(displayName, StringComparison.OrdinalIgnoreCase))
             {
-                Console.WriteLine($"[DEBUG] Retornando aldeanos de jugador2: {partida.jugador2.Aldeanos.Count}");
                 return partida.jugador2.Aldeanos;
             }
-
-            Console.WriteLine("[DEBUG] No se encontró jugador en partida con ese nombre");
+            
         }
-
-        Console.WriteLine("[DEBUG] Buscando jugador en lista de espera");
+        
         var jugador = Lista.EncontrarJugadorPorUsername(displayName);
-        Console.WriteLine($"[DEBUG] Aldeanos encontrados en lista: {jugador?.Aldeanos.Count ?? 0}");
 
         return jugador?.Aldeanos ?? new List<Aldeano>();
     }
@@ -641,6 +634,100 @@ public string CrearUnidadComun(string nombreJugador, string tipoUnidad)
 
     return mensaje;
 }
+
+public string CrearUnidadEspecial(string nombreJugador)
+{
+    Jugador? jugador = null;
+
+    if (partida != null)
+    {
+        if (partida.jugador1.Username == nombreJugador)
+            jugador = partida.jugador1;
+        else if (partida.jugador2.Username == nombreJugador)
+            jugador = partida.jugador2;
+    }
+
+    if (jugador == null)
+        jugador = Lista.EncontrarJugadorPorUsername(nombreJugador);
+
+    if (jugador == null)
+        return "No se encontró al jugador.";
+
+    // Verificar que aún no tiene una unidad especial
+    bool yaTieneEspecial = jugador.EjercitoGeneral.Any(u =>
+        u is JulioCesar || u is Thor || u is Elefante || u is Samurai);
+
+    if (yaTieneEspecial)
+        return $"{jugador.Username} ya tiene una unidad especial.";
+
+    // Determinar unidad especial según la civilización
+    IUnidades unidadEspecial;
+    if (jugador.Civilizacion is Romanos)
+        unidadEspecial = new JulioCesar();
+    else if (jugador.Civilizacion is Japoneses)
+        unidadEspecial = new Samurai();
+    else if (jugador.Civilizacion is Indios)
+        unidadEspecial = new Elefante();
+    else if (jugador.Civilizacion is Vikingos)
+        unidadEspecial = new Thor();
+    else
+        return "No se pudo determinar la unidad especial.";
+
+    // Buscar celda libre
+    Celda celda = LogicaJuego.BuscarCeldaLibreCercana(jugador.Estructuras[0], partida!.mapa);
+    if (celda == null || !celda.EstaLibre())
+        return "No se encontró una celda libre para colocar la unidad.";
+
+    // Crear la unidad
+    jugador.EjercitoGeneral.Add(unidadEspecial);
+    celda.AsignarUnidades(jugador.EjercitoGeneral);
+
+    // Resumen actual
+    string resumen = $"{jugador.Username} creó su unidad especial {unidadEspecial.Nombre} en la celda ({celda.X},{celda.Y}).\n\n";
+    resumen += $"Resumen de unidades:\n";
+    foreach (var u in jugador.EjercitoGeneral)
+    {
+        resumen += $"- {u.Nombre} en ({u.CeldaActual.X},{u.CeldaActual.Y})\n";
+    }
+
+    // Cambiar de turno
+    partida.turno++;
+    Jugador siguiente = partida.ObtenerJugadorActivo();
+
+    // Mostrar recursos del siguiente jugador
+    resumen += $"\n\nTurno de {siguiente.Username}" +
+               $"\n\nRecursos:\n";
+    foreach (var estructura in siguiente.Estructuras)
+    {
+        if (estructura is CentroCivico cc)
+        {
+            foreach (var recurso in cc.RecursosDeposito)
+            {
+                resumen += $"{recurso.Key} = {recurso.Value}\n";
+            }
+        }
+    }
+
+    // Anunciar nuevo turno y preguntar acción
+    resumen += $"\n ¿Qué querés hacer?\n";
+    resumen += "1. !recogerRecurso <recurso>\n";
+    resumen += "2. !construirEstructura <estructura>\n";
+    resumen += "3. !crearUnidad <unidad>\n";
+    resumen += "4. !crearUnidadEspecial\n";
+    resumen += "5. !atacarUnidad\n";
+    resumen += "6. !atacarEstructura\n";
+    resumen += "7. !moverUnidades\n";
+    resumen += "8. !juntarUnidades\n";
+    resumen += "9. !separarUnidades\n";;
+
+    return resumen;
+}
+
+
+
+
+
+
 
 
 

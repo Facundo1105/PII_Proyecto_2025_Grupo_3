@@ -4,7 +4,7 @@ using Library;
 
 public class ElegirAldeanoConstruir : ModuleBase<SocketCommandContext>
 {
-    [Command("elegirAldeanoConstruir")]
+    [Command("aldeanoConstruir")]
     public async Task ConstruirAsync(int numeroAldeano)
     {
         string nombreJugador = Context.User.Username;
