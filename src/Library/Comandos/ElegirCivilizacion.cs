@@ -6,7 +6,7 @@ namespace Ucu.Poo.DiscordBot.Commands;
 
 public class ElegirCivilizacion : ModuleBase<SocketCommandContext>
 {
-    [Command("ElegirCivilizacion")]
+    [Command("elegirCivilizacion")]
     [Summary("Elige la civilización para el jugador")]
     public async Task ElegirCivilizacionAsync([Remainder] string civilizacion)
     {
