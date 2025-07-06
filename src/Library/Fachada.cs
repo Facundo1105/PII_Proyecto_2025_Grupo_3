@@ -723,6 +723,137 @@ public string CrearUnidadEspecial(string nombreJugador)
     return resumen;
 }
 
+public string AtacarUnidad(string nombreJugador)
+{
+    if (partida == null)
+        return "No hay partida en curso.";
+
+    Jugador jugador = partida.ObtenerJugadorActivo();
+
+    if (jugador.Username != nombreJugador)
+        return "No es tu turno.";
+
+    Jugador enemigo = (partida.jugador1 == jugador) ? partida.jugador2 : partida.jugador1;
+
+    if (enemigo.EjercitoGeneral.Count == 0)
+        return "El jugador enemigo no tiene ejército general para atacar.";
+
+    if (jugador.EjercitoGeneral.Count == 0)
+        return "No tenés ejército general para atacar.";
+
+    Celda celdaAtaque = jugador.EjercitoGeneral[0].CeldaActual;
+    Celda celdaDefensa = enemigo.EjercitoGeneral[0].CeldaActual;
+
+    LogicaJuego.UnidadesAtacarUnidades(jugador.EjercitoGeneral, enemigo.EjercitoGeneral, celdaDefensa, celdaAtaque);
+
+    // 🧾 Mostrar resumen de ambos ejércitos
+    string resumenEjercitos = $"\n🛡️ Resultado del combate:\n";
+
+    resumenEjercitos += $"\n👑 {jugador.Username} - Ejército general:\n";
+    if (jugador.EjercitoGeneral.Count == 0)
+        resumenEjercitos += "- Sin unidades.\n";
+    else
+    {
+        foreach (var unidad in jugador.EjercitoGeneral)
+        {
+            if (unidad.CeldaActual != null)
+                resumenEjercitos += $"- {unidad.Nombre} en ({unidad.CeldaActual.X},{unidad.CeldaActual.Y}) con {unidad.Vida} de vida\n";
+        }
+    }
+
+    resumenEjercitos += $"\n⚔️ {enemigo.Username} - Ejército general:\n";
+    if (enemigo.EjercitoGeneral.Count == 0)
+        resumenEjercitos += "- Sin unidades.\n";
+    else
+    {
+        foreach (var unidad in enemigo.EjercitoGeneral)
+        {
+            if (unidad.CeldaActual != null)
+                resumenEjercitos += $"- {unidad.Nombre} en ({unidad.CeldaActual.X},{unidad.CeldaActual.Y}) con {unidad.Vida} de vida\n";
+        }
+    }
+
+    // Cambiar turno
+    partida.turno++;
+    Jugador siguiente = partida.ObtenerJugadorActivo();
+
+    string recursos = MostrarResumenJugador(siguiente.Username);
+
+    string opciones = $"\n\n🎲 Turno de {siguiente.Username}. ¿Qué querés hacer?\n" +
+                      "1. !recogerRecurso <tipo>\n" +
+                      "2. !construirEstructura <estructura>\n" +
+                      "3. !crearUnidad <tipo>\n" +
+                      "4. !crearUnidadEspecial\n" +
+                      "5. !atacarUnidad\n" +
+                      "6. !atacarEstructura\n" +
+                      "7. !moverUnidades\n" +
+                      "8. !juntarUnidades\n" +
+                      "9. !separarUnidades\n";
+
+    return $"{jugador.Username} atacó al ejército enemigo.\n{resumenEjercitos}\n{recursos}{opciones}";
+}
+
+
+
+public string AtacarEstructura(string nombreJugador, string nombreEstructura)
+{
+    if (partida == null)
+        return "No hay partida activa.";
+
+    Jugador atacante = partida.ObtenerJugadorActivo();
+
+    if (atacante.Username != nombreJugador)
+        return "No es tu turno.";
+
+    Jugador defensor = (partida.jugador1 == atacante) ? partida.jugador2 : partida.jugador1;
+
+    if (atacante.EjercitoGeneral.Count == 0)
+        return "No tenés unidades en el ejército general para atacar.";
+
+    IEstructuras? estructuraObjetivo = defensor.Estructuras
+        .FirstOrDefault(e => e.Nombre.Equals(nombreEstructura, StringComparison.OrdinalIgnoreCase));
+
+    if (estructuraObjetivo == null)
+        return $"El jugador enemigo no tiene una estructura llamada '{nombreEstructura}'.";
+
+    if (estructuraObjetivo.CeldaActual == null)
+        return "No se puede determinar la celda de esa estructura.";
+
+    Celda celdaObjetivo = estructuraObjetivo.CeldaActual;
+    Celda celdaAtaque = atacante.EjercitoGeneral[0].CeldaActual;
+
+    LogicaJuego.UnidadesAtacarEstructura(atacante.EjercitoGeneral, estructuraObjetivo, celdaObjetivo, celdaAtaque, defensor);
+
+    // Mostrar resultado
+    string resultado = $"{atacante.Username} atacó la estructura {estructuraObjetivo.Nombre} en ({celdaObjetivo.X},{celdaObjetivo.Y}).\n";
+    resultado += $"Vida restante: {estructuraObjetivo.Vida}\n";
+
+    if (estructuraObjetivo.Vida <= 0)
+        resultado += $" ¡{estructuraObjetivo.Nombre} fue destruida!\n";
+
+    // Cambiar turno
+    partida.turno++;
+    Jugador siguiente = partida.ObtenerJugadorActivo();
+
+    string resumenRecursos = MostrarResumenJugador(siguiente.Username);
+
+    string opciones = $"\n\nTurno de {siguiente.Username}, ¿Qué querés hacer?\n" +
+                      "1. !recogerRecurso <recurso>\n" +
+                      "2. !construirEstructura <estructura>\n" +
+                      "3. !crearUnidad <unidad>\n" +
+                      "4. !crearUnidadEspecial\n" +
+                      "5. !atacarUnidad\n" +
+                      "6. !atacarEstructura <estructura>\n" +
+                      "7. !moverUnidades\n" +
+                      "8. !juntarUnidades\n" +
+                      "9. !separarUnidades\n";
+
+    return resultado + resumenRecursos + opciones;
+}
+
+
+
+
 
 
 
