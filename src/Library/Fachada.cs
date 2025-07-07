@@ -1037,5 +1037,37 @@ public string SepararUnidades(string nombreJugador)
 
         return mensaje;
     }
+    
+    public string FinalizarPartida(string nombreJugador)
+    {
+        if (partida == null)
+            return "No hay una partida activa para finalizar.";
+
+        Jugador jugadorQueSeRinde = (partida.jugador1.Username == nombreJugador) ? partida.jugador1 :
+            (partida.jugador2.Username == nombreJugador) ? partida.jugador2 : null;
+
+        if (jugadorQueSeRinde == null)
+            return "No se encontró al jugador que quiere finalizar la partida.";
+
+        Jugador ganador = (partida.jugador1 == jugadorQueSeRinde) ? partida.jugador2 : partida.jugador1;
+
+        // Guardamos datos antes de borrar la partida
+        int unidadesGanador = ganador.CantidadUnidades;
+        int unidadesPerdedor = jugadorQueSeRinde.CantidadUnidades;
+        int ccGanador = ganador.Estructuras.Count(e => e is CentroCivico);
+        int ccPerdedor = jugadorQueSeRinde.Estructuras.Count(e => e is CentroCivico);
+
+        // Terminar la partida
+        partida = null;
+
+        return $"🏁 {jugadorQueSeRinde.Username} se rindió. ¡{ganador.Username} es el ganador!\n\n" +
+               $"Resumen de la partida:\n" +
+               $"- Unidades restantes {ganador.Username}: {unidadesGanador}\n" +
+               $"- Unidades restantes {jugadorQueSeRinde.Username}: {unidadesPerdedor}\n" +
+               $"- Centros Cívicos {ganador.Username}: {ccGanador}\n" +
+               $"- Centros Cívicos {jugadorQueSeRinde.Username}: {ccPerdedor}\n\n" +
+               $"Gracias por jugar 👑";
+    }
+
 
 }
