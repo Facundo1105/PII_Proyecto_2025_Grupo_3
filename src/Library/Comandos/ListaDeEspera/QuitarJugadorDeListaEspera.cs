@@ -1,18 +1,18 @@
 using Discord.Commands;
 using Discord.WebSocket;
-using Library; // donde está tu clase Lista_De_Espera
+using Library;
 
 namespace Ucu.Poo.DiscordBot.Commands;
 
-public class AgregarJugadorListaEspera : ModuleBase<SocketCommandContext>
+public class SalirDeListaEspera : ModuleBase<SocketCommandContext>
 {
-    [Command("unirse")]
-    [Summary("Une al usuario a la lista de espera para jugar")]
+    [Command("salir")]
+    [Summary("Quita al usuario de la lista de espera")]
     public async Task ExecuteAsync()
     {
         string displayName = (Context.User as SocketGuildUser)?.DisplayName ?? Context.User.Username;
 
-        string resultado = Fachada.Instance.Unirse(displayName);
+        string resultado = Fachada.Instance.SalirDeLaLista(displayName);
 
         await ReplyAsync(resultado);
     }

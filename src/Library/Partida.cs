@@ -29,72 +29,89 @@ public class Partida
         return turno % 2 != 0 ? jugador1 : jugador2;
     }
 
+
     public void IniciarPartida()
+{
+    
+    CentroCivico cc1 = new CentroCivico();
+    CentroCivico cc2 = new CentroCivico();
+    jugador1.Estructuras.Add(cc1);
+    jugador2.Estructuras.Add(cc2);
+
+    jugador1.Aldeanos.Add(new Aldeano(jugador1));
+    jugador1.Aldeanos.Add(new Aldeano(jugador1));
+    jugador1.Aldeanos.Add(new Aldeano(jugador1));
+
+    jugador2.Aldeanos.Add(new Aldeano(jugador2));
+    jugador2.Aldeanos.Add(new Aldeano(jugador2));
+    jugador2.Aldeanos.Add(new Aldeano(jugador2));
+
+    
+    SeleccionarCivilización(jugador1);
+    SeleccionarCivilización(jugador2);
+
+    
+    mapa.InicializarMapa();
+    LogicaJuego.RecursosAleatorios(mapa);
+
+    
+    PosicionarLasEntidadesIniciales();
+
+    
+    while (true)
     {
-        SeleccionarCivilización(jugador1);
-        SeleccionarCivilización(jugador2);
-        mapa.InicializarMapa();
-        //Posicionar recursos, aldeanos y centro civico para cada jugador
-        LogicaJuego.RecursosAleatorios(mapa);
-        PosicionarLasEntidadesIniciales();
-        
-        
-        
+        MostrarRecursos(ObtenerJugadorActivo());
+        MostrarPosiciones(ObtenerJugadorActivo());
 
-        while (true)
+        Jugador jugadorActivo = (turno % 2 != 0) ? jugador1 : jugador2;
+        bool turnoCompletado = false;
+
+        while (!turnoCompletado)
         {
-            MostrarRecursos(ObtenerJugadorActivo());
-            MostrarPosiciones(ObtenerJugadorActivo());
-            Jugador jugadorActivo = (turno % 2 != 0) ? jugador1 : jugador2;
-            
-            bool turnoCompletado = false;
+            Console.WriteLine($"{jugadorActivo.Nombre}, ¿Qué quieres hacer?");
+            Console.WriteLine("1. Recolectar recurso");
+            Console.WriteLine("2. Construir estructura");
+            Console.WriteLine("3. Crear unidad");
+            Console.WriteLine("4. Atacar unidad");
+            Console.WriteLine("5. Mover unidad");
 
-            while (!turnoCompletado)
+            string opcion = Console.ReadLine();
+
+            switch (opcion)
             {
-                Console.WriteLine($"{jugadorActivo.Nombre}, ¿Qué quieres hacer?");  
-                Console.WriteLine("1. Recolectar recurso");
-                Console.WriteLine("2. Construir estructura");
-                Console.WriteLine("3. Crear unidad");
-                Console.WriteLine("4. Atacar unidad");
-                Console.WriteLine("5. Mover unidad");
-                
-                string opcion = Console.ReadLine();
-
-                switch (opcion)
-                {
-                    case "1":
-                    {
-                        SeleccionarAldeanoYRecolectarRecurso(jugadorActivo);
-                        turno++;
-                        turnoCompletado = true;
-                        break;
-                    }
-                    case "2":
-                    {
-                        SeleccionarAldeanoYEstructuraParaConstruir(jugadorActivo);
-                        turno++;
-                        turnoCompletado = true;
-                        break;
-                    }
-                    case "3":
-                    {
-                        SeleccionarUnidadParaCrear(jugadorActivo);
-                        turno++;
-                        turnoCompletado = true;
-                        break;
-                    }
-                    case "4":
-                    {
-                        SeleccionarUnidadParaAtacar(jugadorActivo);
-                        turno++;
-                        turnoCompletado = true;
-                        break;
-                    }
-                }
+                case "1":
+                    SeleccionarAldeanoYRecolectarRecurso(jugadorActivo);
+                    turno++;
+                    turnoCompletado = true;
+                    break;
+                case "2":
+                    SeleccionarAldeanoYEstructuraParaConstruir(jugadorActivo);
+                    turno++;
+                    turnoCompletado = true;
+                    break;
+                case "3":
+                    SeleccionarUnidadParaCrear(jugadorActivo);
+                    turno++;
+                    turnoCompletado = true;
+                    break;
+                case "4":
+                    SeleccionarUnidadParaAtacar(jugadorActivo);
+                    turno++;
+                    turnoCompletado = true;
+                    break;
+                case "5":
+                    SeleccionarUnidadParaMover(jugadorActivo);
+                    turno++;
+                    turnoCompletado = true;
+                    break;
+                default:
+                    Console.WriteLine("Por favor seleccione una opción válida.");
+                    break;
             }
-            
         }
     }
+}
+
 
     public void SeleccionarCivilización(Jugador jugador)
     {
@@ -446,7 +463,11 @@ public class Partida
         }
         Console.WriteLine($"{indice}. Aldeano - 50 ORO, 50 ALIMENTO");
         string opcion = Console.ReadLine();
-
+        
+        if (jugador.EjercitoGeneral.Count > 0)
+            jugador.EjercitoGeneral[0].CeldaActual.VaciarCelda();
+        
+        
         foreach (IEstructuras estructuraJugador in jugador.Estructuras)
         {
             switch (opcion)
@@ -607,4 +628,95 @@ public class Partida
             }
         }
     }
+    
+    public void SeleccionarUnidadParaMover(Jugador jugador)
+    {
+        Console.WriteLine("¿Qué ejército quieres mover?");
+        Console.WriteLine("1. Ejército General");
+        Console.WriteLine("2. Ejército Secundario");
+    
+        string seleccionEjercito = Console.ReadLine();
+        int tipoEjercito = Convert.ToInt32(seleccionEjercito);
+
+        if (tipoEjercito == 1)
+        {
+            Console.WriteLine("Tienes las siguientes unidades en tu ejercito general:");
+            for (int i = 0; i < jugador.EjercitoGeneral.Count; i++)
+            {
+                Console.WriteLine($" - {jugador.EjercitoGeneral[i].Nombre} - ({jugador.EjercitoGeneral[i].CeldaActual.X}, {jugador.EjercitoGeneral[i].CeldaActual.Y})");
+            }
+            
+            Console.WriteLine("¿A dónde quieres moverlo?");
+            Console.Write("Coordenada X: ");
+            string coordX = Console.ReadLine();
+            Console.Write("Coordenada Y: ");
+            string coordY = Console.ReadLine();
+    
+            int coordenadaX = Convert.ToInt32(coordX);
+            int coordenadaY = Convert.ToInt32(coordY);
+    
+            Celda destino = mapa.ObtenerCelda(coordenadaX, coordenadaY);
+            
+            Celda celdaEjercitoGeneral = jugador.EjercitoGeneral[0].CeldaActual;
+        
+            LogicaJuego.MoverUnidades(jugador.EjercitoGeneral, celdaEjercitoGeneral, destino);
+            
+        }
+        else if (tipoEjercito == 2)
+        {
+            Console.WriteLine("Tienes las siguientes unidades en tu ejercito secundario:");
+            for (int i = 0; i < jugador.EjercitoSecundario.Count; i++)
+            {
+                Console.WriteLine($" - {jugador.EjercitoSecundario[i].Nombre} - ({jugador.EjercitoSecundario[i].CeldaActual.X}, {jugador.EjercitoSecundario[i].CeldaActual.Y})");
+            }
+            
+            Console.WriteLine("¿A dónde quieres moverlo?");
+            Console.Write("Coordenada X: ");
+            string coordX = Console.ReadLine();
+            Console.Write("Coordenada Y: ");
+            string coordY = Console.ReadLine();
+    
+            int coordenadaX = Convert.ToInt32(coordX);
+            int coordenadaY = Convert.ToInt32(coordY);
+    
+            Celda destino = mapa.ObtenerCelda(coordenadaX, coordenadaY);
+            
+            Celda celdaEjercitoSecundario = jugador.EjercitoSecundario[0].CeldaActual;
+
+            LogicaJuego.MoverUnidades(jugador.EjercitoSecundario, celdaEjercitoSecundario, destino);
+        }
+    }
+    
+    public void InicializarDesdeDiscord()
+    {
+        
+        jugador1.Aldeanos.Clear();
+        jugador2.Aldeanos.Clear();
+        jugador1.Estructuras.Clear();
+        jugador2.Estructuras.Clear();
+
+        
+        CentroCivico cc1 = new CentroCivico();
+        CentroCivico cc2 = new CentroCivico();
+        jugador1.Estructuras.Add(cc1);
+        jugador2.Estructuras.Add(cc2);
+
+        
+        jugador1.Aldeanos.Add(new Aldeano(jugador1));
+        jugador1.Aldeanos.Add(new Aldeano(jugador1));
+        jugador1.Aldeanos.Add(new Aldeano(jugador1));
+
+        jugador2.Aldeanos.Add(new Aldeano(jugador2));
+        jugador2.Aldeanos.Add(new Aldeano(jugador2));
+        jugador2.Aldeanos.Add(new Aldeano(jugador2));
+
+        
+        mapa.InicializarMapa();
+        LogicaJuego.RecursosAleatorios(mapa);
+
+        
+        PosicionarLasEntidadesIniciales();
+    }
+
+
 }
