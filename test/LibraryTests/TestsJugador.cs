@@ -122,8 +122,8 @@ public class TestsJugador
         Jugador jugador = new Jugador("juan");
         jugador.LimitePoblacion = 3; 
         CentroCivico centro = (CentroCivico)jugador.Estructuras[0];
-        centro.RecursosDeposito["Oro"] = 100;
-        centro.RecursosDeposito["Alimento"] = 100;
+        centro.RecursosDeposito["Oro"] = 50;
+        centro.RecursosDeposito["Alimento"] = 00;
 
         int cantidadInicial = jugador.CantidadAldeanos;
         jugador.CrearAldeano(centro, mapa.ObtenerCelda(27,27));
