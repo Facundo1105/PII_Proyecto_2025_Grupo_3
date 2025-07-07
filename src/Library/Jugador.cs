@@ -28,8 +28,6 @@ public class Jugador
         this.Username = username;
     }
     
- 
-
     public int CantidadUnidades
     {
         get { return EjercitoGeneral.Count + EjercitoSecundario.Count; }
