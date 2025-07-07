@@ -902,18 +902,140 @@ public string MoverUnidades(string nombreJugador, int x, int y)
            "8. !juntarUnidades\n" +
            "9. !separarUnidades\n";
 }
+public string SepararUnidades(string nombreJugador)
+{
+    if (partida == null)
+        return "No hay partida activa.";
 
+    Jugador jugador = (partida.jugador1.Username == nombreJugador) ? partida.jugador1 :
+                      (partida.jugador2.Username == nombreJugador) ? partida.jugador2 : null;
 
+    if (jugador == null)
+        return "No se encontró al jugador.";
 
+    if (jugador.EjercitoGeneral.Count < 2)
+        return "Necesitás al menos 2 unidades en el ejército general para poder separarlo.";
 
+    Celda celdaGeneral = jugador.EjercitoGeneral[0].CeldaActual;
 
+    // Separar la mitad
+    LogicaJuego.SepararUnidades(jugador);
 
+    Celda celdaSecundario = jugador.EjercitoSecundario.Count > 0 ? jugador.EjercitoSecundario[0].CeldaActual : null;
 
+    string mensaje = $"{jugador.Username} separó su ejército general en dos.\n\n";
 
+    mensaje += "Ejército General:\n";
+    foreach (var unidad in jugador.EjercitoGeneral)
+    {
+        mensaje += $"- {unidad.Nombre} en ({unidad.CeldaActual.X},{unidad.CeldaActual.Y})\n";
+    }
 
+    mensaje += "\nEjército Secundario:\n";
+    foreach (var unidad in jugador.EjercitoSecundario)
+    {
+        mensaje += $"- {unidad.Nombre} en ({unidad.CeldaActual.X},{unidad.CeldaActual.Y})\n";
+    }
 
+    mensaje += $"\nEjército general está en la celda ({celdaGeneral.X},{celdaGeneral.Y})";
+    if (celdaSecundario != null)
+    {
+        mensaje += $"\nEjército secundario está en la celda ({celdaSecundario.X},{celdaSecundario.Y})";
+    }
 
+    // Cambiar turno
+    partida.turno++;
+    Jugador siguiente = partida.ObtenerJugadorActivo();
 
+    mensaje += $"\n\nTurno de {siguiente.Username}, estos son tus recursos:\n";
 
+    if (siguiente.Estructuras.FirstOrDefault(e => e is CentroCivico) is CentroCivico cc)
+    {
+        foreach (var recurso in cc.RecursosDeposito)
+        {
+            mensaje += $"- {recurso.Key}: {recurso.Value}\n";
+        }
+    }
+
+    mensaje += "\n¿Qué querés hacer?\n";
+    mensaje += "1. !recogerRecurso <recurso>\n";
+    mensaje += "2. !construirEstructura <estructura>\n";
+    mensaje += "3. !crearUnidad <unidad>\n";
+    mensaje += "4. !crearUnidadEspecial\n";
+    mensaje += "5. !atacarUnidad\n";
+    mensaje += "6. !atacarEstructura\n";
+    mensaje += "7. !moverUnidades\n";
+    mensaje += "8. !juntarUnidades\n";
+    mensaje += "9. !separarUnidades\n";
+
+    return mensaje;
+}
+
+    
+    public string JuntarUnidades(string nombreJugador)
+    {
+        if (partida == null)
+            return "No hay partida activa.";
+
+        Jugador jugador = (partida.jugador1.Username == nombreJugador) ? partida.jugador1 :
+                          (partida.jugador2.Username == nombreJugador) ? partida.jugador2 : null;
+
+        if (jugador == null)
+            return "No se encontró al jugador.";
+
+        if (jugador.EjercitoSecundario.Count == 0)
+            return "No tienes unidades en el ejército secundario para juntar.";
+
+        if (jugador.EjercitoGeneral.Count == 0)
+            return "No tienes ejército general para unir.";
+
+        // Obtener celdas
+        Celda celdaGeneral = jugador.EjercitoGeneral[0].CeldaActual;
+        Celda celdaSecundario = jugador.EjercitoSecundario[0].CeldaActual;
+
+        // Juntar unidades
+        LogicaJuego.JuntarUnidades(celdaGeneral, celdaSecundario, jugador);
+
+        // Obtener nueva posición del ejército general
+        Celda celdaFinal = jugador.EjercitoGeneral[0].CeldaActual;
+
+        string mensaje = $"{jugador.Username} juntó las unidades del ejército secundario al ejército general.\n\n";
+        mensaje += "Tus unidades actuales:\n";
+
+        foreach (var unidad in jugador.EjercitoGeneral)
+        {
+            if (unidad.CeldaActual != null)
+                mensaje += $"- {unidad.Nombre} en ({unidad.CeldaActual.X},{unidad.CeldaActual.Y})\n";
+        }
+
+        mensaje += $"\nEl ejército ahora está en la celda ({celdaFinal.X},{celdaFinal.Y})\n";
+
+        // Cambiar turno
+        partida.turno++;
+        Jugador siguiente = partida.ObtenerJugadorActivo();
+
+        mensaje += $"\nTurno de {siguiente.Username}, estos son tus recursos:\n";
+
+        if (siguiente.Estructuras.FirstOrDefault(e => e is CentroCivico) is CentroCivico cc)
+        {
+            foreach (var recurso in cc.RecursosDeposito)
+            {
+                mensaje += $"- {recurso.Key}: {recurso.Value}\n";
+            }
+        }
+
+        mensaje += "\n¿Qué querés hacer?\n";
+        mensaje += "1. !recogerRecurso <recurso>\n";
+        mensaje += "2. !construirEstructura <estructura>\n";
+        mensaje += "3. !crearUnidad <unidad>\n";
+        mensaje += "4. !crearUnidadEspecial\n";
+        mensaje += "5. !atacarUnidad\n";
+        mensaje += "6. !atacarEstructura\n";
+        mensaje += "7. !moverUnidades\n";
+        mensaje += "8. !juntarUnidades\n";
+        mensaje += "9. !separarUnidades\n";
+
+        return mensaje;
+    }
 
 }
