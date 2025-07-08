@@ -894,4 +894,6 @@ public string SepararUnidades(string nombreJugador)
                $"- Centros Cívicos {jugadorQueSeRinde.Username}: {ccPerdedor}\n\n" +
                $"Gracias por jugar ";
     }
+    
+    
 }
