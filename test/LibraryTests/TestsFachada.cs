@@ -15,13 +15,10 @@ namespace LibraryTests
         public void SetUp()
         {
             fachada = Fachada.Instance;
-
-            // Accede correctamente a la propiedad 'Lista' (no campo)
             var listaProp = typeof(Fachada).GetProperty("Lista", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             var lista = listaProp?.GetValue(fachada);
             if (lista != null)
             {
-                // Accede al campo privado que guarda los jugadores (probablemente se llama 'jugadores', si no, cambialo)
                 var jugadoresField = lista.GetType().GetField("jugadores", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
                                    ?? lista.GetType().GetField("_jugadores", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
                                    ?? lista.GetType().GetField("lista", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
@@ -31,8 +28,6 @@ namespace LibraryTests
                     jugadores?.Clear();
                 }
             }
-
-            // Limpiar la partida (campo privado)
             var partidaField = typeof(Fachada).GetField("partida", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             if (partidaField != null)
                 partidaField.SetValue(fachada, null);
@@ -259,7 +254,7 @@ namespace LibraryTests
             fachada.Unirse("Especial2");
             fachada.IniciarPartida();
             fachada.ElegirCivilizacion("Especial1", "romanos");
-            fachada.CrearUnidadEspecial("Especial1"); // Crea la especial
+            fachada.CrearUnidadEspecial("Especial1");
             string resp = fachada.CrearUnidadEspecial("Especial1");
             Assert.That(resp, Does.Contain("ya tiene una unidad especial"));
         }
@@ -430,45 +425,32 @@ namespace LibraryTests
         [Test]
         public void ConstruirEstructura_Exito()
         {
-            // Arrange: Unirse, iniciar partida y elegir civilización.
             var fachada = Fachada.Instance;
             fachada.Unirse("Builder1");
             fachada.Unirse("Builder2");
             fachada.IniciarPartida();
             fachada.ElegirCivilizacion("Builder1", "romanos");
             fachada.ElegirCivilizacion("Builder2", "vikingos");
-
-            // Buscar el aldeano disponible.
             var aldeanos = fachada.GetAldeanos("Builder1");
             Assert.That(aldeanos.Count, Is.GreaterThan(0), "El jugador no tiene aldeanos");
-
-            int numeroAldeano = 1; // El primero (ajusta si tu lógica parte en otro índice)
-
-            // Act: Construir la estructura
+            int numeroAldeano = 1;
             string resp = fachada.ConstruirEstructura("Builder1", "casa", numeroAldeano);
-
-            // Assert: El mensaje debe indicar éxito en la construcción
             Assert.That(resp.ToLower(), Does.Contain("construyó").Or.Contain("construiste").Or.Contain("estructura actual").Or.Contain("casa"));
         }
         
         [Test]
         public void SepararUnidades_Exito()
         {
-            // Arrange: Unirse, iniciar partida y elegir civilización.
             var fachada = Fachada.Instance;
             fachada.Unirse("Splitter1");
             fachada.Unirse("Splitter2");
             fachada.IniciarPartida();
             fachada.ElegirCivilizacion("Splitter1", "romanos");
             fachada.ElegirCivilizacion("Splitter2", "vikingos");
-
-            // Agregamos dos unidades al ejército general y les asignamos celdas (requisito para separar).
             var listaProp = typeof(Fachada).GetProperty("Lista", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             var lista = listaProp?.GetValue(fachada);
             var encontrarJugador = lista?.GetType().GetMethod("EncontrarJugadorPorUsername");
             var jugador = encontrarJugador?.Invoke(lista, new object[] { "Splitter1" }) as Jugador;
-
-            // Crear celdas y asignarlas a las unidades
             var celda1 = new Celda(2, 2);
             var celda2 = new Celda(2, 3);
             var inf = new Infanteria { CeldaActual = celda1 };
@@ -477,11 +459,7 @@ namespace LibraryTests
             jugador?.EjercitoGeneral.Add(arq);
             celda1.AsignarUnidades(new System.Collections.Generic.List<IUnidades> { inf });
             celda2.AsignarUnidades(new System.Collections.Generic.List<IUnidades> { arq });
-
-            // Act
             string resp = fachada.SepararUnidades("Splitter1");
-
-            // Assert: Mensaje debe reflejar separación exitosa
             Assert.That(resp.ToLower(), Does.Contain("separó")
                 .Or.Contain("dividiste tu ejército")
                 .Or.Contain("ejército secundario")
@@ -491,62 +469,43 @@ namespace LibraryTests
         [Test]
         public void CrearUnidadComun_Exito()
         {
-            // Arrange: Unirse, iniciar partida, elegir civilización, construir estructura requerida.
             var fachada = Fachada.Instance;
             fachada.Unirse("UnitMaker1");
             fachada.Unirse("UnitMaker2");
             fachada.IniciarPartida();
             fachada.ElegirCivilizacion("UnitMaker1", "romanos");
             fachada.ElegirCivilizacion("UnitMaker2", "vikingos");
-
-            // Builder debe construir un cuartel para poder crear infantería.
             var aldeanos = fachada.GetAldeanos("UnitMaker1");
             Assert.That(aldeanos.Count, Is.GreaterThan(0), "El jugador no tiene aldeanos");
             int numeroAldeano = 1;
             var respConstruir = fachada.ConstruirEstructura("UnitMaker1", "cuartel", numeroAldeano);
             Assert.That(respConstruir.ToLower(), Does.Contain("cuartel"));
-
-            // Act: Crear unidad comun (infantería).
             string resp = fachada.CrearUnidadComun("UnitMaker1", "infanteria");
-
-            // Assert: El mensaje debe indicar éxito en la creación de la unidad
             Assert.That(resp.ToLower(), Does.Contain("creó").Or.Contain("creaste").Or.Contain("unidad").Or.Contain("infanteria"));
         }
         
         [Test]
         public void JuntarUnidades_Exito()
         {
-            // Arrange: Unirse, iniciar partida y elegir civilización.
             var fachada = Fachada.Instance;
             fachada.Unirse("Joiner1");
             fachada.Unirse("Joiner2");
             fachada.IniciarPartida();
             fachada.ElegirCivilizacion("Joiner1", "romanos");
             fachada.ElegirCivilizacion("Joiner2", "vikingos");
-
-            // Agregamos una unidad al ejército general y otra al secundario, ambas con celda.
             var listaProp = typeof(Fachada).GetProperty("Lista", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             var lista = listaProp?.GetValue(fachada);
             var encontrarJugador = lista?.GetType().GetMethod("EncontrarJugadorPorUsername");
             var jugador = encontrarJugador?.Invoke(lista, new object[] { "Joiner1" }) as Jugador;
-
             var celdaGeneral = new Celda(3, 3);
             var celdaSecundaria = new Celda(4, 4);
-
             var inf = new Infanteria { CeldaActual = celdaGeneral };
             var arq = new Arquero { CeldaActual = celdaSecundaria };
-
-            // Debe tener al menos una unidad en cada ejército
             jugador?.EjercitoGeneral.Add(inf);
             jugador?.EjercitoSecundario.Add(arq);
-
             celdaGeneral.AsignarUnidades(new System.Collections.Generic.List<IUnidades> { inf });
             celdaSecundaria.AsignarUnidades(new System.Collections.Generic.List<IUnidades> { arq });
-
-            // Act
             string resp = fachada.JuntarUnidades("Joiner1");
-
-            // Assert: Mensaje debe reflejar unión exitosa
             Assert.That(resp.ToLower(), Does.Contain("juntó")
                 .Or.Contain("uniste tus ejércitos")
                 .Or.Contain("ejército general")
@@ -556,61 +515,42 @@ namespace LibraryTests
         [Test]
         public void RecolectarRecurso_Exito()
         {
-            // Arrange: Unirse, iniciar partida, elegir civilización.
             var fachada = Fachada.Instance;
             fachada.Unirse("Recolector1");
             fachada.Unirse("Recolector2");
             fachada.IniciarPartida();
             fachada.ElegirCivilizacion("Recolector1", "romanos");
             fachada.ElegirCivilizacion("Recolector2", "indios");
-
-            // Buscar un aldeano válido
             var aldeanos = fachada.GetAldeanos("Recolector1");
             Assert.That(aldeanos.Count, Is.GreaterThan(0), "El jugador no tiene aldeanos");
-
             int numeroAldeano = 1;
-
-            // Act: Recolectar recurso (ejemplo: madera)
             string resp = fachada.RecolectarRecurso("Recolector1", "madera", numeroAldeano);
-
-            // Assert: El mensaje debe indicar éxito o un resumen de recursos
             Assert.That(resp.ToLower(), Does.Contain("recolectó").Or.Contain("recolectaste").Or.Contain("recurso").Or.Contain("tienes la siguiente cantidad de recursos"));
         }
         
         [Test]
         public void AtacarUnidad_Exito()
         {
-            // Arrange: Unirse, iniciar partida, elegir civilización.
             var fachada = Fachada.Instance;
             fachada.Unirse("Attacker1");
             fachada.Unirse("Defender1");
             fachada.IniciarPartida();
             fachada.ElegirCivilizacion("Attacker1", "romanos");
             fachada.ElegirCivilizacion("Defender1", "vikingos");
-
-            // Forzar tener una unidad en cada ejército general, ambas con celda.
             var listaProp = typeof(Fachada).GetProperty("Lista", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             var lista = listaProp?.GetValue(fachada);
             var encontrarJugador = lista?.GetType().GetMethod("EncontrarJugadorPorUsername");
             var atacante = encontrarJugador?.Invoke(lista, new object[] { "Attacker1" }) as Jugador;
             var defensor = encontrarJugador?.Invoke(lista, new object[] { "Defender1" }) as Jugador;
-
             var celdaAtacante = new Celda(10, 10);
             var celdaDefensor = new Celda(11, 10);
-
             var unidadAtacante = new Infanteria { CeldaActual = celdaAtacante };
             var unidadDefensor = new Infanteria { CeldaActual = celdaDefensor };
-
             atacante?.EjercitoGeneral.Add(unidadAtacante);
             defensor?.EjercitoGeneral.Add(unidadDefensor);
-
             celdaAtacante.AsignarUnidades(new System.Collections.Generic.List<IUnidades> { unidadAtacante });
             celdaDefensor.AsignarUnidades(new System.Collections.Generic.List<IUnidades> { unidadDefensor });
-
-            // Act
             string resp = fachada.AtacarUnidad("Attacker1");
-
-            // Assert: El mensaje debe reflejar un ataque exitoso
             Assert.That(resp.ToLower(), Does.Contain("atacó")
                 .Or.Contain("resultado del combate")
                 .Or.Contain("ejército enemigo")
@@ -626,7 +566,6 @@ namespace LibraryTests
             fachada.IniciarPartida();
             fachada.ElegirCivilizacion("EstabloUser1", "romanos");
             fachada.ElegirCivilizacion("EstabloUser2", "vikingos");
-
             var aldeanos = fachada.GetAldeanos("EstabloUser1");
             Assert.That(aldeanos.Count, Is.GreaterThan(0));
             string resp = fachada.ConstruirEstructura("EstabloUser1", "establo", 1);
@@ -642,7 +581,6 @@ namespace LibraryTests
             fachada.IniciarPartida();
             fachada.ElegirCivilizacion("CastilloUser1", "romanos");
             fachada.ElegirCivilizacion("CastilloUser2", "vikingos");
-
             var aldeanos = fachada.GetAldeanos("CastilloUser1");
             Assert.That(aldeanos.Count, Is.GreaterThan(0));
             string resp = fachada.ConstruirEstructura("CastilloUser1", "castillo", 1);
@@ -658,7 +596,6 @@ namespace LibraryTests
             fachada.IniciarPartida();
             fachada.ElegirCivilizacion("CastilloUser3", "indios");
             fachada.ElegirCivilizacion("CastilloUser4", "romanos");
-
             var aldeanos = fachada.GetAldeanos("CastilloUser3");
             Assert.That(aldeanos.Count, Is.GreaterThan(0));
             string resp = fachada.ConstruirEstructura("CastilloUser3", "castillo", 1);
@@ -674,7 +611,6 @@ namespace LibraryTests
             fachada.IniciarPartida();
             fachada.ElegirCivilizacion("CastilloUser5", "japoneses");
             fachada.ElegirCivilizacion("CastilloUser6", "vikingos");
-
             var aldeanos = fachada.GetAldeanos("CastilloUser5");
             Assert.That(aldeanos.Count, Is.GreaterThan(0));
             string resp = fachada.ConstruirEstructura("CastilloUser5", "castillo", 1);
@@ -690,7 +626,6 @@ namespace LibraryTests
             fachada.IniciarPartida();
             fachada.ElegirCivilizacion("CastilloUser7", "vikingos");
             fachada.ElegirCivilizacion("CastilloUser8", "romanos");
-
             var aldeanos = fachada.GetAldeanos("CastilloUser7");
             Assert.That(aldeanos.Count, Is.GreaterThan(0));
             string resp = fachada.ConstruirEstructura("CastilloUser7", "castillo", 1);
@@ -706,7 +641,6 @@ namespace LibraryTests
             fachada.IniciarPartida();
             fachada.ElegirCivilizacion("DepMadera1", "romanos");
             fachada.ElegirCivilizacion("DepMadera2", "vikingos");
-
             var aldeanos = fachada.GetAldeanos("DepMadera1");
             Assert.That(aldeanos.Count, Is.GreaterThan(0));
             string resp = fachada.ConstruirEstructura("DepMadera1", "deposito de madera", 1);
@@ -722,7 +656,6 @@ namespace LibraryTests
             fachada.IniciarPartida();
             fachada.ElegirCivilizacion("DepOro1", "romanos");
             fachada.ElegirCivilizacion("DepOro2", "vikingos");
-
             var aldeanos = fachada.GetAldeanos("DepOro1");
             Assert.That(aldeanos.Count, Is.GreaterThan(0));
             string resp = fachada.ConstruirEstructura("DepOro1", "deposito de oro", 1);
@@ -738,7 +671,6 @@ namespace LibraryTests
             fachada.IniciarPartida();
             fachada.ElegirCivilizacion("DepPiedra1", "romanos");
             fachada.ElegirCivilizacion("DepPiedra2", "vikingos");
-
             var aldeanos = fachada.GetAldeanos("DepPiedra1");
             Assert.That(aldeanos.Count, Is.GreaterThan(0));
             string resp = fachada.ConstruirEstructura("DepPiedra1", "deposito de piedra", 1);
@@ -754,7 +686,6 @@ namespace LibraryTests
             fachada.IniciarPartida();
             fachada.ElegirCivilizacion("Tiro1", "romanos");
             fachada.ElegirCivilizacion("Tiro2", "vikingos");
-
             var aldeanos = fachada.GetAldeanos("Tiro1");
             Assert.That(aldeanos.Count, Is.GreaterThan(0));
             string resp = fachada.ConstruirEstructura("Tiro1", "campo de tiro", 1);
@@ -770,7 +701,6 @@ namespace LibraryTests
             fachada.IniciarPartida();
             fachada.ElegirCivilizacion("Cuartel1", "romanos");
             fachada.ElegirCivilizacion("Cuartel2", "vikingos");
-
             var aldeanos = fachada.GetAldeanos("Cuartel1");
             Assert.That(aldeanos.Count, Is.GreaterThan(0));
             string resp = fachada.ConstruirEstructura("Cuartel1", "cuartel", 1);

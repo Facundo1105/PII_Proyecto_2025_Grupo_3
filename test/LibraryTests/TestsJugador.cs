@@ -60,7 +60,7 @@ public class TestsJugador
         var depositoOro = new DepositoOro();
         depositoOro.EspacioOcupado = 30;
         jugador.Estructuras.Add(depositoOro);
-        centro.RecursosDeposito["Oro"] = 30; // Total 60
+        centro.RecursosDeposito["Oro"] = 30;
         centro.RecursosDeposito["Alimento"] = 100;
 
         jugador.CrearAldeano(centro, mapa.ObtenerCelda(24,24));
@@ -77,7 +77,7 @@ public class TestsJugador
         var molino = new Molino();
         molino.EspacioOcupado = 30;
         jugador.Estructuras.Add(molino);
-        centro.RecursosDeposito["Alimento"] = 30; // Total 60
+        centro.RecursosDeposito["Alimento"] = 30;
         centro.RecursosDeposito["Oro"] = 100;
 
         jugador.CrearAldeano(centro, mapa.ObtenerCelda(25,25));

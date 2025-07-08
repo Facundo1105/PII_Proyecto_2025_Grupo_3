@@ -31,7 +31,7 @@ namespace LibraryTests
         {
             var atacante = new Infanteria();
             var defensor = new Infanteria();
-            defensor.Vida = 10; // Menos vida para garantizar muerte
+            defensor.Vida = 10;
             List<IUnidades> ejercitoAtaque = new List<IUnidades> { atacante };
             List<IUnidades> ejercitoDefensa = new List<IUnidades> { defensor };
             celda1.AsignarUnidades(ejercitoDefensa);
@@ -65,7 +65,7 @@ namespace LibraryTests
 
             LogicaJuego.UnidadesAtacarEstructura(ejercitoAtaque, castillo, celda1, celda2, jugador1);
 
-            Assert.That(celda1.Estructuras, Is.Null); // Estructura destruida
+            Assert.That(celda1.Estructuras, Is.Null);
         }
 
         [Test]
@@ -105,7 +105,6 @@ namespace LibraryTests
             var celdaConstruir = mapa.ObtenerCelda(25, 25);
             var celdaAldeano = mapa.ObtenerCelda(26, 25);
 
-            // Pocos recursos
             CentroCivico centro = (CentroCivico)jugador1.Estructuras[0];
             centro.RecursosDeposito["Oro"] = 0;
             centro.RecursosDeposito["Madera"] = 0;
@@ -292,15 +291,13 @@ namespace LibraryTests
         [Test]
         public void DepositoMasCercano_DevuelveDepositoCorrecto()
         {
-            // Arrange: Usar el constructor por defecto del mapa
             var mapa = new Mapa();
 
-            // Aldeano en (4,4)
             int aldeanoX = 4;
             int aldeanoY = 4;
 
-            // Deposito de madera en (2,2), Deposito de piedra en (7,7), Deposito de oro en (6,3)
-            var depMadera = new DepositoMadera(); // Usa capacidad por defecto
+
+            var depMadera = new DepositoMadera(); 
             var depPiedra = new DepositoPiedra();
             var depOro = new DepositoOro();
 
@@ -308,11 +305,9 @@ namespace LibraryTests
             mapa.Celdas[7, 7].AsignarEstructura(depPiedra);
             mapa.Celdas[6, 3].AsignarEstructura(depOro);
 
-            // También agregamos un centro cívico con espacio en (0,0)
             var cc = new CentroCivico();
             mapa.Celdas[0, 0].AsignarEstructura(cc);
 
-            // Act & Assert: Busca para cada recurso y verifica que da el depósito más cercano
             var depositoMadera = LogicaJuego.DepositoMasCercano(aldeanoX, aldeanoY, "Madera", mapa);
             Assert.That(depositoMadera, Is.EqualTo(depMadera));
 
@@ -322,7 +317,6 @@ namespace LibraryTests
             var depositoOro = LogicaJuego.DepositoMasCercano(aldeanoX, aldeanoY, "Oro", mapa);
             Assert.That(depositoOro, Is.EqualTo(depOro));
 
-            // Si quitamos el depósito de oro, debe devolver el centro cívico (en (0,0)) para oro
             mapa.Celdas[6, 3].Estructuras = null;
             var depositoOroCC = LogicaJuego.DepositoMasCercano(aldeanoX, aldeanoY, "Oro", mapa);
             Assert.That(depositoOroCC, Is.EqualTo(cc));
@@ -331,53 +325,53 @@ namespace LibraryTests
         [Test]
 public void DepositarRecursos_DepositaEnCadaTipoDeDeposito()
 {
-    // Arrange
+    
     var jugador = new Jugador("juan");
     int cantidad = 300;
 
-    // Deposito de Oro
+    
     var depositoOro = new DepositoOro();
     depositoOro.EspacioOcupado = 0;
-    // Act
+    
     LogicaJuego.DepositarRecursos(jugador, depositoOro, cantidad, "Oro");
-    // Assert
+    
     Assert.That(depositoOro.EspacioOcupado, Is.EqualTo(cantidad));
 
-    // Deposito de Piedra
+    
     var depositoPiedra = new DepositoPiedra();
     depositoPiedra.EspacioOcupado = 0;
     LogicaJuego.DepositarRecursos(jugador, depositoPiedra, cantidad, "Piedra");
     Assert.That(depositoPiedra.EspacioOcupado, Is.EqualTo(cantidad));
 
-    // Deposito de Madera
+    
     var depositoMadera = new DepositoMadera();
     depositoMadera.EspacioOcupado = 0;
     LogicaJuego.DepositarRecursos(jugador, depositoMadera, cantidad, "Madera");
     Assert.That(depositoMadera.EspacioOcupado, Is.EqualTo(cantidad));
 
-    // Molino (Alimento)
+    
     var molino = new Molino();
     molino.EspacioOcupado = 0;
     LogicaJuego.DepositarRecursos(jugador, molino, cantidad, "Alimento");
     Assert.That(molino.EspacioOcupado, Is.EqualTo(cantidad));
 
-    // Centro Cívico Oro
+    
     var centroCivico = new CentroCivico();
     centroCivico.RecursosDeposito["Oro"] = 0;
     LogicaJuego.DepositarRecursos(jugador, centroCivico, cantidad, "Oro");
     Assert.That(centroCivico.RecursosDeposito["Oro"], Is.EqualTo(cantidad));
 
-    // Centro Cívico Alimento
+    
     centroCivico.RecursosDeposito["Alimento"] = 0;
     LogicaJuego.DepositarRecursos(jugador, centroCivico, cantidad, " Alimento");
     Assert.That(centroCivico.RecursosDeposito["Alimento"], Is.EqualTo(cantidad));
 
-    // Centro Cívico Madera
+    
     centroCivico.RecursosDeposito["Madera"] = 0;
     LogicaJuego.DepositarRecursos(jugador, centroCivico, cantidad, "Madera");
     Assert.That(centroCivico.RecursosDeposito["Madera"], Is.EqualTo(cantidad));
 
-    // Centro Cívico Piedra
+    
     centroCivico.RecursosDeposito["Piedra"] = 0;
     LogicaJuego.DepositarRecursos(jugador, centroCivico, cantidad, "Piedra");
     Assert.That(centroCivico.RecursosDeposito["Piedra"], Is.EqualTo(cantidad));
