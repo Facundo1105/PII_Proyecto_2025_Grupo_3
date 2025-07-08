@@ -65,6 +65,7 @@ var hierarchy =
       [ "AtacarUnidad", "class_atacar_unidad.html", null ],
       [ "ConstruirEstructura", "class_construir_estructura.html", null ],
       [ "ElegirAldeanoConstruir", "class_elegir_aldeano_construir.html", null ],
+      [ "RecogerRecurso", "class_recoger_recurso.html", null ],
       [ "Ucu.Poo.DiscordBot.Commands.AgregarJugadorListaEspera", "class_ucu_1_1_poo_1_1_discord_bot_1_1_commands_1_1_agregar_jugador_lista_espera.html", null ],
       [ "Ucu.Poo.DiscordBot.Commands.AtacarEstructura", "class_ucu_1_1_poo_1_1_discord_bot_1_1_commands_1_1_atacar_estructura.html", null ],
       [ "Ucu.Poo.DiscordBot.Commands.CrearUnidad", "class_ucu_1_1_poo_1_1_discord_bot_1_1_commands_1_1_crear_unidad.html", null ],
@@ -87,7 +88,10 @@ var hierarchy =
     [ "LibraryTests.TestMadera", "class_library_tests_1_1_test_madera.html", null ],
     [ "LibraryTests.TestOro", "class_library_tests_1_1_test_oro.html", null ],
     [ "LibraryTests.TestsEstructuras", "class_library_tests_1_1_tests_estructuras.html", null ],
+    [ "LibraryTests.TestsFachada", "class_library_tests_1_1_tests_fachada.html", null ],
     [ "LibraryTests.TestsJugador", "class_library_tests_1_1_tests_jugador.html", null ],
+    [ "LibraryTests.TestsLogicaJuego", "class_library_tests_1_1_tests_logica_juego.html", null ],
+    [ "LibraryTests.TestsPartida", "class_library_tests_1_1_tests_partida.html", null ],
     [ "LibraryTests.TestsVikingos", "class_library_tests_1_1_tests_vikingos.html", null ],
     [ "LibraryTests.ThorTests", "class_library_tests_1_1_thor_tests.html", null ]
 ];

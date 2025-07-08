@@ -15,7 +15,10 @@ var namespace_library_tests =
     [ "TestMadera", "class_library_tests_1_1_test_madera.html", null ],
     [ "TestOro", "class_library_tests_1_1_test_oro.html", null ],
     [ "TestsEstructuras", "class_library_tests_1_1_tests_estructuras.html", null ],
+    [ "TestsFachada", "class_library_tests_1_1_tests_fachada.html", null ],
     [ "TestsJugador", "class_library_tests_1_1_tests_jugador.html", null ],
+    [ "TestsLogicaJuego", "class_library_tests_1_1_tests_logica_juego.html", null ],
+    [ "TestsPartida", "class_library_tests_1_1_tests_partida.html", null ],
     [ "TestsVikingos", "class_library_tests_1_1_tests_vikingos.html", null ],
     [ "ThorTests", "class_library_tests_1_1_thor_tests.html", null ]
 ];
