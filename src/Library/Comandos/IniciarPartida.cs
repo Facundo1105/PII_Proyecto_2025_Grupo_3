@@ -12,7 +12,8 @@ public class IniciarPartida : ModuleBase<SocketCommandContext>
         string resultado = Fachada.Instance.IniciarPartida();
         await ReplyAsync(resultado);
         await ReplyAsync("Cada Jugador debe elegir una civilizacion con el comando" +
-                         "\n !elegirCivilizacion <nombre-de-civilizacion>");
+                         "\n !elegirCivilizacion <nombre-de-civilizacion>" +
+                         "\n civilizaciones disponibles: indios, japoneses, romanos y vikingos" );
         
     }
 }
