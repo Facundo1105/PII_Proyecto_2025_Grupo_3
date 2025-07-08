@@ -11,15 +11,6 @@ public class Fachada
     {
         this.Lista = new Lista_De_Espera();
     }
-
-    public Fachada(Jugador jugador1, Jugador jugador2, Mapa mapa)
-    {
-        this.jugador1 = jugador1;
-        this.jugador2 = jugador2;
-        this.mapa = mapa;
-    }
-    
-    
     
     private Lista_De_Espera Lista { get; } = new Lista_De_Espera();
 

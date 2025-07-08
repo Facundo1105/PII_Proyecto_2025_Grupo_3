@@ -12,11 +12,6 @@ public class Partida
     public int turno = 1;
     public Mapa mapa;
 
-    private List<IEstructuras> castillo = new List<IEstructuras>() {new CastilloIndio(), new CastilloJapones(), new CastilloRomano(), new CastilloVikingo() };
-    private List<IEstructuras> estructuras = new List<IEstructuras>() { new DepositoMadera(), new DepositoOro(), new DepositoPiedra(),new Molino(),new Granja(), new CampoTiro(), new Cuartel(), new Establo(), new Casa()  };
-    private List<IUnidades> unidades = new List<IUnidades>() { new Arquero(), new Caballeria(), new Infanteria() };
-    private List<IUnidades> unidadesEspeciales = new List<IUnidades>() {new Elefante(), new Samurai(), new JulioCesar(), new Thor()};
-    
     public Partida(Jugador jugador1, Jugador jugador2)
     {
         this.jugador1 = jugador1;
