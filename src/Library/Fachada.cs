@@ -573,9 +573,9 @@ public string AtacarUnidad(string nombreJugador)
     LogicaJuego.UnidadesAtacarUnidades(jugador.EjercitoGeneral, enemigo.EjercitoGeneral, celdaDefensa, celdaAtaque);
 
     
-    string resumenEjercitos = $"\n🛡️ Resultado del combate:\n";
+    string resumenEjercitos = $"\n Resultado del combate:\n";
 
-    resumenEjercitos += $"\n👑 {jugador.Username} - Ejército general:\n";
+    resumenEjercitos += $"\n {jugador.Username} - Ejército general:\n";
     if (jugador.EjercitoGeneral.Count == 0)
         resumenEjercitos += "- Sin unidades.\n";
     else
@@ -587,7 +587,7 @@ public string AtacarUnidad(string nombreJugador)
         }
     }
 
-    resumenEjercitos += $"\n⚔️ {enemigo.Username} - Ejército general:\n";
+    resumenEjercitos += $"\n {enemigo.Username} - Ejército general:\n";
     if (enemigo.EjercitoGeneral.Count == 0)
         resumenEjercitos += "- Sin unidades.\n";
     else
@@ -886,7 +886,7 @@ public string SepararUnidades(string nombreJugador)
         
         partida = null;
 
-        return $"🏁 {jugadorQueSeRinde.Username} se rindió. ¡{ganador.Username} es el ganador!\n\n" +
+        return $" {jugadorQueSeRinde.Username} se rindió. ¡{ganador.Username} es el ganador!\n\n" +
                $"Resumen de la partida:\n" +
                $"- Unidades restantes {ganador.Username}: {unidadesGanador}\n" +
                $"- Unidades restantes {jugadorQueSeRinde.Username}: {unidadesPerdedor}\n" +

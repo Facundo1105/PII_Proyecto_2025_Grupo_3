@@ -17,7 +17,7 @@ public class ElegirAldeanoConstruir : ModuleBase<SocketCommandContext>
 
         string resultado = Fachada.Instance.ConstruirEstructura(nombreJugador, estructuraElegida, numeroAldeano);
 
-        // Limpiar estructura temporal
+        
         ConstruirEstructura.estructuraPorUsuario.TryRemove(Context.User.Id, out _);
 
         await ReplyAsync(resultado);
