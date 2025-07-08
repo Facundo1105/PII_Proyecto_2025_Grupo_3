@@ -241,9 +241,9 @@ public static void ConstruirEstructuras(IEstructuras estructuraConstruir, Jugado
             int piedraRestante = requisitos.CostoPiedra;
 
             // Descontar recursos de depósitos y centro cívico
-            DescontarRecursos(depositosOro, centroCivico, oroRestante, "Oro");
-            DescontarRecursos(depositosMadera, centroCivico, maderaRestante, "Madera");
-            DescontarRecursos(depositosPiedra, centroCivico, piedraRestante, "Piedra");
+            ManejoDeRecursos.DescontarRecursos(depositosOro, centroCivico, oroRestante, "Oro");
+            ManejoDeRecursos.DescontarRecursos(depositosMadera, centroCivico, maderaRestante, "Madera");
+            ManejoDeRecursos.DescontarRecursos(depositosPiedra, centroCivico, piedraRestante, "Piedra");
 
             // Incorpora la estructura al mapa y a la lista de estructuras del jugador. Aldeano vuelve a su posicion
             celdaEstructura.VaciarCelda();
@@ -260,22 +260,7 @@ public static void ConstruirEstructuras(IEstructuras estructuraConstruir, Jugado
     }
 }
 
-private static void DescontarRecursos(List<IEstructurasDepositos> depositos, CentroCivico centroCivico, int recursoRestante, string tipoRecurso)
-{
-    foreach (IEstructurasDepositos deposito in depositos)
-    {
-        if (recursoRestante == 0) break;
-        int aDescontar = Math.Min(recursoRestante, deposito.EspacioOcupado);
-        deposito.EspacioOcupado -= aDescontar;
-        recursoRestante -= aDescontar;
-    }
 
-    if (recursoRestante > 0)
-    {
-        int aDescontar = Math.Min(recursoRestante, centroCivico.RecursosDeposito[tipoRecurso]);
-        centroCivico.RecursosDeposito[tipoRecurso] -= aDescontar;
-    }
-}
     
     public static void UnidadesAtacarUnidades(List<IUnidades> ejercitoAtaque, List<IUnidades> ejercitoDefensa, Celda celdaEjercitoDefensa, Celda celdaEjercitoAtaque)
     {
